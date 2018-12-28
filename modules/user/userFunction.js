@@ -35,22 +35,30 @@ function registration(info) {
     });
 };
 
+/**
+ * API for user login
+ * @param {*} req (email address & password)
+ * @param {*} res (json with success/failure)
+*/
 function login(info) {
     return new Promise((resolve, reject) => {
         try {
             if(validator.isEmail(info.data.emailAddress)) {
-                const sqlQuery = 'SELECT firstName, middleName, lastName, address, emailAddress, userPassword, mobileNumber FROM user WHERE emailAddress = ?';
+                const sqlQuery = 'SELECT firstName, middleName, lastName, address, emailAddress, userPassword, mobileNumber, isEmailVerified, isActive FROM user WHERE emailAddress = ?';
                 con.query(sqlQuery, [info.data.emailAddress], (err, userDetails) => {
                     if(err) {
                         reject({ code: code.dbCode, message: message.dbError, data: err });
                     }
                     else if(userDetails.length > 0) {
                         const password = functions.decryptPassword(userDetails[0].userPassword);
-
+                        console.log(userDetails[0])
                         if(password === info.data.userPassword) {
-                            if(userDetails[0].isActive === 1) {
+                            if(userDetails[0].isActive == 1) {
                                 if(userDetails[0].isEmailVerified === 1) {
                                     delete userDetails[0].password;
+                                    delete userDetails[0].isEmailVerified;
+                                    delete userDetails[0].isActive;
+
                                     resolve({ code: code.success, message: message.registration, data: userDetails });
                                 }
                                 else {
