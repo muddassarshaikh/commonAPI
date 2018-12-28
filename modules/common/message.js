@@ -11,5 +11,9 @@ module.exports = {
     invalidEmail: "Please insert email address in correct format",
     invalidLoginDetails: "Invalid login details",
     accountDisable: "Your account is blocked by admin. Please contact admin.",
-    emailVerify: "Please complete email verification process"
+    emailVerify: "Please complete email verification process",
+    emailVerificationSuccess: "Email address successfully verified. Please login to continue",
+    emailLinkExpired: "Link has expired. Please contact admin",
+    registrationEmailSubject: "Welcome to CommonAPI",
+    passwordChanged: "Password changed successfully"
 }

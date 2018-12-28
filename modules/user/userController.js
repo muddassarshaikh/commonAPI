@@ -12,10 +12,19 @@ const userController = {
         });
     },
 
+    //Verify Email API
+    verifyEmail: (req, res, next) => {
+        method.verifyEmail(res.locals.data).then(data => {
+            res.send(functions.responseGenerator(data.code, data.message , data.data));
+        }).catch(error => {
+            res.send(functions.responseGenerator(error.code, error.message , error.data));
+        });
+    },
+
     //Login API
     login: (req, res, next) => {
         method.login(res.locals.data).then(data => {
-            var token = functions.tokenEncrypt(data.data[0]);
+            const token = functions.tokenEncrypt(data.data[0]);
             res.header('auth', token);
             res.send(functions.responseGenerator(data.code, data.message , data.data));
         }).catch(error => {

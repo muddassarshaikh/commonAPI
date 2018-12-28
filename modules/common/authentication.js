@@ -14,7 +14,7 @@ const authenticationController = {
                     {
                         if(result.data)
                         {
-                            res.locals.id = result.data;
+                            res.locals.id = result.data.id;
                             const token = functions.tokenEncrypt(result.data);
                             res.header('auth', token);
                             next();
