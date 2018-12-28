@@ -1,0 +1,48 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Password Reset Link</title>
+    <style>
+        .button {
+            text-decoration: none;
+            color:blue;
+           background: linear-gradient(to right,#26A5EE, #8B63BE);
+            padding: 10px 16px;
+            font-weight: bold;
+            margin-right: 10px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .content {
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        p.lead {
+            font-size: 17px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <h2>Dear $fullname,</h2><br>
+        <p class="lead">You have received this e-notification because of your recent request to Reset Your Password.  <br> 
+                In order to complete this request, please click the link below. <br></p>
+        <a class="button" href="$link">Click here to reset your password</a><br><br>
+        <p class="lead">In the event that you did not make this request, please contact the FISH CMX Team at $emailId. </p>
+        <p class="lead">
+            Thank You, <br> 
+            The FISH CMX Team
+        </p>
+    </div>
+</body>
+
+</html>
