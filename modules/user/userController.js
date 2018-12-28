@@ -3,7 +3,7 @@ const functions = require('../common/functions');
 
 const userController = {
 
-    //Sign Up API
+    //User Registration API
     registration: (req, res, next) => {
         method.registration(res.locals.data).then(data => {
             res.send(functions.responseGenerator(data.code, data.message , data.data));
@@ -12,10 +12,10 @@ const userController = {
         });
     },
 
-    //Sign In API
-    signIn: (req, res, next) => {
-        method.signIn(res.locals.data).then(data => {
-            var token = functions.tokenEncrypt(data.data[0].userId);
+    //Login API
+    login: (req, res, next) => {
+        method.login(res.locals.data).then(data => {
+            var token = functions.tokenEncrypt(data.data[0]);
             res.header('auth', token);
             res.send(functions.responseGenerator(data.code, data.message , data.data));
         }).catch(error => {

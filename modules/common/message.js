@@ -8,5 +8,8 @@ module.exports = {
     tryCatch: "Something went wrong",
     dataIssue: "Please send proper information",
     registration: "Registration done successfully",
-    invalidEmail: "Please insert email address in correct format"
+    invalidEmail: "Please insert email address in correct format",
+    invalidLoginDetails: "Invalid login details",
+    accountDisable: "Your account is blocked by admin. Please contact admin.",
+    emailVerify: "Please complete email verification process"
 }

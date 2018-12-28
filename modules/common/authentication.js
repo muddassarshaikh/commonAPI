@@ -15,9 +15,7 @@ const authenticationController = {
                         if(result.data)
                         {
                             res.locals.id = result.data;
-                            console.log("adminId "+ res.locals.id);
                             const token = functions.tokenEncrypt(result.data);
-                            console.log("token "+ token);
                             res.header('auth', token);
                             next();
                         }
