@@ -136,19 +136,10 @@ function responseGenerator(code, message, data = '')
 function sendEmail(to, subject, message, callback) 
 {
     var transporter = nodemailer.createTransport({
-        host:'mail3.gridhost.co.uk',
-        port: 465,
-        auth: {
-            user: 'register.hrbecoin@hrbe.io',
-            pass: 'lc3cXzcds8FZLExhX3h9'
-        }
-    });
-
-    var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'developers.winjit@gmail.com',
-            pass: 'Winjit@123'
+            user: config.SMTPemailAddress,
+            pass: config.SMTPPassword
         }
     });
     

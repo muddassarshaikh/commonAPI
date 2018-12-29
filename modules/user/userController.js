@@ -42,8 +42,8 @@ const userController = {
     },
 
     // Forgot Password API
-    forgotPassword: (req, res, next) => {
-        method.forgotPassword(res.locals.data).then(data => {
+    forgetPassword: (req, res, next) => {
+        method.forgetPassword(res.locals.data).then(data => {
             res.send(functions.responseGenerator(data.code, data.message , data.data));
         }).catch(error => {
             res.send(functions.responseGenerator(error.code, error.message , error.data));

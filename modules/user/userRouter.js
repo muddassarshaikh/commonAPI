@@ -7,5 +7,7 @@ router.post('/registration', auth.decryptRequest, api.registration);
 router.post('/login', auth.decryptRequest, api.login);
 router.post('/verifyEmail', auth.decryptRequest, api.verifyEmail);
 router.post('/changePassword', auth.validateToken, auth.decryptRequest, api.changePassword);
+router.post('/forgetPassword', auth.decryptRequest, api.forgetPassword);
+router.post('/resetPassword', auth.decryptRequest, api.resetPassword);
 
 module.exports = router;

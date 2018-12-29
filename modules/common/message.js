@@ -2,10 +2,10 @@ module.exports = {
     tokenIssue: "Improper token",
     tokenMissing: "Please send token",
     success: "Success",
-    dbError: "Something went wrong with database connection, please try again",
+    dbError: "Unable to process your request, please try again",
     sessionExpire: "Session expires. Please login again",
     invalidDetails: "Invalid details",
-    tryCatch: "Something went wrong",
+    tryCatch: "Something went wrong. Please contact admin.",
     dataIssue: "Please send proper information",
     registration: "Registration done successfully",
     invalidEmail: "Please insert email address in correct format",
@@ -13,7 +13,10 @@ module.exports = {
     accountDisable: "Your account is blocked by admin. Please contact admin.",
     emailVerify: "Please complete email verification process",
     emailVerificationSuccess: "Email address successfully verified. Please login to continue",
-    emailLinkExpired: "Link has expired. Please contact admin",
+    emailLinkExpired: "Link has expired.",
     registrationEmailSubject: "Welcome to CommonAPI",
-    passwordChanged: "Password changed successfully"
+    passwordChanged: "Password changed successfully",
+    forgotPasswordSubject: "Common API, Forgot password link",
+    resetLink: "Reset link sent successfully. You will receive a link shortly if a user is registered.",
+    passwordReset: "Password has been successfully reset. Please login" 
 }

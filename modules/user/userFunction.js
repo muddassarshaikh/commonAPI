@@ -24,6 +24,7 @@ function registration(info) {
                     else {
                         let token = functions.tokenEncrypt(info.data.emailAddress);
                         token = Buffer.from(token, 'ascii').toString('hex');
+                        console.log("token", token);
 
                         const to = info.data.emailAddress;
                         const subject = message.registrationEmailSubject;
@@ -137,7 +138,7 @@ function login(info) {
 
 /**
  * API to Change password
- * @param {*} req (encrypted token with old password, token, new password ) 
+ * @param {*} req (old password, token, new password ) 
  * @param {*} res (json with success/failure)
  */
 function changePassword(info, id) {
@@ -181,92 +182,88 @@ function changePassword(info, id) {
 
 /**
  * API for Forget Password
- * @param {*} req (encrypted token with old password, token ) 
+ * @param {*} req (email address ) 
  * @param {*} res (json with success/failure)
  */
-function forgotPassword(info) {
+function forgetPassword(info) {
     return new Promise((resolve, reject) => {
         try {
             if (validator.isEmail(info.data.emailAddress)) {
-                con.query('SELECT emailId, fullName FROM user WHERE emailId = ?', [info.data.emailId], (err, result) => {
+                con.query('SELECT emailAddress, firstName FROM user WHERE emailAddress = ?', [info.data.emailAddress], (err, userDetails) => {
                     if (err) {
                         reject({ code: code.dbCode, message: message.dbError, data: err });
                     }
-                    else if (result.length > 0) {
-                        var to = result[0].emailId;
-                        var enc_username = functions.encryptPassword(to);
-                        enc_username = Buffer.from(enc_username, 'ascii').toString('hex');
+                    else if (userDetails.length > 0) {
+                        const to = userDetails[0].emailAddress;
 
-                        var token = functions.tokenEncrypt(result[0].emailId);
+                        let token = functions.tokenEncrypt(to);
                         token = Buffer.from(token, 'ascii').toString('hex');
+                        console.log("token", token);
 
-                        var subject = "CMX Portal, Forgot password link";
-                        var link = config.resetPasswordLink + enc_username + '/' + token;
-                        var message = fs.readFileSync('./modules/emailtemplate/reset.html', 'utf8').toString();
-                        message = message.replace("$fullname", result[0].fullName).replace("$link", link).replace("$emailId", config.supportEmail);
+                        const subject = message.forgotPasswordSubject;
+                        const link = config.resetPasswordLink + token;
+                        let emailMessage = fs.readFileSync('./modules/emailtemplate/reset.html', 'utf8').toString();
+                        emailMessage = emailMessage.replace("$fullname", userDetails[0].firstName).replace("$link", link).replace("$emailId", config.supportEmail);
 
-                        functions.sendEmail(to, subject, message, function (err, result) {
+                        functions.sendEmail(to, subject, emailMessage, function (err, result) {
                             if (result) {
-                                resolve({ code: msg.successCode, message: msg.successResetPasswordLinkMsg, data: null });
+                                resolve({ code: code.success, message: message.resetLink });
                             }
                             else {
-                                reject({ code: msg.internalServerCode, message: msg.internalServalMsg, data: null });
+                                reject({ code: code.invalidDetails, message: message.dbError });
                             }
                         });
                     }
                     else {
-                        reject({ code: msg.noContentCode, message: 'Reset link sent successfully. You will receive a link shortly if a user is registered.', data: null });
+                        reject({ code: code.invalidDetails, message: message.invalidEmail });
                     }
                 });
             }
             else {
-                reject({ code: msg.fieldRequiredCode, message: msg.emailMissingMsg, data: null });
+                reject({ code: code.invalidDetails, message: message.invalidEmail });
             }
         }
         catch (e) {
-            reject({ code: msg.internalServerCode, message: msg.internalServalMsg, data: e });
+            reject({ code: code.invalidDetails, message: message.tryCatch, data: e });
         }
     });
 };
 
 /**
  * API for Reset Password
- * @param {*} req (encrypted token with new password, emailId ) 
+ * @param {*} req (emailAddress ) 
  * @param {*} res (json with success/failure)
  */
 function resetPassword(info) {
     return new Promise((resolve, reject) => {
         try {
-            const buf1 = Buffer.from(info.emailId, 'hex').toString('ascii');
-            const emailId = functions.decryptPassword(buf1);
-
-            if (emailId) {
-                var token = Buffer.from(info.token, 'hex').toString('ascii');
-                functions.tokenDecrypt(token, function (err, result) {
-                    if (result) {
+            if (info.data.emailAddress) {
+                const emailAddress = Buffer.from(info.data.emailAddress, 'hex').toString('ascii');
+                functions.tokenDecrypt(emailAddress, function (err, emailAddressDetails) {
+                    if (emailAddressDetails) {
                         //Encrypt password for the user
-                        var password = functions.encryptPassword(info.newPassword);
+                        const password = functions.encryptPassword(info.data.newPassword);
 
-                        con.query('UPDATE user SET password = ? WHERE emailId = ?', [password, emailId], function (err, result) {
+                        con.query('UPDATE user SET userPassword = ? WHERE emailAddress = ?', [password, emailAddressDetails.data], (err, result) => {
                             if (err) {
-                                reject({ code: msg.internalServerCode, message: msg.internalServalMsg, data: err });
+                                reject({ code: code.dbCode, message: message.dbError, data: err });
                             }
                             else {
-                                resolve({ code: msg.successCode, message: msg.successResetPasswordMsg, data: result });
+                                resolve({ code: code.success, message: message.passwordReset });
                             }
                         });
                     }
                     else {
-                        reject({ code: msg.sessionCode, message: msg.sessionLinkExpired, data: null });
+                        reject({ code: code.invalidDetails, message: message.emailLinkExpired, data: null });
                     }
                 });
             }
             else {
-                reject({ code: msg.invalidRequestCode, message: msg.invalidRequestLinkMsg, data: null });
+                reject({ code: code.invalidDetails, message: message.invalidEmail });
             }
         }
         catch (e) {
-            reject({ code: msg.internalServerCode, message: msg.internalServalMsg, data: e });
+            reject({ code: code.invalidDetails, message: message.tryCatch, data: e });
         }
     });
 }
@@ -361,5 +358,7 @@ module.exports = {
     registration,
     login,
     verifyEmail,
-    changePassword
+    changePassword,
+    forgetPassword,
+    resetPassword
 };
