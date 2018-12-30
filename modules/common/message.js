@@ -18,5 +18,8 @@ module.exports = {
     passwordChanged: "Password changed successfully",
     forgotPasswordSubject: "Common API, Forgot password link",
     resetLink: "Reset link sent successfully. You will receive a link shortly if a user is registered.",
-    passwordReset: "Password has been successfully reset. Please login" 
-}
+    passwordReset: "Password has been successfully reset. Please login",
+    profileUpdate: "Profile updated successfully",
+    allFieldReq: "Please fill all required fields",
+    noData: "No information available" 
+};

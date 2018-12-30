@@ -270,44 +270,28 @@ function resetPassword(info) {
 
 /**
  * API to update profile
- * @param {*} req (encrypted token with token ) 
+ * @param {*} req (token, user information ) 
  * @param {*} res (json with success/failure)
  */
 function updateProfile(info, id) {
     return new Promise((resolve, reject) => {
         try {
-            if (info.data.firstName && info.data.lastName && info.data.countryId) {
-                con.query('UPDATE users SET firstName = ?, middleName = ?, lastName = ?, twitterAccount = ?, telegramAccount = ?, countryId = ? WHERE id= ?', [info.data.firstName, info.data.middleName, info.data.lastName, info.data.twitterAccount, info.data.telegramAccount, info.data.countryId, id], function (err, result) {
+            if (!validator.isEmpty(info.data.firstName) && !validator.isEmpty(info.data.middleName) && !validator.isEmpty(info.data.lastName) && !validator.isEmpty(info.data.address)) {
+                con.query('UPDATE user SET firstName = ?, middleName = ?, lastName = ?, address = ? WHERE id= ?', [info.data.firstName, info.data.middleName, info.data.lastName, info.data.address, id], (err, updateDetails) => {
                     if (err) {
-                        reject({
-                            code: "02",
-                            message: msg.dbconnection,
-                            data: err
-                        });
+                        reject({ code: code.dbCode, message: message.dbError, data: err });
                     }
                     else {
-                        resolve({
-                            code: "00",
-                            message: 'Profile updated successfully',
-                            data: null
-                        });
+                        resolve({ code: "00", message: message.profileUpdate });
                     }
                 });
             }
             else {
-                reject({
-                    code: "01",
-                    message: 'Please fill all required fields',
-                    data: null
-                });
+                reject({ code: code.invalidDetails, message: message.allFieldReq });
             }
         }
         catch (e) {
-            reject({
-                code: "01",
-                message: msg.tryCatchMsg,
-                data: e
-            });
+            reject({ code: code.invalidDetails, message: message.tryCatch, data: e });
         }
     });
 };
@@ -320,36 +304,20 @@ function updateProfile(info, id) {
 function userInformation(id) {
     return new Promise((resolve, reject) => {
         try {
-            con.query('SELECT u.firstName, u.middleName, u.lastName, u.telegramAccount, u.twitterAccount, u.countryId FROM users u WHERE u.id = ?', [id], function (err, result) {
+            con.query('SELECT firstName, middleName, lastName, address, mobileNumber FROM user u WHERE id = ?', [id], (err, userDetail) => {
                 if (err) {
-                    reject({
-                        code: "02",
-                        message: msg.dbconnection,
-                        data: err
-                    });
+                    reject({ code: code.dbCode, message: message.dbError, data: err });
                 }
-                else if (result.length > 0) {
-                    resolve({
-                        code: "00",
-                        message: "Success",
-                        data: result
-                    });
+                else if (userDetail.length > 0) {
+                    resolve({ code: code.success, message: message.success, data: userDetail });
                 }
                 else {
-                    resolve({
-                        code: "00",
-                        message: msg.noData,
-                        data: result
-                    });
+                    reject({ code: code.invalidDetails, message: message.noData });
                 }
             });
         }
         catch (e) {
-            reject({
-                code: "01",
-                message: msg.tryCatchMsg,
-                data: e
-            });
+            reject({ code: code.invalidDetails, message: message.tryCatch, data: e });
         }
     });
 };
@@ -360,5 +328,7 @@ module.exports = {
     verifyEmail,
     changePassword,
     forgetPassword,
-    resetPassword
+    resetPassword,
+    updateProfile,
+    userInformation
 };
