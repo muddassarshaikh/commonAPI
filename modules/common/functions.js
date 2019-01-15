@@ -1,4 +1,4 @@
-const con = require('../database/databaseConnector');
+const con = require('../database/mysql');
 const config = require('../../config');
 const CryptoJS = require("crypto-js");
 const jwt = require('jsonwebtoken');

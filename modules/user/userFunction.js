@@ -1,4 +1,4 @@
-const con = require('../database/databaseConnector');
+const con = require('../database/mysql');
 const functions = require('../common/functions');
 const config = require('../../config');
 const validator = require('validator');
