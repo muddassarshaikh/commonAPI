@@ -21,5 +21,6 @@ module.exports = {
     passwordReset: "Password has been successfully reset. Please login",
     profileUpdate: "Profile updated successfully",
     allFieldReq: "Please fill all required fields",
-    noData: "No information available" 
+    noData: "No information available",
+    csvDataAdded: "CSV data added successfully" 
 };
