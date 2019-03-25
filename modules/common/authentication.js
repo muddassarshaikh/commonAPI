@@ -33,7 +33,7 @@ const authenticationController = {
     try {
       if (req.body.encRequest) {
         const userinfo = functions.decryptData(req.body.encRequest);
-        req.resquestedData = userinfo;
+        req.requestedData = userinfo;
         next();
       } else {
         res.send(functions.responseGenerator(code.invalidDetails, message.dataIssue));

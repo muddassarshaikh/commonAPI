@@ -1,11 +1,11 @@
-const method = require("./user");
+const userObject = require("./user");
 const functions = require("../common/functions");
 
 const userController = {
   //User Registration API
   registration: async (req, res) => {
     try {
-      const registrationDetails = await method.registration(req.resquestedData);
+      const registrationDetails = await userObject.userService().registration(req.requestedData);
       res.send(functions.responseGenerator(registrationDetails.code, registrationDetails.message, registrationDetails.data));
     } catch (error) {
       res.send(functions.responseGenerator(error.code, error.message, error.data));
@@ -13,15 +13,13 @@ const userController = {
   },
 
   //Verify Email API
-  verifyEmail: (req, res, next) => {
-    method
-      .verifyEmail(res.locals.data)
-      .then(data => {
-        res.send(functions.responseGenerator(data.code, data.message, data.data));
-      })
-      .catch(error => {
-        res.send(functions.responseGenerator(error.code, error.message, error.data));
-      });
+  verifyEmail: async (req, res) => {
+    try {
+      const verificationDetails = await userObject.userService().verifyEmail(req.requestedData);
+      res.send(functions.responseGenerator(verificationDetails.code, verificationDetails.message, verificationDetails.data));
+    } catch (error) {
+      res.send(functions.responseGenerator(error.code, error.message, error.data));
+    }
   },
 
   //Login API
