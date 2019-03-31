@@ -203,6 +203,42 @@ class UserService {
       return { code: code.invalidDetails, message: message.tryCatch, data: e };
     }
   }
+
+  /**
+   * API to update profile
+   * @param {*} req (token, user information )
+   * @param {*} res (json with success/failure)
+   */
+  async updateProfile(id, info) {
+    try {
+      if (!validator.isEmpty(info.data.firstName) && !validator.isEmpty(info.data.middleName) && !validator.isEmpty(info.data.lastName) && !validator.isEmpty(info.data.address)) {
+        const userDetail = await query("UPDATE user SET firstName = ?, middleName = ?, lastName = ?, address = ? WHERE id= ?", [info.data.firstName, info.data.middleName, info.data.lastName, info.data.address, id]);
+        return { code: code.success, message: message.profileUpdate, data: userDetail };
+      } else {
+        return { code: code.invalidDetails, message: message.allFieldReq };
+      }
+    } catch (error) {
+      return { code: code.dbCode, message: message.dbError, data: error };
+    }
+  }
+
+  /**
+   * API for user history
+   * @param {*} req (userId)
+   * @param {*} res (json with success/failure)
+   */
+  async userInformation(id) {
+    try {
+      const userInformation = await query("SELECT firstName, middleName, lastName, address, mobileNumber FROM user u WHERE id = ?", [id]);
+      if (userInformation.length > 0) {
+        return { code: code.success, message: message.success, data: userInformation };
+      } else {
+        return { code: code.invalidDetails, message: message.noData };
+      }
+    } catch (error) {
+      return { code: code.dbCode, message: message.dbError, data: error };
+    }
+  }
 }
 
 module.exports = {
@@ -210,62 +246,3 @@ module.exports = {
     return new UserService();
   }
 };
-
-// /**
-//  * API to update profile
-//  * @param {*} req (token, user information )
-//  * @param {*} res (json with success/failure)
-//  */
-// function updateProfile(info, id) {
-//   return new Promise((resolve, reject) => {
-//     try {
-//       if (!validator.isEmpty(info.data.firstName) && !validator.isEmpty(info.data.middleName) && !validator.isEmpty(info.data.lastName) && !validator.isEmpty(info.data.address)) {
-//         con.query("UPDATE user SET firstName = ?, middleName = ?, lastName = ?, address = ? WHERE id= ?", [info.data.firstName, info.data.middleName, info.data.lastName, info.data.address, id], (err, updateDetails) => {
-//           if (err) {
-//             reject({ code: code.dbCode, message: message.dbError, data: err });
-//           } else {
-//             resolve({ code: "00", message: message.profileUpdate });
-//           }
-//         });
-//       } else {
-//         reject({ code: code.invalidDetails, message: message.allFieldReq });
-//       }
-//     } catch (e) {
-//       reject({ code: code.invalidDetails, message: message.tryCatch, data: e });
-//     }
-//   });
-// }
-
-// /**
-//  * API for user history
-//  * @param {*} req (userId)
-//  * @param {*} res (json with success/failure)
-//  */
-// function userInformation(id) {
-//   return new Promise((resolve, reject) => {
-//     try {
-//       con.query("SELECT firstName, middleName, lastName, address, mobileNumber FROM user u WHERE id = ?", [id], (err, userDetail) => {
-//         if (err) {
-//           reject({ code: code.dbCode, message: message.dbError, data: err });
-//         } else if (userDetail.length > 0) {
-//           resolve({ code: code.success, message: message.success, data: userDetail });
-//         } else {
-//           reject({ code: code.invalidDetails, message: message.noData });
-//         }
-//       });
-//     } catch (e) {
-//       reject({ code: code.invalidDetails, message: message.tryCatch, data: e });
-//     }
-//   });
-// }
-
-// module.exports = {
-//   registration,
-//   login,
-//   verifyEmail,
-//   changePassword,
-//   forgetPassword,
-//   resetPassword,
-//   updateProfile,
-//   userInformation
-// };

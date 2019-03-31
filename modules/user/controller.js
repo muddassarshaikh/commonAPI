@@ -64,27 +64,23 @@ const userController = {
   },
 
   // Update Profile API
-  updateProfile: (req, res, next) => {
-    method
-      .updateProfile(res.locals.data, res.locals.id)
-      .then(data => {
-        res.send(functions.responseGenerator(data.code, data.message, data.data));
-      })
-      .catch(error => {
-        res.send(functions.responseGenerator(error.code, error.message, error.data));
-      });
+  updateProfile: async (req, res) => {
+    try {
+      const updateProfileDetails = await userObject.userService().updateProfile(res.locals.tokenInfo.id, res.locals.requestedData);
+      res.send(functions.responseGenerator(updateProfileDetails.code, updateProfileDetails.message, updateProfileDetails.data));
+    } catch (error) {
+      res.send(functions.responseGenerator(error.code, error.message, error.data));
+    }
   },
 
   // Update Profile API
-  userInformation: (req, res, next) => {
-    method
-      .userInformation(res.locals.id)
-      .then(data => {
-        res.send(functions.responseGenerator(data.code, data.message, data.data));
-      })
-      .catch(error => {
-        res.send(functions.responseGenerator(error.code, error.message, error.data));
-      });
+  userInformation: async (req, res) => {
+    try {
+      const userInformationDetails = await userObject.userService().userInformation(res.locals.tokenInfo.id);
+      res.send(functions.responseGenerator(userInformationDetails.code, userInformationDetails.message, userInformationDetails.data));
+    } catch (error) {
+      res.send(functions.responseGenerator(error.code, error.message, error.data));
+    }
   }
 };
 
