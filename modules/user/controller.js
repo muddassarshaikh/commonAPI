@@ -26,13 +26,8 @@ const userController = {
   login: async (req, res) => {
     try {
       const loginDetails = await userObject.userService().login(res.locals.requestedData);
-      if (loginDetails.data.length > 0) {
-        const token = await functions.tokenEncrypt(loginDetails.data[0]);
-        res.header("auth", token);
-        res.send(functions.responseGenerator(loginDetails.code, loginDetails.message, loginDetails.data));
-      } else {
-        res.send(functions.responseGenerator(loginDetails.code, loginDetails.message, loginDetails.data));
-      }
+      res.header("auth", loginDetails.token);
+      res.send(functions.responseGenerator(loginDetails.code, loginDetails.message, loginDetails.data));
     } catch (error) {
       res.send(functions.responseGenerator(error.code, error.message, error.data));
     }

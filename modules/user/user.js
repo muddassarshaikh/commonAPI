@@ -90,7 +90,8 @@ class UserService {
                   delete loginDetails[0].userPassword;
                   delete loginDetails[0].isEmailVerified;
                   delete loginDetails[0].isActive;
-                  return { code: code.success, message: message.success, data: loginDetails };
+                  const token = await functions.tokenEncrypt(loginDetails[0]);
+                  return { code: code.success, message: message.success, data: loginDetails, token: token };
                 } else {
                   return { code: code.invalidDetails, message: message.emailVerify, data: [] };
                 }
