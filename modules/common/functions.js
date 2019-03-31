@@ -70,8 +70,8 @@ function decryptPassword(data) {
  * @param {*} data (data to encrypt)
  * @param {*} return (encrypted data)
  */
-function tokenEncrypt(data) {
-  var token = jwt.sign({ data: data }, config.tokenkey, { expiresIn: 20 * 60 }); // Expires in 20 minutes
+async function tokenEncrypt(data) {
+  var token = await jwt.sign({ data: data }, config.tokenkey, { expiresIn: 20 * 60 }); // Expires in 20 minutes
   return token;
 }
 
@@ -83,7 +83,6 @@ function tokenEncrypt(data) {
 async function tokenDecrypt(data) {
   try {
     const decode = await jwt.verify(data, config.tokenkey);
-    console.log("TCL: tokenDecrypt -> decode", decode);
     return decode;
   } catch (error) {
     return error;

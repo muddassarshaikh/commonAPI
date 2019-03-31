@@ -3,23 +3,22 @@ const code = require("./code");
 const message = require("./message");
 
 const authenticationController = {
-  validateToken: (req, res, next) => {
+  validateToken: async (req, res, next) => {
     try {
       if (req.headers.auth) {
-        functions.tokenDecrypt(req.headers.auth, (err, result) => {
-          if (result) {
-            if (result.data) {
-              res.locals.id = result.data.id;
-              const token = functions.tokenEncrypt(result.data);
-              res.header("auth", token);
-              next();
-            } else {
-              res.send(functions.responseGenerator(code.invalidDetails, message.tokenIssue));
-            }
+        const tokenDecryptInfo = await functions.tokenDecrypt(req.headers.auth);
+        if (tokenDecryptInfo) {
+          if (tokenDecryptInfo.data) {
+            res.locals.tokenInfo = tokenDecryptInfo.data;
+            const token = await functions.tokenEncrypt(tokenDecryptInfo.data);
+            res.header("auth", token);
+            next();
           } else {
-            res.send(functions.responseGenerator(code.sessionExpire, message.sessionExpire));
+            res.send(functions.responseGenerator(code.invalidDetails, message.tokenIssue));
           }
-        });
+        } else {
+          res.send(functions.responseGenerator(code.sessionExpire, message.sessionExpire));
+        }
       } else {
         res.send(functions.responseGenerator(code.invalidDetails, message.tokenMissing));
       }
@@ -33,7 +32,7 @@ const authenticationController = {
     try {
       if (req.body.encRequest) {
         const userinfo = functions.decryptData(req.body.encRequest);
-        req.requestedData = userinfo;
+        res.locals.requestedData = userinfo;
         next();
       } else {
         res.send(functions.responseGenerator(code.invalidDetails, message.dataIssue));

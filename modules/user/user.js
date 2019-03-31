@@ -19,15 +19,15 @@ class UserService {
       if (validator.isEmail(info.data.emailAddress)) {
         const userPassword = functions.encryptPassword(info.data.userPassword);
         const sqlQuery = "INSERT INTO user(firstName, middleName, lastName, emailAddress, userPassword, address, mobileNumber) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        const response = await query(sqlQuery, [info.data.firstName, info.data.middleName, info.data.lastName, info.data.emailAddress, userPassword, info.data.address, info.data.mobileNumber]);
+        const registrationDetails = await query(sqlQuery, [info.data.firstName, info.data.middleName, info.data.lastName, info.data.emailAddress, userPassword, info.data.address, info.data.mobileNumber]);
         try {
-          let token = functions.tokenEncrypt(info.data.emailAddress);
+          let token = await functions.tokenEncrypt(info.data.emailAddress);
           token = Buffer.from(token, "ascii").toString("hex");
           let emailMessage = fs.readFileSync("./modules/emailtemplate/welcome.html", "utf8").toString();
           emailMessage = emailMessage.replace("$fullname", info.data.firstName).replace("$link", config.emailVerifiedLink + token);
           try {
             const emailDetails = await functions.sendEmail(info.data.emailAddress, message.registrationEmailSubject, emailMessage);
-            return { code: code.success, message: message.registration, data: response };
+            return { code: code.success, message: message.registration, data: registrationDetails };
           } catch (error) {
             return { code: code.invalidDetails, message: message.invalidDetails, data: error };
           }
@@ -70,6 +70,49 @@ class UserService {
       return { code: code.invalidDetails, message: message.invalidDetails };
     }
   }
+
+  /**
+   * API for user login
+   * @param {*} req (email address & password)
+   * @param {*} res (json with success/failure)
+   */
+  async login(info) {
+    try {
+      if (validator.isEmail(info.data.emailAddress)) {
+        const sqlQuery = "SELECT id, firstName, middleName, lastName, address, emailAddress, userPassword, mobileNumber, isEmailVerified, isActive FROM user WHERE emailAddress = ?";
+        const loginDetails = await query(sqlQuery, [info.data.emailAddress]);
+        try {
+          if (loginDetails.length > 0) {
+            const password = functions.decryptPassword(loginDetails[0].userPassword);
+            if (password === info.data.userPassword) {
+              if (loginDetails[0].isActive === 1) {
+                if (loginDetails[0].isEmailVerified === 1) {
+                  delete loginDetails[0].userPassword;
+                  delete loginDetails[0].isEmailVerified;
+                  delete loginDetails[0].isActive;
+                  return { code: code.success, message: message.success, data: loginDetails };
+                } else {
+                  return { code: code.invalidDetails, message: message.emailVerify, data: [] };
+                }
+              } else {
+                return { code: code.invalidDetails, message: message.accountDisable, data: [] };
+              }
+            } else {
+              return { code: code.invalidDetails, message: message.invalidLoginDetails, data: [] };
+            }
+          } else {
+            return { code: code.invalidDetails, message: message.invalidLoginDetails, data: [] };
+          }
+        } catch (error) {
+          return { code: code.dbCode, message: message.dbError, data: error };
+        }
+      } else {
+        return { code: code.invalidDetails, message: message.invalidLoginDetails, data: [] };
+      }
+    } catch (e) {
+      return { code: code.invalidDetails, message: message.tryCatch, data: e };
+    }
+  }
 }
 
 module.exports = {
@@ -77,52 +120,6 @@ module.exports = {
     return new UserService();
   }
 };
-
-// /**
-//  * API for user login
-//  * @param {*} req (email address & password)
-//  * @param {*} res (json with success/failure)
-//  */
-// function login(info) {
-//   return new Promise((resolve, reject) => {
-//     try {
-//       if (validator.isEmail(info.data.emailAddress)) {
-//         const sqlQuery = "SELECT id, firstName, middleName, lastName, address, emailAddress, userPassword, mobileNumber, isEmailVerified, isActive FROM user WHERE emailAddress = ?";
-//         con.query(sqlQuery, [info.data.emailAddress], (err, userDetails) => {
-//           if (err) {
-//             reject({ code: code.dbCode, message: message.dbError, data: err });
-//           } else if (userDetails.length > 0) {
-//             const password = functions.decryptPassword(userDetails[0].userPassword);
-//             console.log(userDetails[0]);
-//             if (password === info.data.userPassword) {
-//               if (userDetails[0].isActive === 1) {
-//                 if (userDetails[0].isEmailVerified === 1) {
-//                   delete userDetails[0].userPassword;
-//                   delete userDetails[0].isEmailVerified;
-//                   delete userDetails[0].isActive;
-
-//                   resolve({ code: code.success, message: message.success, data: userDetails });
-//                 } else {
-//                   reject({ code: code.invalidDetails, message: message.emailVerify });
-//                 }
-//               } else {
-//                 reject({ code: code.invalidDetails, message: message.accountDisable });
-//               }
-//             } else {
-//               reject({ code: code.invalidDetails, message: message.invalidLoginDetails });
-//             }
-//           } else {
-//             reject({ code: code.invalidDetails, message: message.invalidLoginDetails });
-//           }
-//         });
-//       } else {
-//         reject({ code: code.invalidDetails, message: message.invalidLoginDetails });
-//       }
-//     } catch (e) {
-//       reject({ code: code.invalidDetails, message: message.tryCatch, data: e });
-//     }
-//   });
-// }
 
 // /**
 //  * API to Change password

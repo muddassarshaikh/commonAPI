@@ -5,7 +5,7 @@ const userController = {
   //User Registration API
   registration: async (req, res) => {
     try {
-      const registrationDetails = await userObject.userService().registration(req.requestedData);
+      const registrationDetails = await userObject.userService().registration(res.locals.requestedData);
       res.send(functions.responseGenerator(registrationDetails.code, registrationDetails.message, registrationDetails.data));
     } catch (error) {
       res.send(functions.responseGenerator(error.code, error.message, error.data));
@@ -15,7 +15,7 @@ const userController = {
   //Verify Email API
   verifyEmail: async (req, res) => {
     try {
-      const verificationDetails = await userObject.userService().verifyEmail(req.requestedData);
+      const verificationDetails = await userObject.userService().verifyEmail(res.locals.requestedData);
       res.send(functions.responseGenerator(verificationDetails.code, verificationDetails.message, verificationDetails.data));
     } catch (error) {
       res.send(functions.responseGenerator(error.code, error.message, error.data));
@@ -23,17 +23,19 @@ const userController = {
   },
 
   //Login API
-  login: (req, res, next) => {
-    method
-      .login(res.locals.data)
-      .then(data => {
-        const token = functions.tokenEncrypt(data.data[0]);
+  login: async (req, res) => {
+    try {
+      const loginDetails = await userObject.userService().login(res.locals.requestedData);
+      if (loginDetails.data.length > 0) {
+        const token = await functions.tokenEncrypt(loginDetails.data[0]);
         res.header("auth", token);
-        res.send(functions.responseGenerator(data.code, data.message, data.data));
-      })
-      .catch(error => {
-        res.send(functions.responseGenerator(error.code, error.message, error.data));
-      });
+        res.send(functions.responseGenerator(loginDetails.code, loginDetails.message, loginDetails.data));
+      } else {
+        res.send(functions.responseGenerator(loginDetails.code, loginDetails.message, loginDetails.data));
+      }
+    } catch (error) {
+      res.send(functions.responseGenerator(error.code, error.message, error.data));
+    }
   },
 
   // Change Password API
