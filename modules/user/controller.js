@@ -81,6 +81,15 @@ const userController = {
     } catch (error) {
       res.send(functions.responseGenerator(error.code, error.message, error.data));
     }
+  },
+
+  uploadProfilePic: async (req, res) => {
+    try {
+      const uploadProfilePicDetails = await userObject.userService().uploadProfilePic(res.locals.tokenInfo.id, res.locals.requestedData);
+      res.send(functions.responseGenerator(userInformationDetails.code, userInformationDetails.message, userInformationDetails.data));
+    } catch (error) {
+      res.send(functions.responseGenerator(error.code, error.message, error.data));
+    }
   }
 };
 

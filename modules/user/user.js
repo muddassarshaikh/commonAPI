@@ -239,6 +239,25 @@ class UserService {
       return { code: code.dbCode, message: message.dbError, data: error };
     }
   }
+
+  /**
+   * API for uploading user profile pic
+   * @param {*} req (userId, base64 data)
+   * @param {*} res (json with success/failure)
+   */
+  async userInformation(id, info) {
+    try {
+      const base64Data = req.body.replace(/^data:image\/png;base64,/, "");
+      const path = "/upload/profilePic/" + id + Date.now();
+      require("fs").writeFile(path, base64Data, "base64", function(err) {
+        console.log(err);
+      });
+      const uploadProfilePicDetails = await query("UPDATE user SET profileImagePath = ? WHERE id = ?", [path, id]);
+      return { code: code.success, message: message.success, data: userInformation };
+    } catch (error) {
+      return { code: code.dbCode, message: message.dbError, data: error };
+    }
+  }
 }
 
 module.exports = {
