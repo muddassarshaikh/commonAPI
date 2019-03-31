@@ -114,6 +114,95 @@ class UserService {
       return { code: code.invalidDetails, message: message.tryCatch, data: e };
     }
   }
+
+  /**
+   * API to Change password
+   * @param {*} req (old password, token, new password )
+   * @param {*} res (json with success/failure)
+   */
+  async changePassword(id, info) {
+    try {
+      const userDetails = await query("SELECT userPassword FROM user WHERE id = ?", [id]);
+      if (userDetails.length > 0) {
+        let password = functions.decryptPassword(userDetails[0].userPassword);
+        if (password === info.data.oldPassword) {
+          // Encrypt password for the user
+          password = functions.encryptPassword(info.data.newPassword);
+          const updatePasswordDetails = await query("UPDATE user SET userPassword = ? WHERE id = ?", [password, id]);
+          return { code: code.success, message: message.passwordChanged, data: updatePasswordDetails };
+        } else {
+          return { code: code.invalidDetails, message: message.invalidDetails, data: [] };
+        }
+      } else {
+        return { code: code.invalidDetails, message: message.invalidDetails, data: [] };
+      }
+    } catch (e) {
+      return { code: code.dbCode, message: message.dbError, data: e };
+    }
+  }
+
+  /**
+   * API for Forgot Password
+   * @param {*} req (email address )
+   * @param {*} res (json with success/failure)
+   */
+  async forgotPassword(info) {
+    try {
+      if (validator.isEmail(info.data.emailAddress)) {
+        const userDetail = await query("SELECT emailAddress, firstName FROM user WHERE emailAddress = ?", [info.data.emailAddress]);
+        if (userDetail.length > 0) {
+          const to = userDetail[0].emailAddress;
+          let token = await functions.tokenEncrypt(to);
+          token = Buffer.from(token, "ascii").toString("hex");
+          const subject = message.forgotPasswordSubject;
+          const link = config.resetPasswordLink + token;
+          let emailMessage = fs.readFileSync("./modules/emailtemplate/reset.html", "utf8").toString();
+          emailMessage = emailMessage
+            .replace("$fullname", userDetail[0].firstName)
+            .replace("$link", link)
+            .replace("$emailId", config.supportEmail);
+          try {
+            const emailDetails = await functions.sendEmail(to, subject, emailMessage);
+            return { code: code.success, message: message.resetLink, data: emailDetails };
+          } catch (error) {
+            return { code: code.invalidDetails, message: message.dbError, data: error };
+          }
+        } else {
+          return { code: code.invalidDetails, message: message.invalidEmail, data: [] };
+        }
+      } else {
+        return { code: code.invalidDetails, message: message.invalidEmail, data: [] };
+      }
+    } catch (error) {
+      return { code: code.dbCode, message: message.dbError, data: error };
+    }
+  }
+
+  /**
+   * API for Reset Password
+   * @param {*} req (emailAddress )
+   * @param {*} res (json with success/failure)
+   */
+  async resetPassword(info) {
+    try {
+      if (info.data.emailAddress) {
+        const emailAddress = Buffer.from(info.data.emailAddress, "hex").toString("ascii");
+        const emailAddressDetails = await functions.tokenDecrypt(emailAddress);
+        if (emailAddressDetails.data) {
+          //Encrypt password for the user
+          const password = functions.encryptPassword(info.data.newPassword);
+          const passwordDetails = await query("UPDATE user SET userPassword = ? WHERE emailAddress = ?", [password, emailAddressDetails.data]);
+          return { code: code.success, message: message.passwordReset, data: passwordDetails };
+        } else {
+          return { code: code.invalidDetails, message: message.emailLinkExpired, data: null };
+        }
+      } else {
+        return { code: code.invalidDetails, message: message.invalidEmail };
+      }
+    } catch (e) {
+      return { code: code.invalidDetails, message: message.tryCatch, data: e };
+    }
+  }
 }
 
 module.exports = {
@@ -121,127 +210,6 @@ module.exports = {
     return new UserService();
   }
 };
-
-// /**
-//  * API to Change password
-//  * @param {*} req (old password, token, new password )
-//  * @param {*} res (json with success/failure)
-//  */
-// function changePassword(info, id) {
-//   return new Promise((resolve, reject) => {
-//     try {
-//       console.log(info, id);
-//       con.query("SELECT userPassword FROM user WHERE id = ?", [id], function(err, passwordDetails) {
-//         if (err) {
-//           reject({ code: code.dbCode, message: message.dbError, data: err });
-//         } else if (passwordDetails.length > 0) {
-//           let password = functions.decryptPassword(passwordDetails[0].userPassword);
-
-//           if (password === info.data.oldPassword) {
-//             // Encrypt password for the user
-//             password = functions.encryptPassword(info.data.newPassword);
-
-//             con.query("UPDATE user SET userPassword = ? WHERE id = ?", [password, id], (err, passUpdateDetails) => {
-//               if (err) {
-//                 reject({ code: code.dbCode, message: message.dbError, data: err });
-//               } else {
-//                 resolve({ code: code.success, message: message.passwordChanged });
-//               }
-//             });
-//           } else {
-//             reject({ code: code.invalidDetails, message: message.invalidDetails });
-//           }
-//         } else {
-//           reject({ code: code.invalidDetails, message: message.invalidDetails });
-//         }
-//       });
-//     } catch (e) {
-//       reject({ code: code.invalidDetails, message: message.tryCatch, data: e });
-//     }
-//   });
-// }
-
-// /**
-//  * API for Forget Password
-//  * @param {*} req (email address )
-//  * @param {*} res (json with success/failure)
-//  */
-// function forgetPassword(info) {
-//   return new Promise((resolve, reject) => {
-//     try {
-//       if (validator.isEmail(info.data.emailAddress)) {
-//         con.query("SELECT emailAddress, firstName FROM user WHERE emailAddress = ?", [info.data.emailAddress], (err, userDetails) => {
-//           if (err) {
-//             reject({ code: code.dbCode, message: message.dbError, data: err });
-//           } else if (userDetails.length > 0) {
-//             const to = userDetails[0].emailAddress;
-
-//             let token = functions.tokenEncrypt(to);
-//             token = Buffer.from(token, "ascii").toString("hex");
-//             console.log("token", token);
-
-//             const subject = message.forgotPasswordSubject;
-//             const link = config.resetPasswordLink + token;
-//             let emailMessage = fs.readFileSync("./modules/emailtemplate/reset.html", "utf8").toString();
-//             emailMessage = emailMessage
-//               .replace("$fullname", userDetails[0].firstName)
-//               .replace("$link", link)
-//               .replace("$emailId", config.supportEmail);
-
-//             functions.sendEmail(to, subject, emailMessage, function(err, result) {
-//               if (result) {
-//                 resolve({ code: code.success, message: message.resetLink });
-//               } else {
-//                 reject({ code: code.invalidDetails, message: message.dbError });
-//               }
-//             });
-//           } else {
-//             reject({ code: code.invalidDetails, message: message.invalidEmail });
-//           }
-//         });
-//       } else {
-//         reject({ code: code.invalidDetails, message: message.invalidEmail });
-//       }
-//     } catch (e) {
-//       reject({ code: code.invalidDetails, message: message.tryCatch, data: e });
-//     }
-//   });
-// }
-
-// /**
-//  * API for Reset Password
-//  * @param {*} req (emailAddress )
-//  * @param {*} res (json with success/failure)
-//  */
-// function resetPassword(info) {
-//   return new Promise((resolve, reject) => {
-//     try {
-//       if (info.data.emailAddress) {
-//         const emailAddress = Buffer.from(info.data.emailAddress, "hex").toString("ascii");
-//         functions.tokenDecrypt(emailAddress, function(err, emailAddressDetails) {
-//           if (emailAddressDetails) {
-//             //Encrypt password for the user
-//             const password = functions.encryptPassword(info.data.newPassword);
-
-//             con.query("UPDATE user SET userPassword = ? WHERE emailAddress = ?", [password, emailAddressDetails.data], (err, result) => {
-//               if (err) {
-//                 reject({ code: code.dbCode, message: message.dbError, data: err });
-//               } else {
-//                 resolve({ code: code.success, message: message.passwordReset });
-//               }
-//             });
-//           } else {
-//             reject({ code: code.invalidDetails, message: message.emailLinkExpired, data: null });
-//           }
-//         });
-//       } else {
-//         reject({ code: code.invalidDetails, message: message.invalidEmail });
-//       }
-//     } catch (e) {
-//       reject({ code: code.invalidDetails, message: message.tryCatch, data: e });
-//     }
-//   });
-// }
 
 // /**
 //  * API to update profile

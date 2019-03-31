@@ -34,39 +34,33 @@ const userController = {
   },
 
   // Change Password API
-  changePassword: (req, res, next) => {
-    method
-      .changePassword(res.locals.data, res.locals.id)
-      .then(data => {
-        res.send(functions.responseGenerator(data.code, data.message, data.data));
-      })
-      .catch(error => {
-        res.send(functions.responseGenerator(error.code, error.message, error.data));
-      });
+  changePassword: async (req, res) => {
+    try {
+      const changePasswordDetails = await userObject.userService().changePassword(res.locals.tokenInfo.id, res.locals.requestedData);
+      res.send(functions.responseGenerator(changePasswordDetails.code, changePasswordDetails.message, changePasswordDetails.data));
+    } catch (error) {
+      res.send(functions.responseGenerator(error.code, error.message, error.data));
+    }
   },
 
   // Forgot Password API
-  forgetPassword: (req, res, next) => {
-    method
-      .forgetPassword(res.locals.data)
-      .then(data => {
-        res.send(functions.responseGenerator(data.code, data.message, data.data));
-      })
-      .catch(error => {
-        res.send(functions.responseGenerator(error.code, error.message, error.data));
-      });
+  forgotPassword: async (req, res) => {
+    try {
+      const forgotPasswordDetails = await userObject.userService().forgotPassword(res.locals.requestedData);
+      res.send(functions.responseGenerator(forgotPasswordDetails.code, forgotPasswordDetails.message, forgotPasswordDetails.data));
+    } catch (error) {
+      res.send(functions.responseGenerator(error.code, error.message, error.data));
+    }
   },
 
   // Reset Password API
-  resetPassword: (req, res, next) => {
-    method
-      .resetPassword(res.locals.data)
-      .then(data => {
-        res.send(functions.responseGenerator(data.code, data.message, data.data));
-      })
-      .catch(error => {
-        res.send(functions.responseGenerator(error.code, error.message, error.data));
-      });
+  resetPassword: async (req, res) => {
+    try {
+      const resetPasswordDetails = await userObject.userService().resetPassword(res.locals.requestedData);
+      res.send(functions.responseGenerator(resetPasswordDetails.code, resetPasswordDetails.message, resetPasswordDetails.data));
+    } catch (error) {
+      res.send(functions.responseGenerator(error.code, error.message, error.data));
+    }
   },
 
   // Update Profile API

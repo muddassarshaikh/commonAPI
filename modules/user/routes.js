@@ -7,7 +7,7 @@ router.post("/registration", auth.decryptRequest, api.registration);
 router.post("/login", auth.decryptRequest, api.login);
 router.post("/verifyEmail", auth.decryptRequest, api.verifyEmail);
 router.post("/changePassword", auth.validateToken, auth.decryptRequest, api.changePassword);
-router.post("/forgetPassword", auth.decryptRequest, api.forgetPassword);
+router.post("/forgotPassword", auth.decryptRequest, api.forgotPassword);
 router.post("/resetPassword", auth.decryptRequest, api.resetPassword);
 router.post("/updateProfile", auth.validateToken, auth.decryptRequest, api.updateProfile);
 router.get("/userInformation", auth.validateToken, api.userInformation);
