@@ -7,15 +7,12 @@ const authenticationController = {
     try {
       if (req.headers.auth) {
         const tokenDecryptInfo = await functions.tokenDecrypt(req.headers.auth);
-        if (tokenDecryptInfo) {
-          if (tokenDecryptInfo.data) {
-            res.locals.tokenInfo = tokenDecryptInfo.data;
-            const token = await functions.tokenEncrypt(tokenDecryptInfo.data);
-            res.header("auth", token);
-            next();
-          } else {
-            res.send(functions.responseGenerator(code.invalidDetails, message.tokenIssue));
-          }
+
+        if (tokenDecryptInfo.data) {
+          res.locals.tokenInfo = tokenDecryptInfo.data;
+          const token = await functions.tokenEncrypt(tokenDecryptInfo.data);
+          res.header("auth", token);
+          next();
         } else {
           res.send(functions.responseGenerator(code.sessionExpire, message.sessionExpire));
         }

@@ -83,10 +83,10 @@ const userController = {
     }
   },
 
-  uploadProfilePic: async (req, res) => {
+  uploadProfilePicUsingBase64Data: async (req, res) => {
     try {
-      const uploadProfilePicDetails = await userObject.userService().uploadProfilePic(res.locals.tokenInfo.id, res.locals.requestedData);
-      res.send(functions.responseGenerator(userInformationDetails.code, userInformationDetails.message, userInformationDetails.data));
+      const uploadProfilePicDetails = await userObject.userService().uploadProfilePicUsingBase64Data(res.locals.tokenInfo.id, res.locals.requestedData);
+      res.send(functions.responseGenerator(uploadProfilePicDetails.code, uploadProfilePicDetails.message, uploadProfilePicDetails.data));
     } catch (error) {
       res.send(functions.responseGenerator(error.code, error.message, error.data));
     }

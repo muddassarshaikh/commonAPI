@@ -11,6 +11,6 @@ router.post("/forgotPassword", auth.decryptRequest, api.forgotPassword);
 router.post("/resetPassword", auth.decryptRequest, api.resetPassword);
 router.post("/updateProfile", auth.validateToken, auth.decryptRequest, api.updateProfile);
 router.get("/userInformation", auth.validateToken, api.userInformation);
-router.post("/uploadProfilePic", auth.validateToken, auth.decryptRequest, api.uploadProfilePic);
+router.post("/uploadProfilePicUsingBase64Data", auth.validateToken, auth.decryptRequest, api.uploadProfilePicUsingBase64Data);
 
 module.exports = router;

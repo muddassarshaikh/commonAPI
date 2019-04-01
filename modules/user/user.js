@@ -1,12 +1,12 @@
 const con = require("../database/mysql");
+const util = require("util");
+const query = util.promisify(con.query).bind(con);
 const functions = require("../common/functions");
 const config = require("../../config");
 const validator = require("validator");
 const code = require("../common/code");
 const message = require("../common/message");
 const fs = require("fs");
-const util = require("util");
-const query = util.promisify(con.query).bind(con);
 
 class UserService {
   /**
@@ -245,15 +245,19 @@ class UserService {
    * @param {*} req (userId, base64 data)
    * @param {*} res (json with success/failure)
    */
-  async userInformation(id, info) {
+  async uploadProfilePicUsingBase64Data(id, info) {
     try {
-      const base64Data = req.body.replace(/^data:image\/png;base64,/, "");
-      const path = "/upload/profilePic/" + id + Date.now();
-      require("fs").writeFile(path, base64Data, "base64", function(err) {
-        console.log(err);
-      });
-      const uploadProfilePicDetails = await query("UPDATE user SET profileImagePath = ? WHERE id = ?", [path, id]);
-      return { code: code.success, message: message.success, data: userInformation };
+      const base64Data = info.data.profilePic.replace(/^data:image\/png;base64,/, "");
+      const path = "upload/profilepic/" + id + "-" + Date.now() + ".png";
+      try {
+        const fs = require("fs");
+        const writeFile = util.promisify(fs.writeFile).bind(fs);
+        const uploadInfo = await writeFile(path, base64Data, "base64");
+        const uploadProfilePicDetails = await query("UPDATE user SET profileImagePath = ? WHERE id = ?", [path, id]);
+        return { code: code.success, message: message.success, data: uploadProfilePicDetails };
+      } catch (error) {
+        return { code: code.invalidDetails, message: message.invalidDetails, data: error };
+      }
     } catch (error) {
       return { code: code.dbCode, message: message.dbError, data: error };
     }
