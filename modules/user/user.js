@@ -457,3 +457,63 @@ module.exports = {
     return new UserService();
   }
 };
+
+/**
+ * API for Uploading data from CSV into mongodb
+ * @param {*} req (CSV file)
+ * @param {*} res (json with success/failure)
+ */
+// function uploadDataInMongo(info) {
+//   return new Promise((resolve, reject) => {
+//       try {
+//           const csvFilePath = info.file.path;
+
+//           csv().fromFile(csvFilePath).then((jsonObj) => {
+//               const promises = jsonObj.map(item => {
+//                   return new Promise((resolve, reject) => {
+//                       const User = new userSchema(item);
+//                       User.save((err, userDetails) => {
+//                           if(err)
+//                           {
+//                               reject();
+//                           }
+//                           resolve();
+//                       });
+//                   });
+//               });
+
+//               Promise.all(promises).then(() => {
+//                   resolve({ code: code.success, message: message.csvDataAdded });
+//               }).catch(e => {
+//                   reject({ code: code.dbCode, message: message.dbError, data: err});
+//               });
+//           });
+//       }
+//       catch (e) {
+//           reject({ code: code.invalidDetails, message: message.tryCatch, data: e });
+//       }
+//   });
+// };
+
+/**
+ * API for uploading user profile pic
+ * @param {*} req (userId, base64 data)
+ * @param {*} res (json with success/failure)
+ */
+// async uploadProfilePicUsingBase64Data(id, info) {
+//   try {
+//     const base64Data = info.data.profilePic.replace(/^data:image\/png;base64,/, "");
+//     const path = "upload/profilepic/" + id + "-" + Date.now() + ".png";
+//     try {
+//       const fs = require("fs");
+//       const writeFile = util.promisify(fs.writeFile).bind(fs);
+//       const uploadInfo = await writeFile(path, base64Data, "base64");
+//       const uploadProfilePicDetails = await query("UPDATE user SET profileImagePath = ? WHERE id = ?", [path, id]);
+//       return { code: code.success, message: message.success, data: uploadProfilePicDetails };
+//     } catch (error) {
+//       return { code: code.invalidDetails, message: message.invalidDetails, data: error };
+//     }
+//   } catch (error) {
+//     return { code: code.dbCode, message: message.dbError, data: error };
+//   }
+// }

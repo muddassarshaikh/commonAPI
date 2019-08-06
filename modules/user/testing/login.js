@@ -1,11 +1,13 @@
 const mocha = require('mocha');
 const request = require('supertest');
 const chai = require('chai');
+const chaiHttp = require('chai-http');
 const expect = chai.expect;
 const user = require('../user');
 const app = require('../../../app');
 const should = chai.should();
 const message = require('../../common/message');
+chai.use(chaiHttp);
 
 describe('User Module', () => {
   describe('"login functionality"', () => {
@@ -45,18 +47,19 @@ describe('User Module', () => {
       });
       expect(loginDetails.code).to.be.equal('00');
     });
+
+    it('should return success while calling from API', () => {
+      return chai
+        .request(app)
+        .post('/api/user/login')
+        .send({
+          emailAddress: 'shaikh.muddassar8@gmail.com',
+          userPassword: '123456789'
+        })
+        .then(res => {
+          expect(res.status).to.be.equal(200);
+          expect(res.body.code).to.be.equal('00');
+        });
+    });
   });
 });
-
-// Need to study
-// it('Should return failure if credential is not valid', done => {
-//   request(app)
-//     .post('/api/user/login')
-//     .send({ username: 'shaikh.muddassar8@gmail.com', password: '12345678' })
-//     .end((err, res) => {
-//       if (err) throw err;
-//       res.body.code.should.be.eql('01');
-//       // res.body.should.have.property('message');
-//     });
-//   done();
-// });
