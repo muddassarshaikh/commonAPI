@@ -1,6 +1,6 @@
-const functions = require("./functions");
-const code = require("./code");
-const message = require("./message");
+const functions = require('./functions');
+const code = require('./code');
+const message = require('./message');
 
 const authenticationController = {
   validateToken: async (req, res, next) => {
@@ -11,32 +11,74 @@ const authenticationController = {
         if (tokenDecryptInfo.data) {
           res.locals.tokenInfo = tokenDecryptInfo.data;
           const token = await functions.tokenEncrypt(tokenDecryptInfo.data);
-          res.header("auth", token);
+          res.header('auth', token);
           next();
         } else {
-          res.send(functions.responseGenerator(code.sessionExpire, message.sessionExpire));
+          res.send(
+            functions.responseGenerator(
+              code.sessionExpire,
+              message.sessionExpire
+            )
+          );
         }
       } else {
-        res.send(functions.responseGenerator(code.invalidDetails, message.tokenMissing));
+        res.send(
+          functions.responseGenerator(code.invalidDetails, message.tokenMissing)
+        );
       }
     } catch (e) {
-      console.log(e);
-      res.send(functions.responseGenerator(code.invalidDetails, message.tryCatch, e));
+      res.send(
+        functions.responseGenerator(
+          code.invalidDetails,
+          message.tryCatch,
+          e.message
+        )
+      );
+    }
+  },
+
+  validateAdmin: (req, res, next) => {
+    try {
+      if (res.locals.tokenInfo.isAdmin === 1) {
+        next();
+      } else {
+        res.send(
+          functions.responseGenerator(
+            code.invalidDetails,
+            message.notAuthorized
+          )
+        );
+      }
+    } catch (e) {
+      res.send(
+        functions.responseGenerator(
+          code.invalidDetails,
+          message.tryCatch,
+          e.message
+        )
+      );
     }
   },
 
   decryptRequest: (req, res, next) => {
     try {
-      if (req.body.encRequest) {
-        const userinfo = functions.decryptData(req.body.encRequest);
+      if (req.body) {
+        const userinfo = functions.decryptData(req.body);
         res.locals.requestedData = userinfo;
         next();
       } else {
-        res.send(functions.responseGenerator(code.invalidDetails, message.dataIssue));
+        res.send(
+          functions.responseGenerator(code.invalidDetails, message.dataIssue)
+        );
       }
     } catch (e) {
-      console.log(e);
-      res.send(functions.responseGenerator(code.invalidDetails, message.tryCatch, e));
+      res.send(
+        functions.responseGenerator(
+          code.invalidDetails,
+          message.tryCatch,
+          e.message
+        )
+      );
     }
   }
 };

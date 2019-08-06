@@ -1,12 +1,12 @@
-const con = require("../database/mysql");
-const util = require("util");
+const con = require('../database/mysql');
+const util = require('util');
 const query = util.promisify(con.query).bind(con);
-const functions = require("../common/functions");
-const config = require("../../config");
-const validator = require("validator");
-const code = require("../common/code");
-const message = require("../common/message");
-const fs = require("fs");
+const functions = require('../common/functions');
+const config = require('../../config');
+const validator = require('validator');
+const code = require('../common/code');
+const message = require('../common/message');
+const fs = require('fs');
 
 class UserService {
   /**
@@ -16,29 +16,67 @@ class UserService {
    */
   async registration(info) {
     try {
-      if (validator.isEmail(info.data.emailAddress)) {
-        const userPassword = functions.encryptPassword(info.data.userPassword);
-        const sqlQuery = "INSERT INTO user(firstName, middleName, lastName, emailAddress, userPassword, address, mobileNumber) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        const registrationDetails = await query(sqlQuery, [info.data.firstName, info.data.middleName, info.data.lastName, info.data.emailAddress, userPassword, info.data.address, info.data.mobileNumber]);
-        try {
-          let token = await functions.tokenEncrypt(info.data.emailAddress);
-          token = Buffer.from(token, "ascii").toString("hex");
-          let emailMessage = fs.readFileSync("./modules/emailtemplate/welcome.html", "utf8").toString();
-          emailMessage = emailMessage.replace("$fullname", info.data.firstName).replace("$link", config.emailVerifiedLink + token);
-          try {
-            const emailDetails = await functions.sendEmail(info.data.emailAddress, message.registrationEmailSubject, emailMessage);
-            return { code: code.success, message: message.registration, data: registrationDetails };
-          } catch (error) {
-            return { code: code.invalidDetails, message: message.invalidDetails, data: error };
-          }
-        } catch (error) {
-          return { code: code.invalidDetails, message: message.invalidDetails, data: error };
-        }
-      } else {
-        return { code: code.invalidDetails, message: message.invalidDetails };
+      if (
+        !validator.isEmail(info.emailAddress) &&
+        !validator.isEmpty(info.userPassword) &&
+        !validator.isEmpty(info.fullName) &&
+        !validator.isEmpty(info.mobileNumber)
+      ) {
+        return {
+          code: code.invalidDetails,
+          message: message.invalidDetails,
+          data: null
+        };
       }
+
+      const sqlQuerySelect = `SELECT * FROM ec_user WHERE emailAddress = ? OR mobileNumber = ?`;
+      const getDetails = await query(sqlQuerySelect, [
+        info.emailAddress,
+        info.mobileNumber
+      ]);
+
+      if (getDetails.length > 0) {
+        return {
+          code: code.invalidDetails,
+          message: message.duplicateDetails,
+          data: null
+        };
+      }
+
+      const userPassword = functions.encryptPassword(info.userPassword);
+      const sqlQuery = `INSERT INTO ec_user(fullName, emailAddress, userPassword, mobileNumber) VALUES (?, ?, ?, ?)`;
+      const registrationDetails = await query(sqlQuery, [
+        info.fullName,
+        info.emailAddress,
+        userPassword,
+        info.mobileNumber
+      ]);
+
+      let token = await functions.tokenEncrypt(info.emailAddress);
+      token = Buffer.from(token, 'ascii').toString('hex');
+      let emailMessage = fs
+        .readFileSync('./modules/emailtemplate/welcome.html', 'utf8')
+        .toString();
+      emailMessage = emailMessage
+        .replace('$fullname', info.fullName)
+        .replace('$link', config.emailVerifiedLink + token);
+
+      functions.sendEmail(
+        info.emailAddress,
+        message.registrationEmailSubject,
+        emailMessage
+      );
+      return {
+        code: code.success,
+        message: message.registration,
+        data: registrationDetails
+      };
     } catch (e) {
-      return { code: code.invalidDetails, message: message.tryCatch, data: e };
+      return {
+        code: code.unexceptedError,
+        message: message.tryCatch,
+        data: e.message
+      };
     }
   }
 
@@ -48,26 +86,38 @@ class UserService {
    * @param {*} res (json with success/failure)
    */
   async verifyEmail(info) {
-    if (info.data.emailAddress) {
-      const token = Buffer.from(info.data.emailAddress, "hex").toString("ascii");
-      try {
-        const tokenDecrypt = await functions.tokenDecrypt(token);
-        console.log("TCL: UserService -> verifyEmail -> tokenDecrypt", tokenDecrypt);
-        if (tokenDecrypt.message === "jwt expired") {
-          return { code: code.sessionExpire, message: message.emailLinkExpired };
-        } else {
-          try {
-            const verifyEmailDetails = await query("UPDATE user SET isEmailVerified = 1 WHERE emailAddress = ?", [tokenDecrypt.data]);
-            return { code: code.success, message: message.emailVerificationSuccess, data: verifyEmailDetails };
-          } catch (error) {
-            return { code: code.dbCode, message: message.dbError, data: error };
-          }
-        }
-      } catch (e) {
-        return { code: code.invalidDetails, message: message.tryCatch, data: e };
+    try {
+      if (!info.emailAddress) {
+        return {
+          code: code.invalidDetails,
+          message: message.dataIssue,
+          data: null
+        };
       }
-    } else {
-      return { code: code.invalidDetails, message: message.invalidDetails };
+      const token = Buffer.from(info.emailAddress, 'hex').toString('ascii');
+      const tokenDecrypt = await functions.tokenDecrypt(token);
+      if (tokenDecrypt.message === 'jwt expired') {
+        return {
+          code: code.sessionExpire,
+          message: message.emailLinkExpired,
+          data: null
+        };
+      }
+      const verifyEmailDetails = await query(
+        `UPDATE ec_user SET isEmailVerified = 1 WHERE emailAddress = ?`,
+        [tokenDecrypt.data]
+      );
+      return {
+        code: code.success,
+        message: message.emailVerificationSuccess,
+        data: verifyEmailDetails
+      };
+    } catch (error) {
+      return {
+        code: code.unexceptedError,
+        message: message.tryCatch,
+        data: error.message
+      };
     }
   }
 
@@ -78,40 +128,67 @@ class UserService {
    */
   async login(info) {
     try {
-      if (validator.isEmail(info.data.emailAddress)) {
-        const sqlQuery = "SELECT id, firstName, middleName, lastName, address, emailAddress, userPassword, mobileNumber, isEmailVerified, isActive FROM user WHERE emailAddress = ?";
-        const loginDetails = await query(sqlQuery, [info.data.emailAddress]);
-        try {
-          if (loginDetails.length > 0) {
-            const password = functions.decryptPassword(loginDetails[0].userPassword);
-            if (password === info.data.userPassword) {
-              if (loginDetails[0].isActive === 1) {
-                if (loginDetails[0].isEmailVerified === 1) {
-                  delete loginDetails[0].userPassword;
-                  delete loginDetails[0].isEmailVerified;
-                  delete loginDetails[0].isActive;
-                  const token = await functions.tokenEncrypt(loginDetails[0]);
-                  return { code: code.success, message: message.success, data: loginDetails, token: token };
-                } else {
-                  return { code: code.invalidDetails, message: message.emailVerify, data: [] };
-                }
-              } else {
-                return { code: code.invalidDetails, message: message.accountDisable, data: [] };
-              }
-            } else {
-              return { code: code.invalidDetails, message: message.invalidLoginDetails, data: [] };
-            }
-          } else {
-            return { code: code.invalidDetails, message: message.invalidLoginDetails, data: [] };
-          }
-        } catch (error) {
-          return { code: code.dbCode, message: message.dbError, data: error };
-        }
-      } else {
-        return { code: code.invalidDetails, message: message.invalidLoginDetails, data: [] };
+      if (!validator.isEmail(info.emailAddress)) {
+        return {
+          code: code.invalidDetails,
+          message: message.invalidLoginDetails,
+          data: null
+        };
       }
+
+      const sqlQuery = `SELECT id, fullName, emailAddress, userPassword, mobileNumber, isEmailVerified, isActive, isAdmin, isDeleted FROM ec_user WHERE emailAddress = ?`;
+      const loginDetails = await query(sqlQuery, [info.emailAddress]);
+
+      if (loginDetails.length <= 0) {
+        return {
+          code: code.invalidDetails,
+          message: message.invalidLoginDetails,
+          data: null
+        };
+      }
+      const password = functions.decryptPassword(loginDetails[0].userPassword);
+      if (password !== info.userPassword) {
+        return {
+          code: code.invalidDetails,
+          message: message.invalidLoginDetails,
+          data: null
+        };
+      }
+
+      if (!loginDetails[0].isActive === 1 && !loginDetails[0].isDeleted === 0) {
+        return {
+          code: code.invalidDetails,
+          message: message.accountDisable,
+          data: null
+        };
+      }
+
+      if (loginDetails[0].isEmailVerified === 0) {
+        return {
+          code: code.invalidDetails,
+          message: message.emailVerify,
+          data: null
+        };
+      }
+
+      const token = await functions.tokenEncrypt(loginDetails[0]);
+      delete loginDetails[0].userPassword;
+      delete loginDetails[0].isEmailVerified;
+      delete loginDetails[0].isActive;
+      delete loginDetails[0].isAdmin;
+      delete loginDetails[0].isDeleted;
+      return {
+        code: code.success,
+        message: message.success,
+        data: loginDetails,
+        token: token
+      };
     } catch (e) {
-      return { code: code.invalidDetails, message: message.tryCatch, data: e };
+      return {
+        code: code.unexceptedError,
+        message: message.tryCatch,
+        data: e.message
+      };
     }
   }
 
@@ -122,22 +199,54 @@ class UserService {
    */
   async changePassword(id, info) {
     try {
-      const userDetails = await query("SELECT userPassword FROM user WHERE id = ?", [id]);
-      if (userDetails.length > 0) {
-        let password = functions.decryptPassword(userDetails[0].userPassword);
-        if (password === info.data.oldPassword) {
-          // Encrypt password for the user
-          password = functions.encryptPassword(info.data.newPassword);
-          const updatePasswordDetails = await query("UPDATE user SET userPassword = ? WHERE id = ?", [password, id]);
-          return { code: code.success, message: message.passwordChanged, data: updatePasswordDetails };
-        } else {
-          return { code: code.invalidDetails, message: message.invalidDetails, data: [] };
-        }
-      } else {
-        return { code: code.invalidDetails, message: message.invalidDetails, data: [] };
+      if (
+        validator.isEmpty(info.oldPassword) &&
+        validator.isEmpty(info.newPassword)
+      ) {
+        return {
+          code: code.invalidDetails,
+          message: message.dataIssue,
+          data: null
+        };
       }
-    } catch (e) {
-      return { code: code.dbCode, message: message.dbError, data: e };
+
+      const userDetails = await query(
+        'SELECT userPassword FROM ec_user WHERE id = ?',
+        [id]
+      );
+      if (userDetails.length <= 0) {
+        return {
+          code: code.invalidDetails,
+          message: message.invalidDetails,
+          data: null
+        };
+      }
+      let password = functions.decryptPassword(userDetails[0].userPassword);
+      if (password !== info.oldPassword) {
+        return {
+          code: code.invalidDetails,
+          message: message.invalidPassword,
+          data: null
+        };
+      }
+
+      // Encrypt password for the user
+      password = functions.encryptPassword(info.newPassword);
+      const updatePasswordDetails = await query(
+        'UPDATE ec_user SET userPassword = ? WHERE id = ?',
+        [password, id]
+      );
+      return {
+        code: code.success,
+        message: message.passwordChanged,
+        data: updatePasswordDetails
+      };
+    } catch (error) {
+      return {
+        code: code.unexceptedError,
+        message: message.tryCatch,
+        data: error.message
+      };
     }
   }
 
@@ -148,33 +257,49 @@ class UserService {
    */
   async forgotPassword(info) {
     try {
-      if (validator.isEmail(info.data.emailAddress)) {
-        const userDetail = await query("SELECT emailAddress, firstName FROM user WHERE emailAddress = ?", [info.data.emailAddress]);
-        if (userDetail.length > 0) {
-          const to = userDetail[0].emailAddress;
-          let token = await functions.tokenEncrypt(to);
-          token = Buffer.from(token, "ascii").toString("hex");
-          const subject = message.forgotPasswordSubject;
-          const link = config.resetPasswordLink + token;
-          let emailMessage = fs.readFileSync("./modules/emailtemplate/reset.html", "utf8").toString();
-          emailMessage = emailMessage
-            .replace("$fullname", userDetail[0].firstName)
-            .replace("$link", link)
-            .replace("$emailId", config.supportEmail);
-          try {
-            const emailDetails = await functions.sendEmail(to, subject, emailMessage);
-            return { code: code.success, message: message.resetLink, data: emailDetails };
-          } catch (error) {
-            return { code: code.invalidDetails, message: message.dbError, data: error };
-          }
-        } else {
-          return { code: code.invalidDetails, message: message.invalidEmail, data: [] };
-        }
-      } else {
-        return { code: code.invalidDetails, message: message.invalidEmail, data: [] };
+      if (!validator.isEmail(info.emailAddress)) {
+        return {
+          code: code.invalidDetails,
+          message: message.invalidEmail,
+          data: null
+        };
       }
+      const userDetail = await query(
+        'SELECT emailAddress, fullName FROM ec_user WHERE emailAddress = ?',
+        [info.emailAddress]
+      );
+      if (userDetail.length <= 0) {
+        return {
+          code: code.invalidDetails,
+          message: message.invalidEmail,
+          data: null
+        };
+      }
+      const to = userDetail[0].emailAddress;
+      let token = await functions.tokenEncrypt(to);
+      token = Buffer.from(token, 'ascii').toString('hex');
+      const subject = message.forgotPasswordSubject;
+      const link = config.resetPasswordLink + token;
+      let emailMessage = fs
+        .readFileSync('./modules/emailtemplate/reset.html', 'utf8')
+        .toString();
+      emailMessage = emailMessage
+        .replace('$fullname', userDetail[0].fullName)
+        .replace('$link', link)
+        .replace('$emailId', config.supportEmail);
+
+      functions.sendEmail(to, subject, emailMessage);
+      return {
+        code: code.success,
+        message: message.resetLink,
+        data: null
+      };
     } catch (error) {
-      return { code: code.dbCode, message: message.dbError, data: error };
+      return {
+        code: code.unexceptedError,
+        message: message.tryCatch,
+        data: error.message
+      };
     }
   }
 
@@ -185,22 +310,43 @@ class UserService {
    */
   async resetPassword(info) {
     try {
-      if (info.data.emailAddress) {
-        const emailAddress = Buffer.from(info.data.emailAddress, "hex").toString("ascii");
-        const emailAddressDetails = await functions.tokenDecrypt(emailAddress);
-        if (emailAddressDetails.data) {
-          //Encrypt password for the user
-          const password = functions.encryptPassword(info.data.newPassword);
-          const passwordDetails = await query("UPDATE user SET userPassword = ? WHERE emailAddress = ?", [password, emailAddressDetails.data]);
-          return { code: code.success, message: message.passwordReset, data: passwordDetails };
-        } else {
-          return { code: code.invalidDetails, message: message.emailLinkExpired, data: null };
-        }
-      } else {
-        return { code: code.invalidDetails, message: message.invalidEmail };
+      if (
+        validator.isEmpty(info.emailAddress) ||
+        validator.isEmpty(info.newPassword)
+      ) {
+        return {
+          code: code.invalidDetails,
+          message: message.invalidDetails,
+          data: null
+        };
       }
-    } catch (e) {
-      return { code: code.invalidDetails, message: message.tryCatch, data: e };
+      const emailAddress = Buffer.from(info.emailAddress, 'hex').toString(
+        'ascii'
+      );
+      const emailAddressDetails = await functions.tokenDecrypt(emailAddress);
+      if (!emailAddressDetails.data) {
+        return {
+          code: code.invalidDetails,
+          message: message.emailLinkExpired,
+          data: null
+        };
+      }
+      const password = functions.encryptPassword(info.newPassword);
+      const passwordDetails = await query(
+        'UPDATE ec_user SET userPassword = ? WHERE emailAddress = ?',
+        [password, emailAddressDetails.data]
+      );
+      return {
+        code: code.success,
+        message: message.passwordReset,
+        data: passwordDetails
+      };
+    } catch (error) {
+      return {
+        code: code.unexceptedError,
+        message: message.tryCatch,
+        data: error.message
+      };
     }
   }
 
@@ -209,16 +355,30 @@ class UserService {
    * @param {*} req (token, user information )
    * @param {*} res (json with success/failure)
    */
-  async updateProfile(id, info) {
+  async updateProfile(userId, info) {
     try {
-      if (!validator.isEmpty(info.data.firstName) && !validator.isEmpty(info.data.middleName) && !validator.isEmpty(info.data.lastName) && !validator.isEmpty(info.data.address)) {
-        const userDetail = await query("UPDATE user SET firstName = ?, middleName = ?, lastName = ?, address = ? WHERE id= ?", [info.data.firstName, info.data.middleName, info.data.lastName, info.data.address, id]);
-        return { code: code.success, message: message.profileUpdate, data: userDetail };
-      } else {
-        return { code: code.invalidDetails, message: message.allFieldReq };
+      if (validator.isEmpty(info.fullName)) {
+        return {
+          code: code.invalidDetails,
+          message: message.allFieldReq,
+          data: null
+        };
       }
+      const userDetail = await query(
+        'UPDATE ec_user SET fullName = ? WHERE id= ?',
+        [info.fullName, userId]
+      );
+      return {
+        code: code.success,
+        message: message.profileUpdate,
+        data: userDetail
+      };
     } catch (error) {
-      return { code: code.dbCode, message: message.dbError, data: error };
+      return {
+        code: code.unexceptedError,
+        message: message.tryCatch,
+        data: error.message
+      };
     }
   }
 
@@ -227,16 +387,30 @@ class UserService {
    * @param {*} req (userId)
    * @param {*} res (json with success/failure)
    */
-  async userInformation(id) {
+  async profileInformation(id) {
     try {
-      const userInformation = await query("SELECT firstName, middleName, lastName, address, mobileNumber FROM user u WHERE id = ?", [id]);
-      if (userInformation.length > 0) {
-        return { code: code.success, message: message.success, data: userInformation };
+      const sqlQuery =
+        'SELECT fullName, mobileNumber, emailAddress FROM ec_user u WHERE id = ?';
+      const profileInformationDetails = await query(sqlQuery, [id]);
+      if (profileInformationDetails.length > 0) {
+        return {
+          code: code.success,
+          message: message.success,
+          data: profileInformationDetails
+        };
       } else {
-        return { code: code.invalidDetails, message: message.noData };
+        return {
+          code: code.invalidDetails,
+          message: message.noData,
+          data: null
+        };
       }
     } catch (error) {
-      return { code: code.dbCode, message: message.dbError, data: error };
+      return {
+        code: code.unexceptedError,
+        message: message.tryCatch,
+        data: error.message
+      };
     }
   }
 
@@ -247,16 +421,30 @@ class UserService {
    */
   async uploadProfilePicUsingBase64Data(id, info) {
     try {
-      const base64Data = info.data.profilePic.replace(/^data:image\/png;base64,/, "");
-      const path = "upload/profilepic/" + id + "-" + Date.now() + ".png";
+      const base64Data = info.profilePic.replace(
+        /^data:image\/png;base64,/,
+        ''
+      );
+      const path = 'upload/profilepic/' + id + '-' + Date.now() + '.png';
       try {
-        const fs = require("fs");
+        const fs = require('fs');
         const writeFile = util.promisify(fs.writeFile).bind(fs);
-        const uploadInfo = await writeFile(path, base64Data, "base64");
-        const uploadProfilePicDetails = await query("UPDATE user SET profileImagePath = ? WHERE id = ?", [path, id]);
-        return { code: code.success, message: message.success, data: uploadProfilePicDetails };
+        const uploadInfo = await writeFile(path, base64Data, 'base64');
+        const uploadProfilePicDetails = await query(
+          'UPDATE ec_user SET profileImagePath = ? WHERE id = ?',
+          [path, id]
+        );
+        return {
+          code: code.success,
+          message: message.success,
+          data: uploadProfilePicDetails
+        };
       } catch (error) {
-        return { code: code.invalidDetails, message: message.invalidDetails, data: error };
+        return {
+          code: code.invalidDetails,
+          message: message.invalidDetails,
+          data: error
+        };
       }
     } catch (error) {
       return { code: code.dbCode, message: message.dbError, data: error };

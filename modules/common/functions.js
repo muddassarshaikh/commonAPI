@@ -1,9 +1,8 @@
-const con = require("../database/mysql");
-const config = require("../../config");
-const CryptoJS = require("crypto-js");
-const jwt = require("jsonwebtoken");
-const nodemailer = require("nodemailer");
-const randomstring = require("randomstring");
+const config = require('../../config');
+const CryptoJS = require('crypto-js');
+const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const randomstring = require('randomstring');
 const status = config.env;
 
 /**
@@ -12,8 +11,8 @@ const status = config.env;
  * @param {*} return (encrypted data)
  */
 function encryptData(data) {
-  if (status === "development") {
-    return { encResponse: data };
+  if (status === 'development') {
+    return data;
   } else {
     var dataString = JSON.stringify(data);
     var response = CryptoJS.AES.encrypt(dataString, config.cryptokey);
@@ -27,7 +26,7 @@ function encryptData(data) {
  * @param {*} return (decrypt data)
  */
 function decryptData(data) {
-  if (status === "development") {
+  if (status === 'development') {
     return data;
   } else {
     var decrypted = CryptoJS.AES.decrypt(data, config.cryptokey);
@@ -35,7 +34,7 @@ function decryptData(data) {
       var userinfo = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
       return userinfo;
     } else {
-      return { userinfo: { error: "Please send proper token" } };
+      return { userinfo: { error: 'Please send proper token' } };
     }
   }
 }
@@ -61,7 +60,7 @@ function decryptPassword(data) {
     var userinfo = decrypted.toString(CryptoJS.enc.Utf8);
     return userinfo;
   } else {
-    return { userinfo: { error: "Please send proper token" } };
+    return { userinfo: { error: 'Please send proper token' } };
   }
 }
 
@@ -71,7 +70,9 @@ function decryptPassword(data) {
  * @param {*} return (encrypted data)
  */
 async function tokenEncrypt(data) {
-  var token = await jwt.sign({ data: data }, config.tokenkey, { expiresIn: 20 * 60 }); // Expires in 20 minutes
+  var token = await jwt.sign({ data: data }, config.tokenkey, {
+    expiresIn: 24 * 60 * 60
+  }); // Expires in 1 day
   return token;
 }
 
@@ -94,15 +95,14 @@ async function tokenDecrypt(data) {
  * @param {*} data (status, data, token)
  * @param {*} return (encrypted data)
  */
-function responseGenerator(code, message, data = "") {
+function responseGenerator(code, message, data = '') {
   var details = {
-    status: { code: code, message: message },
+    code: code,
+    message: message,
     result: data
   };
 
-  console.log(details);
-
-  if (status === "development") {
+  if (status === 'development') {
     return details;
   } else {
     return encryptData(details);
@@ -116,7 +116,7 @@ function responseGenerator(code, message, data = "") {
  */
 async function sendEmail(to, subject, message) {
   var transporter = nodemailer.createTransport({
-    service: "gmail",
+    service: 'gmail',
     auth: {
       user: config.SMTPemailAddress,
       pass: config.SMTPPassword
@@ -124,7 +124,7 @@ async function sendEmail(to, subject, message) {
   });
 
   var mailOptions = {
-    from: "developers.winjit@gmail.com",
+    from: 'developers.winjit@gmail.com',
     to: to,
     subject: subject,
     html: message
@@ -146,8 +146,8 @@ async function sendEmail(to, subject, message) {
 function generateRandomString(callback) {
   var referralCode = randomstring.generate({
     length: 9,
-    charset: "alphanumeric",
-    capitalization: "uppercase"
+    charset: 'alphanumeric',
+    capitalization: 'uppercase'
   });
 
   callback(referralCode);
