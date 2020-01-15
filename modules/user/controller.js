@@ -22,6 +22,26 @@ const controller = {
     }
   },
 
+  // User Registration API by Admin
+  auto_registration: async (req, res) => {
+    try {
+      const registrationDetails = await object
+        .userService()
+        .auto_registration(res.locals.requestedData);
+      res.send(
+        functions.responseGenerator(
+          registrationDetails.code,
+          registrationDetails.message,
+          registrationDetails.data
+        )
+      );
+    } catch (error) {
+      res.send(
+        functions.responseGenerator(error.code, error.message, error.data)
+      );
+    }
+  },
+
   //Verify Email API
   verifyEmail: async (req, res) => {
     try {

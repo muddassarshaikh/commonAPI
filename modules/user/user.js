@@ -81,6 +81,79 @@ class UserService {
   }
 
   /**
+* API for user registration
+* @param {*} req (user detials)
+* @param {*} res (json with success/failure)
+*/
+  async auto_registration(info) {
+    try {
+      const sqlQuerySelect = `SELECT * FROM ec_user WHERE emailAddress = ?`;
+      const getDetails = await query(sqlQuerySelect, [
+        info.emailAddress
+      ]);
+
+      if (getDetails.length > 0) {
+        return {
+          code: code.invalidDetails,
+          message: message.duplicateDetails,
+          data: null
+        };
+      }
+
+      /*
+      const admin_token = await functions.tokenDecrypt(info.token);
+      Verify Admin Token here if you want to add user by specific admin.
+      */
+
+      const systemGeneratedPassword = functions.encryptPassword(functions.randomPasswordGenerater(10));
+      const sqlQuery = `INSERT INTO ec_user(fullName, emailAddress, userPassword, mobileNumber) VALUES (?, ?, ?, ?)`;
+      const registrationDetails = await query(sqlQuerySelect, [
+        info.fullName,
+        info.emailAddress,
+        systemGeneratedPassword,
+        info.mobileNumber
+      ]);
+
+      let token = await functions.tokenEncrypt(info.emailAddress);
+      token = Buffer.from(token, 'ascii').toString('hex');
+      let emailMessage = fs
+        .readFileSync('./modules/emailtemplate/auto_welcome.html', 'utf8')
+        .toString();
+      emailMessage = emailMessage
+        .replace('$fullname', info.fullName)
+        .replace('$link', config.emailVerifiedLink + token)
+        .replace('$email', info.emailAddress)
+        .replace('$password', functions.decryptPassword(systemGeneratedPassword));
+      ;
+
+      functions.sendEmail(
+        info.emailAddress,
+        message.registrationEmailSubject,
+        emailMessage
+      );
+
+      return {
+        code: code.success,
+        message: message.newCompanyAddedSuccessfully,
+        data: registrationDetails
+      };
+      // } else {
+      //   return {
+      //     code: code.unexceptedError,
+      //     message: message.tryCatch,
+      //     data: e.message
+      //   };
+      // }
+    } catch (e) {
+      return {
+        code: code.unexceptedError,
+        message: message.tryCatch,
+        data: e.message
+      };
+    }
+  }
+
+  /**
    * API for email verification
    * @param {*} req (email)
    * @param {*} res (json with success/failure)
@@ -453,7 +526,7 @@ class UserService {
 }
 
 module.exports = {
-  userService: function() {
+  userService: function () {
     return new UserService();
   }
 };
