@@ -1,10 +1,9 @@
 const router = require('express').Router();
 const api = require('./controller');
-const auth = require('../common/authentication');
+const auth = require('../../../../common/authentication');
 
 // Middle layer for User API
 router.post('/registration', auth.decryptRequest, api.registration);
-router.post('/autoRegister', auth.decryptRequest, api.auto_registration);
 router.post('/login', auth.decryptRequest, api.login);
 router.post('/verifyEmail', auth.decryptRequest, api.verifyEmail);
 router.post(
@@ -15,18 +14,18 @@ router.post(
 );
 router.post('/forgotPassword', auth.decryptRequest, api.forgotPassword);
 router.post('/resetPassword', auth.decryptRequest, api.resetPassword);
+router.get('/profile', auth.validateToken, api.getProfile);
 router.put(
   '/profile',
   auth.validateToken,
   auth.decryptRequest,
   api.updateProfile
 );
-router.get('/profile', auth.validateToken, api.profileInformation);
-router.post(
-  '/uploadProfilePicUsingBase64Data',
+router.put(
+  '/profilePic',
   auth.validateToken,
   auth.decryptRequest,
-  api.uploadProfilePicUsingBase64Data
+  api.profilePic
 );
 
 module.exports = router;

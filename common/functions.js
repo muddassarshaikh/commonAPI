@@ -1,9 +1,10 @@
-const config = require('../../config');
+const config = require('../config');
 const CryptoJS = require('crypto-js');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const randomstring = require('randomstring');
 const status = config.env;
+const fs = require('fs');
 
 /**
  * Function for Encrypting the data
@@ -71,7 +72,7 @@ function decryptPassword(data) {
  */
 async function tokenEncrypt(data) {
   var token = await jwt.sign({ data: data }, config.tokenkey, {
-    expiresIn: 24 * 60 * 60
+    expiresIn: 24 * 60 * 60,
   }); // Expires in 1 day
   return token;
 }
@@ -99,7 +100,7 @@ function responseGenerator(code, message, data = '') {
   var details = {
     code: code,
     message: message,
-    result: data
+    result: data,
   };
 
   if (status === 'development') {
@@ -119,15 +120,15 @@ async function sendEmail(to, subject, message) {
     service: 'gmail',
     auth: {
       user: config.SMTPemailAddress,
-      pass: config.SMTPPassword
-    }
+      pass: config.SMTPPassword,
+    },
   });
 
   var mailOptions = {
     from: 'developers.winjit@gmail.com',
     to: to,
     subject: subject,
-    html: message
+    html: message,
   };
 
   try {
@@ -147,27 +148,49 @@ function generateRandomString(callback) {
   var referralCode = randomstring.generate({
     length: 9,
     charset: 'alphanumeric',
-    capitalization: 'uppercase'
+    capitalization: 'uppercase',
   });
-
   callback(referralCode);
 }
 
 /* 
-
   Generate random string of specific size, 
   which used  for generating random password in create user by admin.
-
 */
-
 function randomPasswordGenerater(length) {
   var result = '';
-  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   var charactersLength = characters.length;
   for (var i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
+}
+
+/**
+ * Function for Uploading file
+ * @param {*} data (image information)
+ * @param {*} return (uploaded information)
+ */
+async function uploadFile(fileInfo) {
+  try {
+    const fileType = fileInfo.fileType;
+    const fileName = `${fileInfo.fileName}.${fileType}`;
+    var base64 = fileInfo.base64.split(';base64,')[1];
+    var fileBuffer = new Buffer.from(base64, 'base64');
+    if (!fs.existsSync('./public/' + fileInfo.pathInfo)) {
+      await fs.mkdirSync('./public/' + fileInfo.pathInfo, { recursive: true });
+    }
+    await fs.writeFileSync(
+      './public/' + fileInfo.pathInfo + fileName,
+      fileBuffer,
+      'utf8'
+    );
+    return { fileName: fileName };
+  } catch (e) {
+    throw e;
+  }
 }
 
 module.exports = {
@@ -180,5 +203,6 @@ module.exports = {
   responseGenerator,
   sendEmail,
   generateRandomString,
-  randomPasswordGenerater
+  randomPasswordGenerater,
+  uploadFile,
 };

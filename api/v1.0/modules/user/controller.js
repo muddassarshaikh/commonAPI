@@ -1,5 +1,5 @@
 const object = require('./user');
-const functions = require('../common/functions');
+const functions = require('../../../../common/functions');
 
 const controller = {
   //User Registration API
@@ -8,26 +8,6 @@ const controller = {
       const registrationDetails = await object
         .userService()
         .registration(res.locals.requestedData);
-      res.send(
-        functions.responseGenerator(
-          registrationDetails.code,
-          registrationDetails.message,
-          registrationDetails.data
-        )
-      );
-    } catch (error) {
-      res.send(
-        functions.responseGenerator(error.code, error.message, error.data)
-      );
-    }
-  },
-
-  // User Registration API by Admin
-  auto_registration: async (req, res) => {
-    try {
-      const registrationDetails = await object
-        .userService()
-        .auto_registration(res.locals.requestedData);
       res.send(
         functions.responseGenerator(
           registrationDetails.code,
@@ -68,7 +48,6 @@ const controller = {
       const loginDetails = await object
         .userService()
         .login(res.locals.requestedData);
-      res.header('auth', loginDetails.token);
       res.send(
         functions.responseGenerator(
           loginDetails.code,
@@ -143,6 +122,26 @@ const controller = {
     }
   },
 
+  // Get Profile API
+  getProfile: async (req, res) => {
+    try {
+      const userInformationDetails = await object
+        .userService()
+        .getProfile(res.locals.tokenInfo.emailAddress);
+      res.send(
+        functions.responseGenerator(
+          userInformationDetails.code,
+          userInformationDetails.message,
+          userInformationDetails.data
+        )
+      );
+    } catch (error) {
+      res.send(
+        functions.responseGenerator(error.code, error.message, error.data)
+      );
+    }
+  },
+
   // Update Profile API
   updateProfile: async (req, res) => {
     try {
@@ -163,17 +162,17 @@ const controller = {
     }
   },
 
-  // Update Profile API
-  profileInformation: async (req, res) => {
+  // Add profile picture
+  profilePic: async (req, res) => {
     try {
-      const userInformationDetails = await object
+      const profilePicDetails = await object
         .userService()
-        .profileInformation(res.locals.tokenInfo.id);
+        .addProfilePic(res.locals.tokenInfo.id, res.locals.requestedData);
       res.send(
         functions.responseGenerator(
-          userInformationDetails.code,
-          userInformationDetails.message,
-          userInformationDetails.data
+          profilePicDetails.code,
+          profilePicDetails.message,
+          profilePicDetails.data
         )
       );
     } catch (error) {
@@ -182,28 +181,6 @@ const controller = {
       );
     }
   },
-
-  uploadProfilePicUsingBase64Data: async (req, res) => {
-    try {
-      const uploadProfilePicDetails = await object
-        .userService()
-        .uploadProfilePicUsingBase64Data(
-          res.locals.tokenInfo.id,
-          res.locals.requestedData
-        );
-      res.send(
-        functions.responseGenerator(
-          uploadProfilePicDetails.code,
-          uploadProfilePicDetails.message,
-          uploadProfilePicDetails.data
-        )
-      );
-    } catch (error) {
-      res.send(
-        functions.responseGenerator(error.code, error.message, error.data)
-      );
-    }
-  }
 };
 
 module.exports = controller;
