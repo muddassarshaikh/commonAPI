@@ -1,7 +1,7 @@
-const con = require('../../../../common/mysql');
+const con = require('../../../../../../common/database/mysql');
 const util = require('util');
 const query = util.promisify(con.query).bind(con);
-const { database_initial } = require('../../../../config');
+const { database_initial } = require('../../../../../../config');
 
 class UserDatabase {
   /**
@@ -77,28 +77,13 @@ class UserDatabase {
 
   /**
    * Database call for selecting userpassword for changing password
-   * @param {*} req (userId)
+   * @param {*} req (emailAddress)
    * @param {*} res (json with success/failure)
    */
-  async getPassword(userId) {
+  async getPassword(emailAddress) {
     try {
-      const sqlSelectQuery = `SELECT userPassword FROM ${database_initial}_user WHERE id = ?`;
-      const details = await query(sqlSelectQuery, [userId]);
-      return details;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  /**
-   * Database call for updating userpassword
-   * @param {*} req (userId)
-   * @param {*} res (json with success/failure)
-   */
-  async updateUserPassword(userId, password) {
-    try {
-      const sqlUpdateQuery = `UPDATE ${database_initial}_user SET userPassword = ? WHERE id = ?`;
-      const details = await query(sqlUpdateQuery, [password, userId]);
+      const sqlSelectQuery = `SELECT userPassword FROM ${database_initial}_user WHERE emailAddress = ?`;
+      const details = await query(sqlSelectQuery, [emailAddress]);
       return details;
     } catch (error) {
       throw error;
@@ -107,10 +92,10 @@ class UserDatabase {
 
   /**
    * Database call for updating userpassword by email address
-   * @param {*} req (userId)
+   * @param {*} req (emailAddress)
    * @param {*} res (json with success/failure)
    */
-  async updateUserPasswordByEmail(emailAddress, password) {
+  async updateUserPassword(emailAddress, password) {
     try {
       const sqlUpdateQuery = `UPDATE ${database_initial}_user SET userPassword = ? WHERE emailAddress = ?`;
       const details = await query(sqlUpdateQuery, [password, emailAddress]);
@@ -122,13 +107,16 @@ class UserDatabase {
 
   /**
    * Database call for updating userdetails
-   * @param {*} req (userId)
+   * @param {*} req (emailAddress)
    * @param {*} res (json with success/failure)
    */
-  async updateUser(userId, info) {
+  async updateUser(emailAddress, info) {
     try {
-      const sqlUpdateQuery = `UPDATE ${database_initial}_user SET fullName = ? WHERE id = ?`;
-      const details = await query(sqlUpdateQuery, [info.fullName, userId]);
+      const sqlUpdateQuery = `UPDATE ${database_initial}_user SET fullName = ? WHERE emailAddress = ?`;
+      const details = await query(sqlUpdateQuery, [
+        info.fullName,
+        emailAddress,
+      ]);
       return details;
     } catch (error) {
       throw error;
@@ -137,13 +125,13 @@ class UserDatabase {
 
   /**
    * Database call for updating userdetails
-   * @param {*} req (userId)
+   * @param {*} req (emailAddress)
    * @param {*} res (json with success/failure)
    */
-  async addProfilePic(userId, path) {
+  async addProfilePic(emailAddress, path) {
     try {
-      const sqlUpdateQuery = `UPDATE ${database_initial}_user SET profileURL = ? WHERE id = ?`;
-      const details = await query(sqlUpdateQuery, [path, userId]);
+      const sqlUpdateQuery = `UPDATE ${database_initial}_user SET profileURL = ? WHERE emailAddress = ?`;
+      const details = await query(sqlUpdateQuery, [path, emailAddress]);
       return details;
     } catch (error) {
       throw error;

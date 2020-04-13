@@ -67,7 +67,10 @@ const controller = {
     try {
       const changePasswordDetails = await object
         .userService()
-        .changePassword(res.locals.tokenInfo.id, res.locals.requestedData);
+        .changePassword(
+          res.locals.tokenInfo.emailAddress,
+          res.locals.requestedData
+        );
       res.send(
         functions.responseGenerator(
           changePasswordDetails.code,
@@ -147,7 +150,10 @@ const controller = {
     try {
       const updateProfileDetails = await object
         .userService()
-        .updateProfile(res.locals.tokenInfo.id, res.locals.requestedData);
+        .updateProfile(
+          res.locals.tokenInfo.emailAddress,
+          res.locals.requestedData
+        );
       res.send(
         functions.responseGenerator(
           updateProfileDetails.code,
@@ -167,7 +173,10 @@ const controller = {
     try {
       const profilePicDetails = await object
         .userService()
-        .addProfilePic(res.locals.tokenInfo.id, res.locals.requestedData);
+        .addProfilePic(
+          res.locals.tokenInfo.emailAddress,
+          res.locals.requestedData
+        );
       res.send(
         functions.responseGenerator(
           profilePicDetails.code,

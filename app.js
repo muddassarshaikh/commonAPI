@@ -6,6 +6,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
+const db = require('./common/database/mongoDB');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

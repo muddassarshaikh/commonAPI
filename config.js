@@ -4,6 +4,7 @@ module.exports = {
   databaseUser: 'root',
   databasePassword: '',
   databaseDatabaseName: 'commondb',
+  mongoDBConnectionString: 'mongodb://localhost:27017/commonDB',
   emailVerifiedLink: 'http://localhost:4200/confirmEmail?token=',
   resetPasswordLink: 'http://localhost:4200/resetPassword?token=',
   tokenkey: '37LvPsm4vaBcd4CY',
@@ -12,4 +13,5 @@ module.exports = {
   SMTPemailAddress: 'developers.winjit@gmail.com',
   SMTPPassword: 'Winjit@321',
   database_initial: 'common',
+  database: 'mysql',
 };

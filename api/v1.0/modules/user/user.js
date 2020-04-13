@@ -1,13 +1,13 @@
-// const con = require('../database/mysql');
-// const util = require('util');
-// const query = util.promisify(con.query).bind(con);
-const db = require('./database');
 const functions = require('../../../../common/functions');
 const config = require('../../../../config');
 const validator = require('validator');
 const code = require('../../../../common/code');
 const message = require('../../../../common/message');
 const fs = require('fs');
+const db =
+  config.database === 'mysql'
+    ? require('../user/database/mysql/mysql')
+    : require('../user/database/mongoDB/mongoDB');
 
 class UserService {
   /**
@@ -161,17 +161,20 @@ class UserService {
         };
       }
 
-      const token = await functions.tokenEncrypt(loginDetails[0]);
-      loginDetails[0].token = token;
-      delete loginDetails[0].userPassword;
-      delete loginDetails[0].isEmailVerified;
-      delete loginDetails[0].isActive;
-      delete loginDetails[0].isAdmin;
-      delete loginDetails[0].isDeleted;
+      const userDetails = {
+        fullName: loginDetails[0].fullName,
+        emailAddress: loginDetails[0].emailAddress,
+        mobileNumber: loginDetails[0].mobileNumber,
+      };
+
+      const token = await functions.tokenEncrypt(userDetails);
+
+      userDetails.token = token;
+
       return {
         code: code.success,
         message: message.success,
-        data: loginDetails[0],
+        data: userDetails,
       };
     } catch (e) {
       return {
@@ -187,7 +190,7 @@ class UserService {
    * @param {*} req (old password, token, new password )
    * @param {*} res (json with success/failure)
    */
-  async changePassword(id, info) {
+  async changePassword(emailAddress, info) {
     try {
       if (
         validator.isEmpty(info.oldPassword) &&
@@ -200,7 +203,7 @@ class UserService {
         };
       }
 
-      const getPassword = await db.userDatabase().getPassword(id);
+      const getPassword = await db.userDatabase().getPassword(emailAddress);
 
       if (getPassword.length <= 0) {
         return {
@@ -224,7 +227,7 @@ class UserService {
 
       const updatePasswordDetails = await db
         .userDatabase()
-        .updateUserPassword(id, password);
+        .updateUserPassword(emailAddress, password);
 
       return {
         code: code.success,
@@ -323,7 +326,7 @@ class UserService {
 
       const passwordDetails = await db
         .userDatabase()
-        .updateUserPasswordByEmail(emailAddressDetails.data, password);
+        .updateUserPassword(emailAddressDetails.data, password);
 
       return {
         code: code.success,
@@ -344,18 +347,19 @@ class UserService {
    * @param {*} req (userId)
    * @param {*} res (json with success/failure)
    */
-  async getProfile(id) {
+  async getProfile(emailAdress) {
     try {
-      const getProfileDetails = await db.userDatabase().getUser(id);
+      const getProfileDetails = await db.userDatabase().getUser(emailAdress);
       if (getProfileDetails.length > 0) {
-        delete getProfileDetails[0].userPassword;
-        delete getProfileDetails[0].isEmailVerified;
-        delete getProfileDetails[0].isActive;
-        delete getProfileDetails[0].isDeleted;
+        const userDetails = {
+          fullName: getProfileDetails[0].fullName,
+          emailAddress: getProfileDetails[0].emailAddress,
+          mobileNumber: getProfileDetails[0].mobileNumber,
+        };
         return {
           code: code.success,
           message: message.success,
-          data: getProfileDetails[0],
+          data: userDetails,
         };
       } else {
         return {
@@ -409,7 +413,7 @@ class UserService {
    * @param {*} req (userId, base64 data)
    * @param {*} res (json with success/failure)
    */
-  async addProfilePic(id, info) {
+  async addProfilePic(emailAddress, info) {
     try {
       var imageType = info.imageInfo.name
         ? info.imageInfo.name.split('.')[1]
@@ -422,7 +426,7 @@ class UserService {
         };
       }
 
-      const imageName = `profile-${id}-${Date.now()}`;
+      const imageName = `profile-${Date.now()}`;
       const path = 'profile/';
       const imageInformation = {
         fileName: imageName,
@@ -434,7 +438,9 @@ class UserService {
 
       const imageURL = path + imageURLInfo.fileName;
 
-      const addProfilePic = await db.userDatabase().addProfilePic(id, imageURL);
+      const addProfilePic = await db
+        .userDatabase()
+        .addProfilePic(emailAddress, imageURL);
       return {
         code: code.success,
         message: message.success,
