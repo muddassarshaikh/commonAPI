@@ -153,6 +153,23 @@ function generateRandomString(callback) {
   callback(referralCode);
 }
 
+/* 
+
+  Generate random string of specific size, 
+  which used  for generating random password in create user by admin.
+
+*/
+
+function randomPasswordGenerater(length) {
+  var result = '';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
 module.exports = {
   encryptData,
   decryptData,
@@ -162,5 +179,6 @@ module.exports = {
   tokenDecrypt,
   responseGenerator,
   sendEmail,
-  generateRandomString
+  generateRandomString,
+  randomPasswordGenerater
 };
