@@ -1,7 +1,7 @@
 const functions = require('../../../../common/functions');
 const config = require('../../../../config');
 const validator = require('validator');
-const code = require('../../../../common/code');
+const statusCode = require('../../../../common/statusCode');
 const message = require('../../../../common/message');
 const fs = require('fs');
 const db =
@@ -18,14 +18,14 @@ class UserService {
   async registration(info) {
     try {
       if (
-        !validator.isEmail(info.emailAddress) &&
-        !validator.isEmpty(info.userPassword) &&
-        !validator.isEmpty(info.fullName) &&
-        !validator.isEmpty(info.mobileNumber)
+        !validator.isEmail(info.emailAddress) ||
+        validator.isEmpty(info.userPassword) ||
+        validator.isEmpty(info.fullName) ||
+        validator.isEmpty(info.mobileNumber)
       ) {
-        return {
-          code: code.invalidDetails,
-          message: message.invalidDetails,
+        throw {
+          statusCode: statusCode.bad_request,
+          message: message.dataIssue,
           data: null,
         };
       }
@@ -33,8 +33,8 @@ class UserService {
       const checkIfuserExists = await db.userDatabase().checkIfuserExists(info);
 
       if (checkIfuserExists.length > 0) {
-        return {
-          code: code.invalidDetails,
+        throw {
+          statusCode: statusCode.bad_request,
           message: message.duplicateDetails,
           data: null,
         };
@@ -59,15 +59,15 @@ class UserService {
         emailMessage
       );
       return {
-        code: code.success,
+        statusCode: statusCode.success,
         message: message.registration,
         data: userRegistration,
       };
-    } catch (e) {
-      return {
-        code: code.dbCode,
-        message: message.tryCatch,
-        data: e.message,
+    } catch (error) {
+      throw {
+        statusCode: error.statusCode,
+        message: error.message,
+        data: JSON.stringify(error),
       };
     }
   }
@@ -80,8 +80,8 @@ class UserService {
   async verifyEmail(info) {
     try {
       if (!info.emailAddress) {
-        return {
-          code: code.invalidDetails,
+        throw {
+          statusCode: statusCode.bad_request,
           message: message.dataIssue,
           data: null,
         };
@@ -89,8 +89,8 @@ class UserService {
       const token = Buffer.from(info.emailAddress, 'hex').toString('ascii');
       const tokenDecrypt = await functions.tokenDecrypt(token);
       if (tokenDecrypt.message === 'jwt expired') {
-        return {
-          code: code.sessionExpire,
+        throw {
+          statusCode: statusCode.unauthorized,
           message: message.emailLinkExpired,
           data: null,
         };
@@ -99,15 +99,15 @@ class UserService {
         .userDatabase()
         .verifyEmail(tokenDecrypt.data);
       return {
-        code: code.success,
+        statusCode: statusCode.success,
         message: message.emailVerificationSuccess,
         data: verifyEmailDetails,
       };
     } catch (error) {
-      return {
-        code: code.unexceptedError,
-        message: message.tryCatch,
-        data: error.message,
+      throw {
+        statusCode: error.statusCode,
+        message: error.message,
+        data: JSON.stringify(error),
       };
     }
   }
@@ -120,8 +120,8 @@ class UserService {
   async login(info) {
     try {
       if (!validator.isEmail(info.emailAddress)) {
-        return {
-          code: code.invalidDetails,
+        throw {
+          statusCode: statusCode.bad_request,
           message: message.invalidLoginDetails,
           data: null,
         };
@@ -130,32 +130,32 @@ class UserService {
       const loginDetails = await db.userDatabase().getUser(info.emailAddress);
 
       if (loginDetails.length <= 0) {
-        return {
-          code: code.invalidDetails,
+        throw {
+          statusCode: statusCode.bad_request,
           message: message.invalidLoginDetails,
           data: null,
         };
       }
       const password = functions.decryptPassword(loginDetails[0].userPassword);
       if (password !== info.userPassword) {
-        return {
-          code: code.invalidDetails,
+        throw {
+          statusCode: statusCode.bad_request,
           message: message.invalidLoginDetails,
           data: null,
         };
       }
 
       if (!loginDetails[0].isActive === 1 && !loginDetails[0].isDeleted === 0) {
-        return {
-          code: code.invalidDetails,
+        throw {
+          statusCode: statusCode.bad_request,
           message: message.accountDisable,
           data: null,
         };
       }
 
       if (loginDetails[0].isEmailVerified === 0) {
-        return {
-          code: code.invalidDetails,
+        throw {
+          statusCode: statusCode.bad_request,
           message: message.emailVerify,
           data: null,
         };
@@ -172,15 +172,15 @@ class UserService {
       userDetails.token = token;
 
       return {
-        code: code.success,
+        statusCode: statusCode.success,
         message: message.success,
         data: userDetails,
       };
-    } catch (e) {
-      return {
-        code: code.unexceptedError,
-        message: message.tryCatch,
-        data: e.message,
+    } catch (error) {
+      throw {
+        statusCode: error.statusCode,
+        message: error.message,
+        data: JSON.stringify(error),
       };
     }
   }
@@ -196,8 +196,8 @@ class UserService {
         validator.isEmpty(info.oldPassword) &&
         validator.isEmpty(info.newPassword)
       ) {
-        return {
-          code: code.invalidDetails,
+        throw {
+          statusCode: statusCode.bad_request,
           message: message.dataIssue,
           data: null,
         };
@@ -206,8 +206,8 @@ class UserService {
       const getPassword = await db.userDatabase().getPassword(emailAddress);
 
       if (getPassword.length <= 0) {
-        return {
-          code: code.invalidDetails,
+        throw {
+          statusCode: statusCode.bad_request,
           message: message.invalidDetails,
           data: null,
         };
@@ -215,8 +215,8 @@ class UserService {
 
       let password = functions.decryptPassword(getPassword[0].userPassword);
       if (password !== info.oldPassword) {
-        return {
-          code: code.invalidDetails,
+        throw {
+          statusCode: statusCode.bad_request,
           message: message.invalidPassword,
           data: null,
         };
@@ -230,15 +230,15 @@ class UserService {
         .updateUserPassword(emailAddress, password);
 
       return {
-        code: code.success,
+        statusCode: statusCode.success,
         message: message.passwordChanged,
         data: updatePasswordDetails,
       };
     } catch (error) {
-      return {
-        code: code.unexceptedError,
-        message: message.tryCatch,
-        data: error.message,
+      throw {
+        statusCode: error.statusCode,
+        message: error.message,
+        data: JSON.stringify(error),
       };
     }
   }
@@ -251,8 +251,8 @@ class UserService {
   async forgotPassword(info) {
     try {
       if (!validator.isEmail(info.emailAddress)) {
-        return {
-          code: code.invalidDetails,
+        throw {
+          statusCode: statusCode.bad_request,
           message: message.invalidEmail,
           data: null,
         };
@@ -260,8 +260,8 @@ class UserService {
       const userDetail = await db.userDatabase().getUser(info.emailAddress);
 
       if (userDetail.length <= 0) {
-        return {
-          code: code.invalidDetails,
+        throw {
+          statusCode: statusCode.bad_request,
           message: message.invalidEmail,
           data: null,
         };
@@ -281,15 +281,15 @@ class UserService {
 
       functions.sendEmail(to, subject, emailMessage);
       return {
-        code: code.success,
+        statusCode: statusCode.success,
         message: message.resetLink,
         data: null,
       };
     } catch (error) {
-      return {
-        code: code.unexceptedError,
-        message: message.tryCatch,
-        data: error.message,
+      throw {
+        statusCode: error.statusCode,
+        message: error.message,
+        data: JSON.stringify(error),
       };
     }
   }
@@ -305,8 +305,8 @@ class UserService {
         validator.isEmpty(info.emailAddress) ||
         validator.isEmpty(info.newPassword)
       ) {
-        return {
-          code: code.invalidDetails,
+        throw {
+          statusCode: statusCode.bad_request,
           message: message.invalidDetails,
           data: null,
         };
@@ -316,8 +316,8 @@ class UserService {
       );
       const emailAddressDetails = await functions.tokenDecrypt(emailAddress);
       if (!emailAddressDetails.data) {
-        return {
-          code: code.invalidDetails,
+        throw {
+          statusCode: statusCode.unauthorized,
           message: message.emailLinkExpired,
           data: null,
         };
@@ -329,15 +329,15 @@ class UserService {
         .updateUserPassword(emailAddressDetails.data, password);
 
       return {
-        code: code.success,
+        statusCode: statusCode.success,
         message: message.passwordReset,
         data: passwordDetails,
       };
     } catch (error) {
-      return {
-        code: code.unexceptedError,
-        message: message.tryCatch,
-        data: error.message,
+      throw {
+        statusCode: error.statusCode,
+        message: error.message,
+        data: JSON.stringify(error),
       };
     }
   }
@@ -357,22 +357,22 @@ class UserService {
           mobileNumber: getProfileDetails[0].mobileNumber,
         };
         return {
-          code: code.success,
+          statusCode: statusCode.success,
           message: message.success,
           data: userDetails,
         };
       } else {
         return {
-          code: code.invalidDetails,
+          statusCode: statusCode.invalidDetails,
           message: message.noData,
           data: null,
         };
       }
     } catch (error) {
-      return {
-        code: code.unexceptedError,
-        message: message.tryCatch,
-        data: error.message,
+      throw {
+        statusCode: error.statusCode,
+        message: error.message,
+        data: JSON.stringify(error),
       };
     }
   }
@@ -385,8 +385,8 @@ class UserService {
   async updateProfile(userId, info) {
     try {
       if (validator.isEmpty(info.fullName)) {
-        return {
-          code: code.invalidDetails,
+        throw {
+          statusCode: statusCode.bad_request,
           message: message.allFieldReq,
           data: null,
         };
@@ -395,15 +395,15 @@ class UserService {
       const userDetail = await db.userDatabase().updateUser(userId, info);
 
       return {
-        code: code.success,
+        statusCode: statusCode.success,
         message: message.profileUpdate,
         data: userDetail,
       };
     } catch (error) {
-      return {
-        code: code.unexceptedError,
-        message: message.tryCatch,
-        data: error.message,
+      throw {
+        statusCode: error.statusCode,
+        message: error.message,
+        data: JSON.stringify(error),
       };
     }
   }
@@ -419,8 +419,8 @@ class UserService {
         ? info.imageInfo.name.split('.')[1]
         : '';
       if (!imageType) {
-        return {
-          code: code.error,
+        throw {
+          statusCode: statusCode.unsupported_media_type,
           message: message.invalidImage,
           data: [],
         };
@@ -442,15 +442,15 @@ class UserService {
         .userDatabase()
         .addProfilePic(emailAddress, imageURL);
       return {
-        code: code.success,
+        statusCode: statusCode.success,
         message: message.success,
         data: addProfilePic,
       };
     } catch (error) {
-      return {
-        code: code.invalidDetails,
-        message: message.invalidDetails,
-        data: error.message,
+      throw {
+        statusCode: error.statusCode,
+        message: error.message,
+        data: JSON.stringify(error),
       };
     }
   }

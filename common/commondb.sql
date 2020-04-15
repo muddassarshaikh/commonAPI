@@ -1,4 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `commondb` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE
+IF NOT EXISTS `commondb` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `commondb`;
 -- MySQL dump 10.13  Distrib 5.7.29, for Linux (x86_64)
 --
@@ -24,22 +25,39 @@ USE `commondb`;
 DROP TABLE IF EXISTS `common_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `common_user` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `fullName` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
-  `emailAddress` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `mobileNumber` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
-  `userPassword` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `isActive` int(2) DEFAULT '1',
-  `profileURL` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `isEmailVerified` int(2) unsigned DEFAULT '0',
-  `isDeleted` int(2) DEFAULT '0',
+CREATE TABLE `common_user`
+(
+  `id` int
+(10) unsigned NOT NULL AUTO_INCREMENT,
+  `fullName` varchar
+(200) CHARACTER
+SET utf8 DEFAULT
+NULL,
+  `emailAddress` varchar
+(255) COLLATE utf8_unicode_ci NOT NULL,
+  `mobileNumber` varchar
+(15) COLLATE utf8_unicode_ci NOT NULL,
+  `userPassword` varchar
+(255) COLLATE utf8_unicode_ci NOT NULL,
+  `isActive` int
+(2) DEFAULT '1',
+  `profileURL` varchar
+(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `isEmailVerified` int
+(2) unsigned DEFAULT '0',
+  `isDeleted` int
+(2) DEFAULT '0',
   `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
-  `modifiedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `emailAddress_UNIQUE` (`emailAddress`),
-  UNIQUE KEY `mobileNumber_UNIQUE` (`mobileNumber`)
+  `modifiedAt` datetime DEFAULT CURRENT_TIMESTAMP ON
+UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY
+(`id`),
+  UNIQUE KEY `id_UNIQUE`
+(`id`),
+  UNIQUE KEY `emailAddress_UNIQUE`
+(`emailAddress`),
+  UNIQUE KEY `mobileNumber_UNIQUE`
+(`mobileNumber`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

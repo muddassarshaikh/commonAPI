@@ -1,5 +1,5 @@
 const functions = require('./functions');
-const code = require('./code');
+const code = require('./statusCode');
 const message = require('./message');
 
 const authenticationController = {
@@ -80,7 +80,7 @@ const authenticationController = {
         )
       );
     }
-  }
+  },
 };
 
 module.exports = authenticationController;

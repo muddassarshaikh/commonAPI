@@ -2,6 +2,7 @@ const con = require('../../../../../../common/database/mysql');
 const util = require('util');
 const query = util.promisify(con.query).bind(con);
 const { database_initial } = require('../../../../../../config');
+const { connection_failed } = require('../../../../../../common/statusCode');
 
 class UserDatabase {
   /**
@@ -18,7 +19,11 @@ class UserDatabase {
       ]);
       return details;
     } catch (error) {
-      throw error;
+      throw {
+        statusCode: connection_failed,
+        message: error.message,
+        data: JSON.stringify(error),
+      };
     }
   }
 
@@ -38,7 +43,11 @@ class UserDatabase {
       ]);
       return details;
     } catch (error) {
-      throw error;
+      throw {
+        statusCode: connection_failed,
+        message: error.message,
+        data: JSON.stringify(error),
+      };
     }
   }
 
@@ -53,7 +62,11 @@ class UserDatabase {
       const details = await query(sqlUpdateQuery, [emailAddress]);
       return details;
     } catch (error) {
-      throw error;
+      throw {
+        statusCode: connection_failed,
+        message: error.message,
+        data: JSON.stringify(error),
+      };
     }
   }
 
@@ -71,7 +84,11 @@ class UserDatabase {
       const details = await query(sqlSelectQuery, [emailAddress]);
       return details;
     } catch (error) {
-      throw error;
+      throw {
+        statusCode: connection_failed,
+        message: error.message,
+        data: JSON.stringify(error),
+      };
     }
   }
 
@@ -86,7 +103,11 @@ class UserDatabase {
       const details = await query(sqlSelectQuery, [emailAddress]);
       return details;
     } catch (error) {
-      throw error;
+      throw {
+        statusCode: connection_failed,
+        message: error.message,
+        data: JSON.stringify(error),
+      };
     }
   }
 
@@ -101,7 +122,11 @@ class UserDatabase {
       const details = await query(sqlUpdateQuery, [password, emailAddress]);
       return details;
     } catch (error) {
-      throw error;
+      throw {
+        statusCode: connection_failed,
+        message: error.message,
+        data: JSON.stringify(error),
+      };
     }
   }
 
@@ -119,7 +144,11 @@ class UserDatabase {
       ]);
       return details;
     } catch (error) {
-      throw error;
+      throw {
+        statusCode: connection_failed,
+        message: error.message,
+        data: JSON.stringify(error),
+      };
     }
   }
 
@@ -134,7 +163,11 @@ class UserDatabase {
       const details = await query(sqlUpdateQuery, [path, emailAddress]);
       return details;
     } catch (error) {
-      throw error;
+      throw {
+        statusCode: connection_failed,
+        message: error.message,
+        data: JSON.stringify(error),
+      };
     }
   }
 }

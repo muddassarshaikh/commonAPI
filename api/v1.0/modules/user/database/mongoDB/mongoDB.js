@@ -1,4 +1,5 @@
 const User = require('./schema');
+const { connection_failed } = require('../../../../../../common/statusCode');
 
 class UserDatabase {
   /**
@@ -11,7 +12,11 @@ class UserDatabase {
       const details = await User.find({ emailAddress: info.emailAddress });
       return details;
     } catch (error) {
-      throw error;
+      throw {
+        statusCode: connection_failed,
+        message: error.message,
+        data: JSON.stringify(error),
+      };
     }
   }
 
@@ -26,7 +31,11 @@ class UserDatabase {
       const details = await user.save();
       return details;
     } catch (error) {
-      throw error;
+      throw {
+        statusCode: connection_failed,
+        message: error.message,
+        data: JSON.stringify(error),
+      };
     }
   }
 
@@ -43,7 +52,11 @@ class UserDatabase {
       );
       return details;
     } catch (error) {
-      throw error;
+      throw {
+        statusCode: connection_failed,
+        message: error.message,
+        data: JSON.stringify(error),
+      };
     }
   }
 
@@ -68,7 +81,11 @@ class UserDatabase {
       );
       return details;
     } catch (error) {
-      throw error;
+      throw {
+        statusCode: connection_failed,
+        message: error.message,
+        data: JSON.stringify(error),
+      };
     }
   }
 
@@ -87,7 +104,11 @@ class UserDatabase {
       );
       return details;
     } catch (error) {
-      throw error;
+      throw {
+        statusCode: connection_failed,
+        message: error.message,
+        data: JSON.stringify(error),
+      };
     }
   }
 
@@ -104,7 +125,11 @@ class UserDatabase {
       );
       return details;
     } catch (error) {
-      throw error;
+      throw {
+        statusCode: connection_failed,
+        message: error.message,
+        data: JSON.stringify(error),
+      };
     }
   }
 
@@ -121,7 +146,11 @@ class UserDatabase {
       );
       return details;
     } catch (error) {
-      throw error;
+      throw {
+        statusCode: connection_failed,
+        message: error.message,
+        data: JSON.stringify(error),
+      };
     }
   }
 
@@ -138,7 +167,11 @@ class UserDatabase {
       );
       return details;
     } catch (error) {
-      throw error;
+      throw {
+        statusCode: connection_failed,
+        message: error.message,
+        data: JSON.stringify(error),
+      };
     }
   }
 }

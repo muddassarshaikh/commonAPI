@@ -3,7 +3,7 @@ const functions = require('../../../../common/functions');
 
 const controller = {
   //User Registration API
-  registration: async (req, res) => {
+  registration: async (req, res, next) => {
     try {
       const registrationDetails = await object
         .userService()
@@ -16,14 +16,12 @@ const controller = {
         )
       );
     } catch (error) {
-      res.send(
-        functions.responseGenerator(error.code, error.message, error.data)
-      );
+      return next(error);
     }
   },
 
   //Verify Email API
-  verifyEmail: async (req, res) => {
+  verifyEmail: async (req, res, next) => {
     try {
       const verificationDetails = await object
         .userService()
@@ -36,14 +34,12 @@ const controller = {
         )
       );
     } catch (error) {
-      res.send(
-        functions.responseGenerator(error.code, error.message, error.data)
-      );
+      return next(error);
     }
   },
 
   //Login API
-  login: async (req, res) => {
+  login: async (req, res, next) => {
     try {
       const loginDetails = await object
         .userService()
@@ -56,14 +52,12 @@ const controller = {
         )
       );
     } catch (error) {
-      res.send(
-        functions.responseGenerator(error.code, error.message, error.data)
-      );
+      return next(error);
     }
   },
 
   // Change Password API
-  changePassword: async (req, res) => {
+  changePassword: async (req, res, next) => {
     try {
       const changePasswordDetails = await object
         .userService()
@@ -79,14 +73,12 @@ const controller = {
         )
       );
     } catch (error) {
-      res.send(
-        functions.responseGenerator(error.code, error.message, error.data)
-      );
+      return next(error);
     }
   },
 
   // Forgot Password API
-  forgotPassword: async (req, res) => {
+  forgotPassword: async (req, res, next) => {
     try {
       const forgotPasswordDetails = await object
         .userService()
@@ -99,14 +91,12 @@ const controller = {
         )
       );
     } catch (error) {
-      res.send(
-        functions.responseGenerator(error.code, error.message, error.data)
-      );
+      return next(error);
     }
   },
 
   // Reset Password API
-  resetPassword: async (req, res) => {
+  resetPassword: async (req, res, next) => {
     try {
       const resetPasswordDetails = await object
         .userService()
@@ -119,14 +109,12 @@ const controller = {
         )
       );
     } catch (error) {
-      res.send(
-        functions.responseGenerator(error.code, error.message, error.data)
-      );
+      return next(error);
     }
   },
 
   // Get Profile API
-  getProfile: async (req, res) => {
+  getProfile: async (req, res, next) => {
     try {
       const userInformationDetails = await object
         .userService()
@@ -139,14 +127,12 @@ const controller = {
         )
       );
     } catch (error) {
-      res.send(
-        functions.responseGenerator(error.code, error.message, error.data)
-      );
+      return next(error);
     }
   },
 
   // Update Profile API
-  updateProfile: async (req, res) => {
+  updateProfile: async (req, res, next) => {
     try {
       const updateProfileDetails = await object
         .userService()
@@ -162,14 +148,12 @@ const controller = {
         )
       );
     } catch (error) {
-      res.send(
-        functions.responseGenerator(error.code, error.message, error.data)
-      );
+      return next(error);
     }
   },
 
   // Add profile picture
-  profilePic: async (req, res) => {
+  profilePic: async (req, res, next) => {
     try {
       const profilePicDetails = await object
         .userService()
@@ -185,9 +169,7 @@ const controller = {
         )
       );
     } catch (error) {
-      res.send(
-        functions.responseGenerator(error.code, error.message, error.data)
-      );
+      return next(error);
     }
   },
 };
