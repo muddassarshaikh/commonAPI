@@ -14,5 +14,5 @@ module.exports = {
   SMTPemailAddress: 'developers.winjit@gmail.com',
   SMTPPassword: 'Winjit@321',
   database_initial: 'common',
-  database: 'mongo',
+  database: 'mysql',
 };

@@ -31,5 +31,6 @@ module.exports = {
   accountActivated: 'Account is activated',
   accountDeactivated: 'Account is deactivated',
   accountReactivated: 'Account is re-activated',
-  notAuthorized: 'You are not authorized to access this page'
+  notAuthorized: 'You are not authorized to access this page',
+  sendingEmailFailed: 'Having some issue while sending email',
 };

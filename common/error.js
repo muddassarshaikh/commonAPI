@@ -1,5 +1,6 @@
-const functions = require('./functions');
+// const { responseGenerator } = require('./functions');
 const winston = require('./winston');
+
 const errorHandlerMiddleware = (error, req, res) => {
   winston.error(
     `${error.statusCode || 500} - ${error.message} - ${error.data} - ${
@@ -8,10 +9,19 @@ const errorHandlerMiddleware = (error, req, res) => {
   );
 
   res.send(
-    functions.responseGenerator(error.statusCode, error.message, error.data)
+    require('./functions').responseGenerator(
+      error.statusCode,
+      error.message,
+      error.data
+    )
   );
 };
 
+function errorHandler(error) {
+  winston.error(`${JSON.stringify(error)}`);
+}
+
 module.exports = {
   errorHandlerMiddleware,
+  errorHandler,
 };

@@ -5,6 +5,9 @@ const nodemailer = require('nodemailer');
 const randomstring = require('randomstring');
 const status = config.env;
 const fs = require('fs');
+const { errorHandler } = require('./error');
+const statusCode = require('./statusCode');
+const msg = require('./message');
 
 /**
  * Function for Encrypting the data
@@ -135,7 +138,7 @@ async function sendEmail(to, subject, message) {
     const smsDetails = await transporter.sendMail(mailOptions);
     return smsDetails;
   } catch (error) {
-    return error;
+    errorHandler(error);
   }
 }
 

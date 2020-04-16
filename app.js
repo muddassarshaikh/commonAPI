@@ -9,7 +9,7 @@ const app = express();
 const db = require('./common/database/mongoDB');
 const rateLimit = require('express-rate-limit');
 const winston = require('./common/winston');
-const { errorHandlerMiddleware } = require('./common/error');
+const { errorHandlerMiddleware, errorHandler } = require('./common/error');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -53,6 +53,10 @@ app.use('/api', require('./api'));
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
+});
+
+process.on('uncaughtException', function (err) {
+  errorHandler(err);
 });
 
 // error handler
