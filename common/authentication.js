@@ -1,6 +1,6 @@
 const functions = require('./functions');
-const code = require('./statusCode');
-const message = require('./message');
+const statusCode = require('./statusCode');
+const msg = require('./message');
 
 const authenticationController = {
   validateToken: async (req, res, next) => {
@@ -14,26 +14,21 @@ const authenticationController = {
           res.header('auth', token);
           next();
         } else {
-          res.send(
-            functions.responseGenerator(
-              code.sessionExpire,
-              message.sessionExpire
-            )
-          );
+          throw {
+            statusCode: statusCode.unauthorized,
+            message: msg.sessionExpire,
+            data: null,
+          };
         }
       } else {
-        res.send(
-          functions.responseGenerator(code.invalidDetails, message.tokenMissing)
-        );
+        throw {
+          statusCode: statusCode.bad_request,
+          message: msg.tokenMissing,
+          data: null,
+        };
       }
-    } catch (e) {
-      res.send(
-        functions.responseGenerator(
-          code.invalidDetails,
-          message.tryCatch,
-          e.message
-        )
-      );
+    } catch (error) {
+      return next(error);
     }
   },
 
@@ -42,21 +37,14 @@ const authenticationController = {
       if (res.locals.tokenInfo.isAdmin === 1) {
         next();
       } else {
-        res.send(
-          functions.responseGenerator(
-            code.invalidDetails,
-            message.notAuthorized
-          )
-        );
+        throw {
+          statusCode: statusCode.unauthorized,
+          message: msg.notAuthorized,
+          data: null,
+        };
       }
-    } catch (e) {
-      res.send(
-        functions.responseGenerator(
-          code.invalidDetails,
-          message.tryCatch,
-          e.message
-        )
-      );
+    } catch (error) {
+      return next(error);
     }
   },
 
@@ -67,18 +55,14 @@ const authenticationController = {
         res.locals.requestedData = userinfo;
         next();
       } else {
-        res.send(
-          functions.responseGenerator(code.invalidDetails, message.dataIssue)
-        );
+        throw {
+          statusCode: statusCode.bad_request,
+          message: msg.dataIssue,
+          data: null,
+        };
       }
-    } catch (e) {
-      res.send(
-        functions.responseGenerator(
-          code.invalidDetails,
-          message.tryCatch,
-          e.message
-        )
-      );
+    } catch (error) {
+      return next(error);
     }
   },
 };

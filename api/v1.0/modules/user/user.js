@@ -4,10 +4,7 @@ const validator = require('validator');
 const statusCode = require('../../../../common/statusCode');
 const message = require('../../../../common/message');
 const fs = require('fs');
-const db =
-  config.database === 'mysql'
-    ? require('../user/database/mysql/mysql')
-    : require('../user/database/mongoDB/mongoDB');
+const db = require(`../user/database/${config.database}/${config.database}`);
 
 class UserService {
   /**
