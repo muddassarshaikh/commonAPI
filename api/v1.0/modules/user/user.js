@@ -142,7 +142,7 @@ class UserService {
         };
       }
 
-      if (!loginDetails[0].isActive === 1 && !loginDetails[0].isDeleted === 0) {
+      if (loginDetails[0].isActive !== 1 || loginDetails[0].isDeleted !== 0) {
         throw {
           statusCode: statusCode.bad_request,
           message: message.accountDisable,
@@ -360,7 +360,7 @@ class UserService {
         };
       } else {
         return {
-          statusCode: statusCode.invalidDetails,
+          statusCode: statusCode.bad_request,
           message: message.noData,
           data: null,
         };

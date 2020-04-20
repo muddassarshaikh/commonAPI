@@ -15,4 +15,5 @@ module.exports = {
   SMTPPassword: 'Winjit@321',
   database_initial: 'common',
   database: 'mysql',
+  cryptokey: '7476021436',
 };

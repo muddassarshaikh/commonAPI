@@ -33,4 +33,5 @@ module.exports = {
   accountReactivated: 'Account is re-activated',
   notAuthorized: 'You are not authorized to access this page',
   sendingEmailFailed: 'Having some issue while sending email',
+  invalidImage: 'Image type is not valid',
 };
