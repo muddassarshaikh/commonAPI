@@ -1,0 +1,5180 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2.0",
+    "title": "Common API",
+    "description": "This is nodejs api document",
+    "contact": {
+      "name": "Muddassar S Shaikh"
+    }
+  },
+  "host": "localhost:6786",
+  "basePath": "/api",
+  "schemes": ["http"],
+  "consumes": ["application/json", "multipart/form-data"],
+  "produces": ["application/json"],
+  "paths": {
+    "/user/registration": {
+      "post": {
+        "description": "User registration for our platform",
+        "summary": "Registration",
+        "tags": ["Dialog"],
+        "operationId": "/user/registration",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/createDialogRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/dialog/trainDialog": {
+      "get": {
+        "description": "Training on dialog",
+        "summary": "/dialog/trainDialog",
+        "tags": ["Dialog"],
+        "operationId": "/dialog/trainDialog",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of dialog"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Convee User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/dialog/publishDialog": {
+      "get": {
+        "description": "This api publishes any changes or modifications to new or existing dialog/bot to the server",
+        "summary": "/dialog/publishDialog",
+        "tags": ["Dialog"],
+        "operationId": "/dialog/publishDialog",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Convee User ID"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of Dialog"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/dialog/createDialog": {
+      "post": {
+        "description": "Create Dialog list",
+        "summary": "/dialog/createDialog",
+        "tags": ["Dialog"],
+        "operationId": "/dialog/createDialog",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/createDialogRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/dialog/updateDialog": {
+      "put": {
+        "description": "Updating dialog",
+        "summary": "/dialog/updateDialog",
+        "tags": ["Dialog"],
+        "operationId": "/dialog/updateDialog",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/updateDialogRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/dialog/deleteDialog": {
+      "delete": {
+        "description": "Deleting dialog",
+        "summary": "/dialog/deleteDialog",
+        "tags": ["Dialog"],
+        "operationId": "/dialog/deleteDialog",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of Dialog"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/training/getQueriesByStatus": {
+      "get": {
+        "summary": "/training/getQueriesByStatus",
+        "tags": ["Training"],
+        "operationId": "/training/getQueriesByStatus",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of users"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "status",
+            "enum": ["UNMATCHED", "IGNORED", "DELETED"]
+          },
+          {
+            "name": "dialogIds",
+            "in": "query",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Give dialog Ids"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/training/exportQueries": {
+      "get": {
+        "summary": "/training/exportQueries",
+        "tags": ["Training"],
+        "operationId": "/training/exportQueries",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Convee user id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/training/addUnmatchedQueries": {
+      "post": {
+        "summary": "/training/addUnmatchedQueries",
+        "tags": ["Training"],
+        "operationId": "/training/addUnmatchedQueries",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/addUnmatchedQueriesRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/training/assignUnmatechedQueries": {
+      "post": {
+        "summary": "/training/assignUnmatechedQueries",
+        "tags": ["Training"],
+        "operationId": "/training/assignUnmatechedQueries",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/assignUnmatechedQueriesRequest"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/training/importQueries": {
+      "post": {
+        "summary": "/training/importQueries",
+        "tags": ["Training"],
+        "operationId": "/training/importQueries",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "value": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "required": true,
+            "type": "string",
+            "description": "officedocument spreadsheetml"
+          },
+          {
+            "name": "excelFile",
+            "in": "formData",
+            "required": true,
+            "type": "file",
+            "description": "Upload excel file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/training/setQueriesStatus": {
+      "put": {
+        "summary": "/training/setQueriesStatus",
+        "tags": ["Training"],
+        "operationId": "/training/setQueriesStatus",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/setQueriesStatusRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/conversation/getInteractedUsers": {
+      "get": {
+        "description": "Get list of all interacted users",
+        "summary": "/conversation/getInteractedUsers",
+        "tags": ["Users"],
+        "operationId": "/conversation/getInteractedUsers",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Convee User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/conversation/getInteractedUsersForDialog": {
+      "get": {
+        "description": "Details of interacted users for dialog",
+        "summary": "/conversation/getInteractedUsersForDialog",
+        "tags": ["Conversation"],
+        "operationId": "/conversation/getInteractedUsersForDialog",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of Dialog"
+          },
+          {
+            "name": "platform",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Platform which you are using",
+            "enum": [
+              "facebook",
+              "telegram",
+              "alexa",
+              "googleHome",
+              "conveeChat"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/conversation/getConversationForDialog": {
+      "get": {
+        "description": "Gives conversations against particular dialog",
+        "summary": "/conversation/getConversationForDialog",
+        "tags": ["Conversation"],
+        "operationId": "/conversation/getConversationForDialog",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "platform",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Platform which you are using",
+            "enum": [
+              "facebook",
+              "telegram",
+              "alexa",
+              "googleHome",
+              "conveeChat"
+            ]
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of dialog"
+          },
+          {
+            "name": "endUserId",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64",
+            "description": "Id of User"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "Page number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/conversation/getChatUserProfile": {
+      "get": {
+        "description": "Gives conversations against particular dialog",
+        "summary": "/conversation/getChatUserProfile",
+        "tags": ["Conversation"],
+        "operationId": "/conversation/getChatUserProfile",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of dialog"
+          },
+          {
+            "name": "channel",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Channel which you are using",
+            "enum": [
+              "facebook",
+              "telegram",
+              "alexa",
+              "googleHome",
+              "conveeChat"
+            ]
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64",
+            "description": "Id of End User (Social Id)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/conversation/logConversationMessage": {
+      "post": {
+        "description": "Logs of conversation message",
+        "summary": "/conversation/logConversationMessage",
+        "tags": ["Conversation"],
+        "operationId": "/conversation/logConversationMessage",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Conversation"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/deployment/getDialogDeployStatus": {
+      "get": {
+        "description": "Gives dialog deployment status",
+        "summary": "/deployment/getDialogDeployStatus",
+        "tags": ["Configuration"],
+        "operationId": "/deployment/getDialogDeployStatus",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Convee user Id"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of dialog"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/deployment/getalexaconfigfile": {
+      "get": {
+        "description": "Get Alexa's configuration file",
+        "summary": "/deployment/getalexaconfigfile",
+        "tags": ["Configuration"],
+        "operationId": "/deployment/getalexaconfigfile",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "invocationName",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Invocation name of Alexa's skill"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/deployment/getGoogleHomeConfigZip": {
+      "get": {
+        "description": "Get Google's configuration file",
+        "summary": "/deployment/getGoogleHomeConfigZip",
+        "tags": ["Configuration"],
+        "operationId": "/deployment/getGoogleHomeConfigZip",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/deployment/getDeployedDialogsForChannel": {
+      "get": {
+        "description": "Deployed dialogs list for channel",
+        "summary": "/deployment/getDeployedDialogsForChannel",
+        "tags": ["Configuration"],
+        "operationId": "/deployment/getDeployedDialogsForChannel",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Convee user Id"
+          },
+          {
+            "name": "channelName",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Channel name",
+            "enum": [
+              "facebook",
+              "telegram",
+              "alexa",
+              "googleHome",
+              "conveeChat"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/deployment/deployDialog": {
+      "post": {
+        "description": "To deploy dialog",
+        "summary": "/deployment/deployDialog",
+        "tags": ["Configuration"],
+        "operationId": "/deployment/deployDialog",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/deployDialogRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/deployment/deployDialogOnConveeChat": {
+      "post": {
+        "description": "To deploy dialog on Convee chat",
+        "summary": "/deployment/deployDialogOnConveeChat",
+        "tags": ["Configuration"],
+        "operationId": "/deployment/deployDialogOnConveeChat",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/deployDialogConveeChatRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/deployment/deleteChannel": {
+      "put": {
+        "description": "Delete channel",
+        "summary": "/deployment/deleteChannel",
+        "tags": ["Configuration"],
+        "operationId": "/deployment/deleteChannel",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/deleteChannelRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/deployment/setChannelEnabled": {
+      "put": {
+        "description": "Making channel enabled",
+        "summary": "/deployment/setChannelEnabled",
+        "tags": ["Configuration"],
+        "operationId": "/deployment/setChannelEnabled",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/setChannelEnabledRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/entity/getUserEntities": {
+      "get": {
+        "description": "Get list of user entitites",
+        "summary": "/entity/getUserEntities",
+        "tags": ["Entity"],
+        "operationId": "/entity/getEntities",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Convee User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/entity/getUserEntity": {
+      "get": {
+        "description": "Get single user entity by entityId",
+        "summary": "/entity/getUserEntity",
+        "tags": ["Entity"],
+        "operationId": "/entity/getUserEntity",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "entityId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Entity ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/entity/getUserEntityNames": {
+      "get": {
+        "description": "Get user entity names for user",
+        "summary": "/entity/getUserEntityNames",
+        "tags": ["Entity"],
+        "operationId": "/entity/getUserEntityNames",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Convee User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/entity/getEntityFromMessage": {
+      "get": {
+        "description": "Get entity from the given message.This entity will be retrieved if it is association with dialog",
+        "summary": "/entity/getEntityFromMessage",
+        "tags": ["Entity"],
+        "operationId": "/entity/getEntityFromMessage",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Convee User ID"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Dialog ID"
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Message from which entity to be extracted"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/entity/addUserEntity": {
+      "post": {
+        "description": "Add custom user entity",
+        "summary": "/entity/addUserEntity",
+        "tags": ["Entity"],
+        "operationId": "/entity/addUserEntity",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": "Content Type"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/userEntity"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/entity/addUserEntityToDialog": {
+      "post": {
+        "description": "Add custom user entity",
+        "summary": "/entity/addUserEntityToDialog",
+        "tags": ["Entity"],
+        "operationId": "/entity/addUserEntityToDialog",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": "Content Type"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/dialogEntity"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/entity/updateUserEntity": {
+      "put": {
+        "description": "Update existing entity with name,reference,synonyms etc",
+        "summary": "/entity/updateUserEntity",
+        "tags": ["Entity"],
+        "operationId": "/entity/updateUserEntity",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/updateUserEntityRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/entity/deleteUserEntity": {
+      "delete": {
+        "description": "Delete user entity",
+        "summary": "/entity/deleteUserEntity",
+        "tags": ["Entity"],
+        "operationId": "/entity/deleteUserEntity",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "entityId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Entity ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/analytics/getTotalMessagesData": {
+      "get": {
+        "description": "Gives counts and statistics for Total messages",
+        "summary": "/analytics/getTotalMessages",
+        "tags": ["Analytics"],
+        "operationId": "/analytics/getTotalMessages",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of dialog"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Give start date (YYYY-MM-DD)"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Give end date (YYYY-MM-DD)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/analytics/getSentimentsData": {
+      "get": {
+        "description": "Gives sentiment data ",
+        "summary": "/analytics/getSentimentsData",
+        "tags": ["Analytics"],
+        "operationId": "/analytics/getSentimentsData",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of Dialog"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Give start date (YYYY-MM-DD)"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Give end date (YYYY-MM-DD)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/analytics/getUsersByTimeData": {
+      "get": {
+        "description": "Users counts by time of day",
+        "summary": "/analytics/getUsersByTimeData",
+        "tags": ["Analytics"],
+        "operationId": "/analytics/getUsersByTimeData",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of Dialog"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Give start date (YYYY-MM-DD)"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Give end date (YYYY-MM-DD)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/analytics/getQueryData": {
+      "get": {
+        "description": "User Engagement Data",
+        "summary": "/analytics/getQueryData",
+        "tags": ["Analytics"],
+        "operationId": "/analytics/getQueryData",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of Dialog"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Give start date (YYYY-MM-DD)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/analytics/getPopularUserInputsData": {
+      "get": {
+        "description": "Popular user inputs",
+        "summary": "/analytics/getPopularUserInputsData",
+        "tags": ["Analytics"],
+        "operationId": "/analytics/getPopularUserInputsData",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of Dialog"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Give start date (YYYY-MM-DD)"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Give end date (YYYY-MM-DD)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/analytics/getPopularBlocksData": {
+      "get": {
+        "description": "Popular Block data",
+        "summary": "/analytics/getPopularBlocksData",
+        "tags": ["Analytics"],
+        "operationId": "/analytics/getPopularBlocksData",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of Dialog"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Give start date (YYYY-MM-DD)"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Give end date (YYYY-MM-DD)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/block/getblock": {
+      "get": {
+        "description": "Get user block",
+        "summary": "/block/getblock",
+        "tags": ["Block"],
+        "operationId": "/block/getblock",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of dialog"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Name of block"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/block/getAllBlock": {
+      "get": {
+        "description": "Get all blocks",
+        "summary": "/block/getAllBlock",
+        "tags": ["Block"],
+        "operationId": "/block/getAllBlock",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of dialog"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/block/getBlockOfMessage": {
+      "get": {
+        "description": "Get block of Message",
+        "summary": "/block/getBlockOfMessage",
+        "tags": ["Block"],
+        "operationId": "/block/getBlockOfMessage",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Message for"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/block/predictBlockOfMessage": {
+      "get": {
+        "description": "Predict block of message",
+        "summary": "/block/predictBlockOfMessage",
+        "tags": ["Block"],
+        "operationId": "/block/predictBlockOfMessage",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of dialog"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Convee User ID"
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Message"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/block/addUserSays": {
+      "post": {
+        "description": "Add user",
+        "summary": "/block/addUserSays",
+        "tags": ["Block"],
+        "operationId": "/block/addUserSays",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/addUserSayRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/block/renameBlock": {
+      "put": {
+        "description": "Rename the block",
+        "summary": "/block/renameBlock",
+        "tags": ["Block"],
+        "operationId": "/block/renameBlock",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/renameBlockRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/block/updateblock": {
+      "put": {
+        "description": "Update the block",
+        "summary": "/block/updateblock",
+        "tags": ["Block"],
+        "operationId": "/block/updateblock",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/updateblockrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/block/deleteUserSays": {
+      "delete": {
+        "description": "Delete user says",
+        "summary": "/block/deleteUserSays",
+        "tags": ["Block"],
+        "operationId": "/block/deleteUserSays",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "text",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "text"
+          },
+          {
+            "name": "nlpId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "nlp Id"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Id of dialog"
+          },
+          {
+            "name": "blockName",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Name of block"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/database/checkDatabaseConnection": {
+      "get": {
+        "description": "Check database connectivity",
+        "summary": "/database/checkDatabaseConnection",
+        "tags": ["Database"],
+        "operationId": "/database/checkDatabaseConnection",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "databaseType",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Name of database"
+          },
+          {
+            "name": "path",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Path of database"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/coversationTree/getDialogTree": {
+      "get": {
+        "description": "Get block of Message",
+        "summary": "/coversationTree/getDialogTree",
+        "tags": ["CoversationTree"],
+        "operationId": "/coversationTree/getDialogTree",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/coversationTree/AddNodeToDialogTree": {
+      "put": {
+        "description": "",
+        "summary": "/coversationTree/AddNodeToDialogTree",
+        "tags": ["CoversationTree"],
+        "operationId": "/coversationTree/AddNodeToDialogTree",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AddNodeToDialogTreeRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/coversationTree/deleteNode": {
+      "delete": {
+        "description": "Deleting node of tree",
+        "summary": "/coversationTree/deleteNode",
+        "tags": ["CoversationTree"],
+        "operationId": "/coversationTree/deleteNode",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "dataChildId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/defaultResponse/getDefaultResponse": {
+      "get": {
+        "description": "Geting default response",
+        "summary": "/defaultResponse/getDefaultResponse",
+        "tags": ["DefaultResponse"],
+        "operationId": "/defaultResponse/getDefaultResponse",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/defaultResponse/saveDefaultResponse": {
+      "post": {
+        "description": "Save default response",
+        "summary": "/defaultResponse/saveDefaultResponse",
+        "tags": ["DefaultResponse"],
+        "operationId": "/defaultResponse/saveDefaultResponse",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/saveDefaultResponseRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/defaultResponse/deleteDefaultResponse": {
+      "delete": {
+        "description": "Delete default response",
+        "summary": "/defaultResponse/deleteDefaultResponse",
+        "tags": ["DefaultResponse"],
+        "operationId": "/defaultResponse/deleteDefaultResponse",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "dialogId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/common/uploadImage": {
+      "post": {
+        "description": "Upload Image",
+        "summary": "/common/uploadImage",
+        "tags": ["Common"],
+        "operationId": "/common/uploadImage",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "imageFile",
+            "in": "formData",
+            "required": true,
+            "type": "file",
+            "description": "Image upload file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/template/getTemplateList": {
+      "get": {
+        "description": "Fetching template list",
+        "summary": "/template/getTemplateList",
+        "tags": ["Template"],
+        "operationId": "/template/getTemplateList",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/template/createtemplate": {
+      "post": {
+        "description": "Create template",
+        "summary": "/template/createtemplate",
+        "tags": ["Template"],
+        "operationId": "/template/createtemplate",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/createtemplaterequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/template/deleteTemplate": {
+      "delete": {
+        "description": "Deleting template",
+        "summary": "/template/deleteTemplate",
+        "tags": ["Template"],
+        "operationId": "/template/deleteTemplate",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "templateId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Template Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/blockLogs/logBlockData": {
+      "post": {
+        "description": "To get logs of block data",
+        "summary": "/blockLogs/logBlockData",
+        "tags": ["LogBlock"],
+        "operationId": "/blockLogs/logBlockData",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/logBlockDataRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/user/getuser": {
+      "get": {
+        "description": "Get user details",
+        "summary": "/user/getuser",
+        "tags": ["User"],
+        "operationId": "/user/getuser",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/signUp": {
+      "post": {
+        "description": "Sign up api",
+        "summary": "/user/signUp",
+        "tags": ["User"],
+        "operationId": "/user/signUp",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/signUpRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/user/signIn": {
+      "post": {
+        "description": "Sign in api",
+        "summary": "/user/signIn",
+        "tags": ["User"],
+        "operationId": "/user/signIn",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/signInRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/user/forgotpassword": {
+      "post": {
+        "description": "Forgot password",
+        "summary": "/user/forgotpassword",
+        "tags": ["User"],
+        "operationId": "/user/forgotpassword",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/forgotpasswordrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/user/setNewPassword": {
+      "post": {
+        "description": "Setting new password",
+        "summary": "/user/setNewPassword",
+        "tags": ["User"],
+        "operationId": "/user/setNewPassword",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/setNewPasswordRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/liveagent/createRequest": {
+      "post": {
+        "description": "Create request to chat with live agent",
+        "summary": "/liveagent/createRequest",
+        "tags": ["LiveAgent"],
+        "operationId": "/liveagent/createRequest",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/createLiveAgentRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "422": {
+            "description": "Invalid parameter, please provide valid input parameters",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/liveagent/setRequestStatus": {
+      "put": {
+        "description": "Set status of live agent request",
+        "summary": "/liveagent/setRequestStatus",
+        "tags": ["LiveAgent"],
+        "operationId": "/liveagent/setRequestStatus",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/setLiveAgentRequestStatus"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "422": {
+            "description": "Invalid parameter, please provide valid input parameters",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/liveagent/getRequestListByStatus": {
+      "get": {
+        "description": "Get list of live agent request for status",
+        "summary": "/liveagent/getRequestListByStatus",
+        "tags": ["LiveAgent"],
+        "operationId": "/liveagent/getRequestListByStatus",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": true,
+            "description": "status for which list to be fetched",
+            "type": "string"
+          },
+          {
+            "name": "agentId",
+            "in": "query",
+            "required": true,
+            "description": "ID of agent",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "422": {
+            "description": "Invalid parameter, please provide valid input parameters",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/liveagent/rateRequest": {
+      "put": {
+        "description": "Rate live agent conversation request on the scale of 1 to 5",
+        "summary": "/liveagent/rateRequest",
+        "tags": ["LiveAgent"],
+        "operationId": "/liveagent/rateRequest",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "status",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/rateLiveAgentRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "422": {
+            "description": "Invalid parameter, please provide valid input parameters",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/liveagent/joinRequest": {
+      "put": {
+        "description": "Join live agent request from either client side or agent side",
+        "summary": "/liveagent/joinRequest",
+        "tags": ["LiveAgent"],
+        "operationId": "/liveagent/joinRequest",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "status",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/joinLiveAgentRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "422": {
+            "description": "Invalid parameter, please provide valid input parameters",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/liveagent/leaveRequest": {
+      "put": {
+        "description": "Leave live agent request from either client side or agent side",
+        "summary": "/liveagent/leaveRequest",
+        "tags": ["LiveAgent"],
+        "operationId": "/liveagent/leaveRequest",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "status",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/leaveLiveAgentRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "422": {
+            "description": "Invalid parameter, please provide valid input parameters",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/liveagent/getRequestCountPerDayByStatus": {
+      "get": {
+        "description": "Get list of live agent request for status",
+        "summary": "/liveagent/getRequestCountPerDayByStatus",
+        "tags": ["LiveAgent"],
+        "operationId": "/liveagent/getRequestCountPerDayByStatus",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": true,
+            "description": "status for which list to be fetched",
+            "type": "string"
+          },
+          {
+            "name": "agentId",
+            "in": "query",
+            "required": true,
+            "description": "ID of agent",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "422": {
+            "description": "Invalid parameter, please provide valid input parameters",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/liveagent/getAgentGraphData": {
+      "get": {
+        "description": "Get graph data for agent",
+        "summary": "/liveagent/getAgentGraphData",
+        "tags": ["LiveAgent"],
+        "operationId": "/liveagent/getAgentGraphData",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "agentId",
+            "in": "query",
+            "required": true,
+            "description": "ID of agent",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "422": {
+            "description": "Invalid parameter, please provide valid input parameters",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/liveagent/getLiveAgentRules": {
+      "get": {
+        "description": "Get list of live agent rules",
+        "summary": "/liveagent/getLiveAgentRules",
+        "tags": ["LiveAgent"],
+        "operationId": "/liveagent/getLiveAgentRules",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "description": "ID of Convee user for which live agent rules to be fetched",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "422": {
+            "description": "Invalid parameter, please provide valid input parameters",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/payment/saveUserPaymentConfiguration": {
+      "post": {
+        "description": "Save convee users payment configuration, this configuration will be applicable to all dialogs",
+        "summary": "/payment/saveUserPaymentConfiguration",
+        "tags": ["Payment"],
+        "operationId": "/payment/saveUserPaymentConfiguration",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserPaymentConfiguration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "422": {
+            "description": "Invalid parameter, please provide valid input parameters",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/payment/getUserPaymentConfiguration": {
+      "get": {
+        "description": "Save convee users payment configuration, this configuration will be applicable to all dialogs",
+        "summary": "/payment/getUserPaymentConfiguration",
+        "tags": ["Payment"],
+        "operationId": "/payment/getUserPaymentConfiguration",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "description": "ID of convee user",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "422": {
+            "description": "Invalid parameter, please provide valid input parameters",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/payment/makeTransaction": {
+      "post": {
+        "description": "Save convee users payment configuration, this configuration will be applicable to all dialogs",
+        "summary": "/payment/makeTransaction",
+        "tags": ["Payment"],
+        "operationId": "/payment/makeTransaction",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "value": "application/json",
+            "description": ""
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization key to access api"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PaymentDetails"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {}
+          },
+          "401": {
+            "description": "Access denied, request is made with invalid authorization key",
+            "headers": {}
+          },
+          "422": {
+            "description": "Invalid parameter, please provide valid input parameters",
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "definitions": {
+    "Reference": {
+      "title": "Reference",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "synonyms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["name", "synonyms"]
+    },
+    "MessageRaw": {
+      "title": "Message",
+      "example": {
+        "mid": "m_IxUI_FVvPguR4DPcyMQpXzExwkZeRFHkmhsuWXyKkccqVnAc5L3iUAdrdcBQ43hKx0fxfXj475Gj_cjV8fCajQ",
+        "text": "hi"
+      },
+      "type": "object",
+      "properties": {
+        "mid": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": ["mid", "text"]
+    },
+    "Message": {
+      "title": "Message",
+      "example": {
+        "text": "hi"
+      },
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": ["text"]
+    },
+    "UserSay": {
+      "title": "UserSay",
+      "example": {
+        "text": "Hi"
+      },
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": ["text"]
+    },
+    "Nlp": {
+      "title": "Nlp",
+      "example": {
+        "name": "LUIS"
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Give name of nlp platform",
+          "enum": ["LUIS", "DIALOGFLOW", "IBM_WATSON"]
+        }
+      },
+      "required": ["name"]
+    },
+    "Database": {
+      "title": "Database",
+      "example": {
+        "databaseType": "Convee"
+      },
+      "type": "object",
+      "properties": {
+        "databaseType": {
+          "type": "string",
+          "description": "Give name of database",
+          "enum": ["Mongo", "Mysql", "Convee"]
+        }
+      },
+      "required": ["databaseType"]
+    },
+    "Alexa": {
+      "title": "Alexa",
+      "example": {
+        "invocationName": "my demo",
+        "skillId": "amzn1.ask.skill.f40bb551-39c4-41e7-9bc4-73ecaebb8680"
+      },
+      "type": "object",
+      "properties": {
+        "invocationName": {
+          "type": "string"
+        },
+        "skillId": {
+          "type": "string"
+        }
+      },
+      "required": ["invocationName", "skillId"]
+    },
+    "BlockScore": {
+      "title": "BlockScore",
+      "example": {
+        "intent": "None",
+        "score": 0.7945686
+      },
+      "type": "object",
+      "properties": {
+        "intent": {
+          "type": "string"
+        },
+        "score": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": ["intent", "score"]
+    },
+    "Query": {
+      "title": "Query",
+      "example": {
+        "query": "dd",
+        "blockScores": [
+          {
+            "intent": "None",
+            "score": 0.7945686
+          },
+          {
+            "intent": "Kungfoo",
+            "score": 0.068522
+          },
+          {
+            "intent": "Main",
+            "score": 0.0142147895
+          },
+          {
+            "intent": "Karate",
+            "score": 0.007366621
+          },
+          {
+            "intent": "Taekwondo",
+            "score": 0.007366621
+          },
+          {
+            "intent": "jujitsu",
+            "score": 0.007366614
+          },
+          {
+            "intent": "Jeet Kune Do",
+            "score": 0.00180866465
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        },
+        "blockScores": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BlockScore"
+          }
+        }
+      },
+      "required": ["query", "blockScores"]
+    },
+    "QueryDatum": {
+      "title": "QueryDatum",
+      "example": {
+        "dialogId": "5dede94efec9ac51908cb3a6",
+        "query": "ljkhgfdstdtf"
+      },
+      "type": "object",
+      "properties": {
+        "dialogId": {
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "required": ["dialogId", "query"]
+    },
+    "userEntity": {
+      "title": "userEntity",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "reference": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Reference"
+          }
+        }
+      }
+    },
+    "updateUserEntityRequest": {
+      "title": "updateUserEntityRequest",
+      "type": "object",
+      "properties": {
+        "entityId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "reference": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Reference"
+          }
+        }
+      }
+    },
+    "dialogEntity": {
+      "title": "dialogEntity",
+      "type": "object",
+      "properties": {
+        "dialogId": {
+          "type": "string"
+        },
+        "entityId": {
+          "type": "string"
+        }
+      }
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "example": {
+        "userId": "5d7234e3b1b66127bf82579a",
+        "dialogId": "5dc427a45f24197d6e30458f",
+        "messageAction": "Receive",
+        "endUserId": "2697442966981420",
+        "platform": "facebook",
+        "messageType": "None",
+        "messageRaw": {
+          "mid": "m_IxUI_FVvPguR4DPcyMQpXzExwkZeRFHkmhsuWXyKkccqVnAc5L3iUAdrdcBQ43hKx0fxfXj475Gj_cjV8fCajQ",
+          "text": "hi"
+        },
+        "message": {
+          "text": "hi"
+        },
+        "platformType": "TEXT"
+      },
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "dialogId": {
+          "type": "string"
+        },
+        "messageAction": {
+          "type": "string"
+        },
+        "endUserId": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string",
+          "description": "Give your platform",
+          "enum": ["facebook", "telegram", "alexa", "googleHome", "conveeChat"]
+        },
+        "messageType": {
+          "type": "string"
+        },
+        "messageRaw": {
+          "$ref": "#/definitions/MessageRaw"
+        },
+        "message": {
+          "$ref": "#/definitions/Message"
+        },
+        "platformType": {
+          "type": "string"
+        },
+        "reference": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Reference"
+          }
+        }
+      },
+      "required": [
+        "userId",
+        "dialogId",
+        "messageAction",
+        "endUserId",
+        "platform",
+        "messageType",
+        "message",
+        "platformType"
+      ]
+    },
+    "LiveAgent": {
+      "title": "LiveAgent",
+      "type": "object",
+      "properties": {
+        "dialogId": {
+          "type": "string"
+        },
+        "endUser": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "socketId": {
+              "type": "string"
+            }
+          }
+        },
+        "agent": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "socketId": {
+              "type": "string"
+            },
+            "joinDateTime": {
+              "type": "string"
+            },
+            "leftDateTime": {
+              "type": "string"
+            }
+          }
+        },
+        "platform": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["open", "live", "closed", "urgent"]
+        },
+        "rating": {
+          "type": "integer"
+        }
+      }
+    },
+    "LiveAgentRules": {
+      "title": "LiveAgentRules",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "defaultResponseCountThreshold": {
+          "type": "integer"
+        },
+        "sentimentScoreThreshold": {
+          "type": "integer"
+        }
+      }
+    },
+    "signUpRequest": {
+      "title": "signUpRequest",
+      "example": {
+        "fullName": "Deep",
+        "email": "deep@winjit.com",
+        "password": "deep",
+        "isSocialLogin": "false",
+        "platform": "CONVEE"
+      },
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "isSocialLogin": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string",
+          "description": "Give your platform",
+          "enum": ["CONVEE", "FACEBOOK", "GOOGLE"]
+        }
+      },
+      "required": ["fullName", "email", "password", "isSocialLogin", "platform"]
+    },
+    "signInRequest": {
+      "title": "signInRequest",
+      "example": {
+        "email": "deep@winjit.com",
+        "password": "deep",
+        "platform": "CONVEE"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string",
+          "description": "Give your platform",
+          "enum": ["CONVEE", "FACEBOOK", "GOOGLE"]
+        }
+      },
+      "required": ["email", "password", "platform"]
+    },
+    "forgotpasswordrequest": {
+      "title": "forgotpasswordrequest",
+      "example": {
+        "email": "deepan@jit.com"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": ["email"]
+    },
+    "setNewPasswordRequest": {
+      "title": "setNewPasswordRequest",
+      "example": {
+        "newPassword": "jit@123"
+      },
+      "type": "object",
+      "properties": {
+        "newPassword": {
+          "type": "string"
+        }
+      },
+      "required": ["newPassword"]
+    },
+    "addUserSayRequest": {
+      "title": "addUserSayRequest",
+      "example": {
+        "userSays": [
+          {
+            "text": "Hi"
+          }
+        ],
+        "dialogId": "5d5a6131f42c5629c880b235",
+        "blockName": "111"
+      },
+      "type": "object",
+      "properties": {
+        "userSays": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserSay"
+          }
+        },
+        "dialodId": {
+          "type": "string"
+        },
+        "blockName": {
+          "type": "string"
+        }
+      },
+      "required": ["userSays", "dialodId", "blockName"]
+    },
+    "renameBlockRequest": {
+      "title": "renameBlockRequest",
+      "example": {
+        "_id": "5d96ea4864890e0fc4bbce96",
+        "name": "greeting1",
+        "dialogId": "5d96ea3464890e0fc4bbce93"
+      },
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "dialogId": {
+          "type": "string"
+        }
+      },
+      "required": ["_id", "name", "dialogId"]
+    },
+    "updateblockrequest": {
+      "title": "updateblockrequest",
+      "example": {
+        "_id": "5d5bd615b389db430c8e8bf2",
+        "textFlowTemp": [],
+        "voiceFlowTemp": []
+      },
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "textFlowTemp": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "voiceFlowTemp": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["_id", "textFlowTemp", "voiceFlowTemp"]
+    },
+    "updateDialogRequest": {
+      "title": "updateDialogRequest",
+      "example": {
+        "dialogId": "5d4c1a2511c7193ec3c6d251",
+        "name": "lambo",
+        "iconUrl": "mkdsfiof.com"
+      },
+      "type": "object",
+      "properties": {
+        "dialogId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "iconUrl": {
+          "type": "string"
+        }
+      },
+      "required": ["dialogId", "name", "iconUrl"]
+    },
+    "createDialogRequest": {
+      "title": "createDialogRequest",
+      "example": {
+        "userId": "5d8dbe49db0cee786eecb83f",
+        "name": "fromTemplate",
+        "iconUrl": "https://conveemedia.s3.amazonaws.com/1552453895886convee_logo_E.jpg",
+        "nlp": {
+          "name": "LUIS"
+        },
+        "database": {
+          "databaseType": "Convee"
+        }
+      },
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "iconUrl": {
+          "type": "string"
+        },
+        "nlp": {
+          "$ref": "#/definitions/Nlp"
+        },
+        "database": {
+          "$ref": "#/definitions/Database"
+        }
+      },
+      "required": ["userId", "name", "iconUrl", "nlp", "database"]
+    },
+    "AddNodeToDialogTreeRequest": {
+      "title": "AddNodeToDialogTreeRequest",
+      "example": {
+        "dataParentId": "8c2d4c60-be54-11e9-b329-95a626ed1846",
+        "dialogId": "5d539948b1725c7384cd3c93",
+        "blockName": "14"
+      },
+      "type": "object",
+      "properties": {
+        "dataParentId": {
+          "type": "string"
+        },
+        "dialogId": {
+          "type": "string"
+        },
+        "blockName": {
+          "type": "string"
+        }
+      },
+      "required": ["dataParentId", "dialogId", "blockName"]
+    },
+    "saveDefaultResponseRequest": {
+      "title": "saveDefaultResponseRequest",
+      "example": {
+        "dialogId": "5dd8d415f24f0e3ab82ca7c2",
+        "defaultMessageTemp": "This is default response",
+        "defaultBlockTemp": ["prompt", "button", "text", "video"]
+      },
+      "type": "object",
+      "properties": {
+        "dialogId": {
+          "type": "string"
+        },
+        "defaultMessageTemp": {
+          "type": "string"
+        },
+        "defaultBlockTemp": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "give block name",
+            "minimum": 0,
+            "maximum": 4
+          }
+        }
+      },
+      "required": ["dialogId", "defaultMessageTemp"]
+    },
+    "deleteChannelRequest": {
+      "title": "deleteChannelRequest",
+      "example": {
+        "dialogId": "5da405bdba6a8f57e5152198",
+        "userId": "5d723279b1b66127bf825797",
+        "channelName": "telegram"
+      },
+      "type": "object",
+      "properties": {
+        "dialogId": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "channelName": {
+          "type": "string",
+          "description": "Give channel name",
+          "enum": ["facebook", "telegram", "alexa", "googleHome", "conveeChat"]
+        }
+      },
+      "required": ["dialogId", "userId", "channelName"]
+    },
+    "setChannelEnabledRequest": {
+      "title": "setChannelEnabledRequest",
+      "example": {
+        "dialogId": "5da436eb217c75293c891653",
+        "userId": "5d723279b1b66127bf825797",
+        "channelName": "telegram",
+        "enabled": true
+      },
+      "type": "object",
+      "properties": {
+        "dialogId": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "channelName": {
+          "type": "string",
+          "description": "Give channel name",
+          "enum": ["facebook", "telegram", "alexa", "googleHome", "conveeChat"]
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "required": ["dialogId", "userId", "channelName", "enabled"]
+    },
+    "deployDialogRequest": {
+      "title": "deployDialogRequest",
+      "example": {
+        "dialogId": "5daae7a032f81558ec8df1f3",
+        "userId": "5d7238d0b1b66127bf82579c",
+        "alexa": {
+          "invocationName": "my demo",
+          "skillId": "amzn1.ask.skill.f40bb551-39c4-41e7-9bc4-73ecaebb8680"
+        }
+      },
+      "type": "object",
+      "properties": {
+        "dialogId": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "alexa": {
+          "$ref": "#/definitions/Alexa"
+        }
+      },
+      "required": ["dialogId", "userId", "alexa"]
+    },
+    "deployDialogConveeChatRequest": {
+      "title": "deployDialogConveeChatRequest",
+      "example": {
+        "dialogId": "5daae7a032f81558ec8df1f3",
+        "userId": "5d7238d0b1b66127bf82579c",
+        "conveeChat": {}
+      },
+      "type": "object",
+      "properties": {
+        "dialogId": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "conveeChat": {}
+      },
+      "required": ["dialogId", "userId", "conveeChat"]
+    },
+    "createtemplaterequest": {
+      "title": "createtemplaterequest",
+      "example": {
+        "dialogId": "5dd23322b7b82c4dc09bcb32",
+        "name": "delta_template6",
+        "iconUrl": "http:??fsd"
+      },
+      "type": "object",
+      "properties": {
+        "dialogId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "iconUrl": {
+          "type": "string"
+        }
+      },
+      "required": ["dialogId", "name", "iconUrl"]
+    },
+    "logBlockDataRequest": {
+      "title": "logBlockDataRequest",
+      "example": {
+        "userId": "5d8dbe49db0cee786eecb83f",
+        "dialogId": "5dd23322b7b82c4dc09bcb32",
+        "endUserId": "2697442966981420",
+        "platform": "facebook",
+        "blockName": "hi",
+        "platformType": "TEXT"
+      },
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "dialogId": {
+          "type": "string"
+        },
+        "endUserId": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string",
+          "description": "Give platform name",
+          "enum": ["facebook", "telegram", "alexa", "googleHome", "conveeChat"]
+        },
+        "blockName": {
+          "type": "string"
+        },
+        "platformType": {
+          "type": "string",
+          "description": "Give platform name",
+          "enum": ["TEXT", "VOICE"]
+        }
+      },
+      "required": [
+        "userId",
+        "dialogId",
+        "endUserId",
+        "platform",
+        "blockName",
+        "platformType"
+      ]
+    },
+    "imageuploadrequest": {
+      "title": "imageuploadrequest",
+      "type": "object",
+      "properties": {
+        "imageFile": {
+          "type": "string",
+          "format": "binary"
+        }
+      },
+      "required": [
+        "userId",
+        "dialogId",
+        "endUserId",
+        "platform",
+        "blockName",
+        "platformType"
+      ]
+    },
+    "addUnmatchedQueriesRequest": {
+      "title": "addUnmatchedQueriesRequest",
+      "example": {
+        "dialogId": "5dede94efec9ac51908cb3a6",
+        "queries": [
+          {
+            "query": "dd",
+            "blockScores": [
+              {
+                "intent": "None",
+                "score": 0.7945686
+              },
+              {
+                "intent": "Kungfoo",
+                "score": 0.068522
+              },
+              {
+                "intent": "Main",
+                "score": 0.0142147895
+              },
+              {
+                "intent": "Karate",
+                "score": 0.007366621
+              },
+              {
+                "intent": "Taekwondo",
+                "score": 0.007366621
+              },
+              {
+                "intent": "jujitsu",
+                "score": 0.007366614
+              },
+              {
+                "intent": "Jeet Kune Do",
+                "score": 0.00180866465
+              }
+            ]
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "dialogId": {
+          "type": "string"
+        },
+        "queries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Query"
+          }
+        }
+      },
+      "required": ["dialogId", "queries"]
+    },
+    "assignUnmatechedQueriesRequest": {
+      "title": "assignUnmatechedQueriesRequest",
+      "example": {
+        "fromDialogId": "5dede94efec9ac51908cb3a6",
+        "toDialogId": "5e046076b997ba7c9a0d326a",
+        "toBlockId": "5e15a40300621c2bd7da6d8f",
+        "toBlockName": "hey",
+        "query": "vande"
+      },
+      "type": "object",
+      "properties": {
+        "fromDialogId": {
+          "type": "string"
+        },
+        "toDialogId": {
+          "type": "string"
+        },
+        "toBlockId": {
+          "type": "string"
+        },
+        "toBlockName": {
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "fromDialogId",
+        "toDialogId",
+        "toBlockId",
+        "toBlockName",
+        "query"
+      ]
+    },
+    "setQueriesStatusRequest": {
+      "title": "setQueriesStatusRequest",
+      "example": {
+        "status": "IGNORED",
+        "queryData": [
+          {
+            "dialogId": "5dede94efec9ac51908cb3a6",
+            "query": "ljkhgfdstdtf"
+          },
+          {
+            "dialogId": "5dede94efec9ac51908cb3a6",
+            "query": "ljkhgfdstdtf"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Choose one of the following",
+          "enum": ["UNMATCHED", "IGNORED", "DELETED"]
+        },
+        "queryData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/QueryDatum"
+          }
+        }
+      },
+      "required": ["status", "queryData"]
+    },
+    "createLiveAgentRequest": {
+      "title": "LiveAgent",
+      "type": "object",
+      "properties": {
+        "dialogId": {
+          "type": "string"
+        },
+        "endUser": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "socketId": {
+              "type": "string"
+            }
+          }
+        },
+        "platform": {
+          "type": "string"
+        }
+      }
+    },
+    "setLiveAgentRequestStatus": {
+      "title": "setLiveAgentRequestStatus",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "rateLiveAgentRequest": {
+      "title": "rateLiveAgentRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        }
+      }
+    },
+    "joinLiveAgentRequest": {
+      "title": "joinLiveAgentRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string"
+        },
+        "agent": {
+          "type": "object",
+          "properties": {
+            "agentId": {
+              "type": "string"
+            },
+            "socketId": {
+              "type": "string"
+            }
+          }
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "leaveLiveAgentRequest": {
+      "title": "leaveLiveAgentRequest",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string"
+        }
+      }
+    },
+    "UserPaymentConfiguration": {
+      "title": "UserPaymentConfiguration",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "paymentType": {
+          "type": "string",
+          "enum": ["Stripe"]
+        },
+        "details": {
+          "type": "object",
+          "properties": {
+            "stripe": {
+              "type": "object",
+              "properties": {
+                "publicKey": {
+                  "type": "string"
+                },
+                "secretKey": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "PaymentDetails": {
+      "title": "PaymentDetails",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "dialogId": {
+          "type": "string"
+        },
+        "paymentType": {
+          "type": "string",
+          "enum": ["Stripe"]
+        },
+        "endUserId": {
+          "type": "string"
+        },
+        "transactionId": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Dialog",
+      "description": "Dialog details are collected here"
+    },
+    {
+      "name": "Training",
+      "description": "Training APIs"
+    },
+    {
+      "name": "Users",
+      "description": "Users conversation details"
+    },
+    {
+      "name": "Conversation",
+      "description": "Conversation is used to get conversation related details"
+    },
+    {
+      "name": "Configuration",
+      "description": "Configuration related APIs"
+    },
+    {
+      "name": "Entity",
+      "description": "Entity is used to extract value from user input. We have two types of entities \n1.User Entity which belongs to user  2.Dialog Entiy which belongs to dialog. When user entity is assigned to dialog it becomes dialog entity"
+    },
+    {
+      "name": "Analytics",
+      "description": "Statistics of messages, engagements, sentiment are provided in Analytics "
+    },
+    {
+      "name": "Block",
+      "description": "Blocks details are collected here"
+    },
+    {
+      "name": "Database",
+      "description": "Database connectivity check"
+    },
+    {
+      "name": "CoversationTree",
+      "description": "Conversation tree APIs"
+    },
+    {
+      "name": "DefaultResponse",
+      "description": "Default response APIs"
+    },
+    {
+      "name": "Common",
+      "description": "Common APIs"
+    },
+    {
+      "name": "Template",
+      "description": "Template related APIs"
+    },
+    {
+      "name": "User",
+      "description": "User related authorization and details are fetched"
+    },
+    {
+      "name": "LiveAgent",
+      "description": "User conversation with live agent"
+    },
+    {
+      "name": "Payment",
+      "description": "Convee user and end user's payment related api"
+    }
+  ]
+}

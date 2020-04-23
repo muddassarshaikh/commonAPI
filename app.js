@@ -10,6 +10,8 @@ const db = require('./common/database/mongoDB');
 const rateLimit = require('express-rate-limit');
 const winston = require('./common/winston');
 const { errorHandlerMiddleware, errorHandler } = require('./common/error');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -48,6 +50,7 @@ app.use(
 );
 
 // API Calling
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api', require('./api'));
 
 // catch 404 and forward to error handler
