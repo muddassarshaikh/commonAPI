@@ -4,9 +4,9 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const expect = chai.expect;
 const user = require('../user');
-const app = require('../../../app');
+const app = require('../../../../../app');
 const should = chai.should();
-const message = require('../../common/message');
+const message = require('../../../../../common/message');
 chai.use(chaiHttp);
 
 describe('User Module', () => {
@@ -26,7 +26,7 @@ describe('User Module', () => {
     it('should return a failure', async () => {
       const loginDetails = await user.userService().login({
         emailAddress: 'shaikh.muddassar11@gmail.com',
-        userPassword: '12345678'
+        userPassword: '12345678',
       });
       if (
         loginDetails.message === message.invalidLoginDetails ||
@@ -43,7 +43,7 @@ describe('User Module', () => {
     it('should return a success if credential is valid', async () => {
       const loginDetails = await user.userService().login({
         emailAddress: 'shaikh.muddassar8@gmail.com',
-        userPassword: '123456789'
+        userPassword: '123456789',
       });
       expect(loginDetails.code).to.be.equal('00');
     });
@@ -54,9 +54,9 @@ describe('User Module', () => {
         .post('/api/user/login')
         .send({
           emailAddress: 'shaikh.muddassar8@gmail.com',
-          userPassword: '123456789'
+          userPassword: '123456789',
         })
-        .then(res => {
+        .then((res) => {
           expect(res.status).to.be.equal(200);
           expect(res.body.code).to.be.equal('00');
         });
