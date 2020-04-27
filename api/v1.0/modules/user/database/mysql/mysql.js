@@ -17,7 +17,6 @@ class UserDatabase {
         info.emailAddress,
         info.mobileNumber,
       ]);
-      con.end();
       return details;
     } catch (error) {
       throw {
@@ -42,7 +41,6 @@ class UserDatabase {
         info.userPassword,
         info.mobileNumber,
       ]);
-      con.end();
       return details;
     } catch (error) {
       throw {
@@ -62,7 +60,6 @@ class UserDatabase {
     try {
       const sqlUpdateQuery = `UPDATE ${database_initial}_user SET isEmailVerified = 1 WHERE emailAddress = ?`;
       const details = await query(sqlUpdateQuery, [emailAddress]);
-      con.end();
       return details;
     } catch (error) {
       throw {
@@ -85,7 +82,6 @@ class UserDatabase {
         FROM ${database_initial}_user 
         WHERE emailAddress = ?`;
       const details = await query(sqlSelectQuery, [emailAddress]);
-      con.end();
       return details;
     } catch (error) {
       throw {
@@ -105,7 +101,6 @@ class UserDatabase {
     try {
       const sqlSelectQuery = `SELECT userPassword FROM ${database_initial}_user WHERE emailAddress = ?`;
       const details = await query(sqlSelectQuery, [emailAddress]);
-      con.end();
       return details;
     } catch (error) {
       throw {
@@ -125,7 +120,6 @@ class UserDatabase {
     try {
       const sqlUpdateQuery = `UPDATE ${database_initial}_user SET userPassword = ? WHERE emailAddress = ?`;
       const details = await query(sqlUpdateQuery, [password, emailAddress]);
-      con.end();
       return details;
     } catch (error) {
       throw {
@@ -148,7 +142,6 @@ class UserDatabase {
         info.fullName,
         emailAddress,
       ]);
-      con.end();
       return details;
     } catch (error) {
       throw {
@@ -168,7 +161,6 @@ class UserDatabase {
     try {
       const sqlUpdateQuery = `UPDATE ${database_initial}_user SET profileURL = ? WHERE emailAddress = ?`;
       const details = await query(sqlUpdateQuery, [path, emailAddress]);
-      con.end();
       return details;
     } catch (error) {
       throw {
