@@ -296,7 +296,7 @@
         }
       }
     },
-    "/user/profile/": {
+    "/user/profile": {
       "get": {
         "description": "Profile details for users on our platform",
         "summary": "Profile details",
@@ -340,9 +340,7 @@
             "headers": {}
           }
         }
-      }
-    },
-    "/user/profile": {
+      },
       "put": {
         "description": "Update Profile details for users on our platform",
         "summary": "Update Profile details",

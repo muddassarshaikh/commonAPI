@@ -16,4 +16,8 @@ module.exports = {
   database_initial: 'common',
   database: 'mysql',
   cryptokey: '7476021436',
+  sandboxPaypalClientId:
+    'AYBMaIEyfhER6Zj-INsgsnNHHlsPA7869f6e-i3W8s0yWGfBsjosHyT3wsorDflfK38CP2UEzMBAphFp',
+  sandboxPaypalSecret:
+    'EKxjhOBhor1hhEtcO6NOGQTGtEf6uqy_BfYqjmWG2Rn753LdXh6CuD3QyDtTZpfTNjQmiXuMycLPwiHD',
 };

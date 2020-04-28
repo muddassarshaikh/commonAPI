@@ -66,4 +66,5 @@ process.on('uncaughtException', function (err) {
 app.use(function (err, req, res, next) {
   errorHandlerMiddleware(err, req, res);
 });
+
 module.exports = app;
