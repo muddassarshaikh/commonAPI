@@ -5,7 +5,7 @@ const nodemailer = require('nodemailer');
 const randomstring = require('randomstring');
 const fs = require('fs');
 const { errorHandler } = require('./error');
-
+const AWS = require('aws-sdk');
 const status = config.env;
 
 /**
@@ -195,6 +195,82 @@ async function uploadFile(fileInfo) {
   }
 }
 
+/**
+ * Function for AWSs3Connection
+ * @param {*} data (image information)
+ * @param {*} return (uploaded information)
+ */
+const AWSs3Connection = new AWS.S3({
+  accessKeyId: config.AWSAccessKeyId,
+  secretAccessKey: config.AWSSecretAccessKey,
+});
+
+/**
+ * Function for Uploading file to s3 bucket
+ * @param {*} data (image information)
+ * @param {*} return (uploaded information)
+ */
+async function s3FileUpload(postDataObj) {
+  try {
+    const fileType = postDataObj.fileType;
+    const fileName = `${postDataObj.fileName}.${fileType}`;
+    var base64 = postDataObj.base64.split(';base64,')[1];
+    var base64Data = new Buffer.from(base64, 'base64');
+    var contentType = 'application/octet-stream';
+    if (fileType == 'pdf') contentType = 'application/pdf';
+    if (
+      fileType == 'png' ||
+      fileType == 'jpg' ||
+      fileType == 'gif' ||
+      fileType == 'jpeg' ||
+      fileType == 'webp' ||
+      fileType == 'bmp'
+    )
+      contentType = `image/${fileType}`;
+    if (fileType == 'svg') contentType = 'image/svg+xml';
+    const params = {
+      Bucket: `${config.AWSBucket}/user-profile`,
+      Key: `${postDataObj.key}.${fileType}`,
+      Body: base64Data,
+      ACL: 'public-read',
+      ContentEncoding: 'base64',
+      ContentType: contentType,
+    };
+    const s3BucketFileLocation = await AWSs3Connection.upload(params).promise();
+    return { location: s3BucketFileLocation, fileName: imageName };
+  } catch (error) {
+    throw error;
+  }
+}
+
+/**
+ * Function for deleting file from s3 bucket
+ * @param {*} data (image information)
+ * @param {*} return (uploaded information)
+ */
+async function s3RemoveFile(postDataObj) {
+  try {
+    const params = {
+      Bucket: config.AWSBucket,
+      Delete: {
+        Objects: [
+          {
+            Key: `${postDataObj.key}`,
+          },
+        ],
+        Quiet: false,
+      },
+    };
+
+    const s3BucketImageLocation = await AWSs3Connection.deleteObjects(
+      params
+    ).promise();
+    return s3BucketImageLocation;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   encryptData,
   decryptData,
@@ -207,4 +283,6 @@ module.exports = {
   generateRandomString,
   randomPasswordGenerater,
   uploadFile,
+  s3FileUpload,
+  s3RemoveFile,
 };
