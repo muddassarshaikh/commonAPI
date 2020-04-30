@@ -23,7 +23,7 @@ describe('User Module', () => {
     it('should return a failure', async () => {
       const info = {
         oldPassword: '',
-        newPassword: ''
+        newPassword: '',
       };
       const changePassword = await user.userService().changePassword(1, info);
       console.log('Error: ', changePassword.message);
@@ -32,20 +32,20 @@ describe('User Module', () => {
         changePassword.message === message.invalidDetails ||
         changePassword.message === message.invalidPassword
       ) {
-        expect(changePassword.code).to.be.equal('01');
+        expect(changePassword.statusCode).to.be.equal('01');
       } else {
-        expect(changePassword.code).to.be.equal('04');
+        expect(changePassword.statusCode).to.be.equal('04');
       }
     });
 
     it('should return a success', async () => {
       const info = {
         oldPassword: '12345678',
-        newPassword: '123456789'
+        newPassword: '123456789',
       };
       const changePassword = await user.userService().changePassword(1, info);
       console.log('Success: ', changePassword.message);
-      expect(changePassword.code).to.be.equal('00');
+      expect(changePassword.statusCode).to.be.equal('00');
     });
   });
 });

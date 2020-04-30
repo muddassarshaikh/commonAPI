@@ -95,9 +95,9 @@ async function tokenDecrypt(data) {
  * @param {*} data (status, data, token)
  * @param {*} return (encrypted data)
  */
-function responseGenerator(code, message, data = '') {
+function responseGenerator(statusCode, message, data = '') {
   var details = {
-    code: code,
+    statusCode: statusCode,
     message: message,
     result: data,
   };
@@ -198,8 +198,8 @@ async function uploadFile(fileInfo) {
  * @param {*} return (uploaded information)
  */
 const AWSs3Connection = new AWS.S3({
-  accessKeyId: config.AWSAccessKeyId,
-  secretAccessKey: config.AWSSecretAccessKey,
+  accessKeyId: config.awsAccessKey,
+  secretAccessKey: config.awsSecretAccessKey,
 });
 
 /**
@@ -226,7 +226,7 @@ async function s3FileUpload(postDataObj) {
       contentType = `image/${fileType}`;
     if (fileType == 'svg') contentType = 'image/svg+xml';
     const params = {
-      Bucket: `${config.AWSBucket}/user-profile`,
+      Bucket: `${config.awsBucket}/user-profile`,
       Key: `${postDataObj.key}.${fileType}`,
       Body: base64Data,
       ACL: 'public-read',
@@ -248,7 +248,7 @@ async function s3FileUpload(postDataObj) {
 async function s3RemoveFile(postDataObj) {
   try {
     const params = {
-      Bucket: config.AWSBucket,
+      Bucket: config.awsBucket,
       Delete: {
         Objects: [
           {

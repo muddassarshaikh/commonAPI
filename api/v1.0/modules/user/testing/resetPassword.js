@@ -23,14 +23,14 @@ describe('User Module', () => {
     it('should return a failure', async () => {
       const info = {
         emailAddress: 'sddsdfsdfasdfsdfasdfadsfadas',
-        newPassword: ''
+        newPassword: '',
       };
       const resetPassword = await user.userService().resetPassword(info);
       console.log('Error: ', resetPassword.message);
       if (resetPassword.message === message.invalidEmail) {
-        expect(resetPassword.code).to.be.equal('01');
+        expect(resetPassword.statusCode).to.be.equal('01');
       } else {
-        expect(resetPassword.code).to.be.equal('04');
+        expect(resetPassword.statusCode).to.be.equal('04');
       }
     });
 
@@ -40,7 +40,7 @@ describe('User Module', () => {
     //   };
     //   const forgotPassword = await user.userService().forgotPassword(info);
     //   console.log('Success: ', forgotPassword.message);
-    //   expect(forgotPassword.code).to.be.equal('00');
+    //   expect(forgotPassword.statusCode).to.be.equal('00');
     // });
   });
 });

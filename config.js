@@ -23,4 +23,8 @@ module.exports = {
   paypalURL: process.env[`${process.env.NODE_ENV}_PAYPAL_URL`],
   paypalClientId: process.env[`${process.env.NODE_ENV}_PAYPAL_CLIENTID`],
   paypalSecret: process.env[`${process.env.NODE_ENV}_PAYPAL_SECRET`],
+  awsBucket: process.env[`${process.env.NODE_ENV}_AWS_BUCKET`],
+  awsAccessKey: process.env[`${process.env.NODE_ENV}_AWS_ACCESS_KEY`],
+  awsSecretAccessKey:
+    process.env[`${process.env.NODE_ENV}_AWS_SECRET_ACCESS_KEY`],
 };

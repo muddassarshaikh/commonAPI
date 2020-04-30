@@ -25,7 +25,7 @@ describe('User Module', () => {
         fullName: 'Muddassar Shahanawaj Shaikh',
         emailAddress: 'shaikh',
         userPassword: '12345678',
-        mobileNumber: '+918793786192'
+        mobileNumber: '+918793786192',
       };
       const registrationDetails = await user.userService().registration(info);
       console.log('Error: ', registrationDetails.message);
@@ -33,9 +33,9 @@ describe('User Module', () => {
         registrationDetails.message === message.invalidDetails ||
         registrationDetails.message === message.duplicateDetails
       ) {
-        expect(registrationDetails.code).to.be.equal('01');
+        expect(registrationDetails.statusCode).to.be.equal('01');
       } else {
-        expect(registrationDetails.code).to.be.equal('04');
+        expect(registrationDetails.statusCode).to.be.equal('04');
       }
     });
 
@@ -44,10 +44,10 @@ describe('User Module', () => {
         fullName: 'Muddassar Shahanawaj Shaikh',
         userPassword: '12345678',
         emailAddress: 'shaikh.muddassar8@gmail.com',
-        mobileNumber: '+918793786192'
+        mobileNumber: '+918793786192',
       };
       const registrationDetails = await user.userService().registration(info);
-      expect(registrationDetails.code).to.be.equal('00');
+      expect(registrationDetails.statusCode).to.be.equal('00');
       expect(registrationDetails.data).to.be.a('object');
     });
   });
@@ -64,7 +64,7 @@ describe('User Module', () => {
 //       mobileNumber: '+918793786192'
 //     })
 //     .end((err, res) => {
-//       res.body.code.should.be.equal('00');
+//       res.body.statusCode.should.be.equal('00');
 //       res.body.should.have.property('message');
 //     });
 //   done();

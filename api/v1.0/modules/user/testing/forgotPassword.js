@@ -22,24 +22,24 @@ describe('User Module', () => {
 
     it('should return a failure', async () => {
       const info = {
-        emailAddress: ''
+        emailAddress: '',
       };
       const forgotPassword = await user.userService().forgotPassword(info);
       console.log('Error: ', forgotPassword.message);
       if (forgotPassword.message === message.invalidEmail) {
-        expect(forgotPassword.code).to.be.equal('01');
+        expect(forgotPassword.statusCode).to.be.equal('01');
       } else {
-        expect(forgotPassword.code).to.be.equal('04');
+        expect(forgotPassword.statusCode).to.be.equal('04');
       }
     });
 
     it('should return a success', async () => {
       const info = {
-        emailAddress: 'shaikh.muddassar8@gmail.com'
+        emailAddress: 'shaikh.muddassar8@gmail.com',
       };
       const forgotPassword = await user.userService().forgotPassword(info);
       console.log('Success: ', forgotPassword.message);
-      expect(forgotPassword.code).to.be.equal('00');
+      expect(forgotPassword.statusCode).to.be.equal('00');
     });
   });
 });

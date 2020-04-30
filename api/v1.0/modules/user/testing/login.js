@@ -33,10 +33,10 @@ describe('User Module', () => {
         loginDetails.message === message.accountDisable ||
         loginDetails.message === message.emailVerify
       ) {
-        expect(loginDetails.code).to.be.equal('01');
+        expect(loginDetails.statusCode).to.be.equal('01');
       } else {
         console.log(loginDetails.message);
-        expect(loginDetails.code).to.be.equal('04');
+        expect(loginDetails.statusCode).to.be.equal('04');
       }
     });
 
@@ -45,7 +45,7 @@ describe('User Module', () => {
         emailAddress: 'shaikh.muddassar8@gmail.com',
         userPassword: '123456789',
       });
-      expect(loginDetails.code).to.be.equal('00');
+      expect(loginDetails.statusCode).to.be.equal('00');
     });
 
     it('should return success while calling from API', () => {
@@ -58,7 +58,7 @@ describe('User Module', () => {
         })
         .then((res) => {
           expect(res.status).to.be.equal(200);
-          expect(res.body.code).to.be.equal('00');
+          expect(res.body.statusCode).to.be.equal('00');
         });
     });
   });
