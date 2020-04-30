@@ -10,7 +10,7 @@ const controller = {
         .registration(res.locals.requestedData);
       res.send(
         functions.responseGenerator(
-          registrationDetails.code,
+          registrationDetails.statusCode,
           registrationDetails.message,
           registrationDetails.data
         )
@@ -28,7 +28,7 @@ const controller = {
         .verifyEmail(res.locals.requestedData);
       res.send(
         functions.responseGenerator(
-          verificationDetails.code,
+          verificationDetails.statusCode,
           verificationDetails.message,
           verificationDetails.data
         )
@@ -46,7 +46,7 @@ const controller = {
         .login(res.locals.requestedData);
       res.send(
         functions.responseGenerator(
-          loginDetails.code,
+          loginDetails.statusCode,
           loginDetails.message,
           loginDetails.data
         )
@@ -67,7 +67,7 @@ const controller = {
         );
       res.send(
         functions.responseGenerator(
-          changePasswordDetails.code,
+          changePasswordDetails.statusCode,
           changePasswordDetails.message,
           changePasswordDetails.data
         )
@@ -85,7 +85,7 @@ const controller = {
         .forgotPassword(res.locals.requestedData);
       res.send(
         functions.responseGenerator(
-          forgotPasswordDetails.code,
+          forgotPasswordDetails.statusCode,
           forgotPasswordDetails.message,
           forgotPasswordDetails.data
         )
@@ -103,7 +103,7 @@ const controller = {
         .resetPassword(res.locals.requestedData);
       res.send(
         functions.responseGenerator(
-          resetPasswordDetails.code,
+          resetPasswordDetails.statusCode,
           resetPasswordDetails.message,
           resetPasswordDetails.data
         )
@@ -121,7 +121,7 @@ const controller = {
         .getProfile(res.locals.tokenInfo.emailAddress);
       res.send(
         functions.responseGenerator(
-          userInformationDetails.code,
+          userInformationDetails.statusCode,
           userInformationDetails.message,
           userInformationDetails.data
         )
@@ -142,7 +142,7 @@ const controller = {
         );
       res.send(
         functions.responseGenerator(
-          updateProfileDetails.code,
+          updateProfileDetails.statusCode,
           updateProfileDetails.message,
           updateProfileDetails.data
         )
@@ -163,7 +163,7 @@ const controller = {
         );
       res.send(
         functions.responseGenerator(
-          profilePicDetails.code,
+          profilePicDetails.statusCode,
           profilePicDetails.message,
           profilePicDetails.data
         )
