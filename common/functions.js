@@ -6,7 +6,6 @@ const randomstring = require('randomstring');
 const fs = require('fs');
 const { errorHandler } = require('./error');
 const AWS = require('aws-sdk');
-const status = config.env;
 
 /**
  * Function for Encrypting the data
@@ -14,13 +13,12 @@ const status = config.env;
  * @param {*} return (encrypted data)
  */
 function encryptData(data) {
-  if (status === 'development') {
-    return data;
-  } else {
+  if (config.bodyEncryption) {
     var dataString = JSON.stringify(data);
     var response = CryptoJS.AES.encrypt(dataString, config.cryptokey);
     return { encResponse: response.toString() };
   }
+  return data;
 }
 
 /**
@@ -29,9 +27,7 @@ function encryptData(data) {
  * @param {*} return (decrypt data)
  */
 function decryptData(data) {
-  if (status === 'development') {
-    return data;
-  } else {
+  if (config.bodyEncryption) {
     var decrypted = CryptoJS.AES.decrypt(data, config.cryptokey);
     if (decrypted) {
       var userinfo = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
@@ -40,6 +36,7 @@ function decryptData(data) {
       return { userinfo: { error: 'Please send proper token' } };
     }
   }
+  return data;
 }
 
 /**
@@ -105,10 +102,10 @@ function responseGenerator(code, message, data = '') {
     result: data,
   };
 
-  if (status === 'development') {
-    return details;
-  } else {
+  if (config.bodyEncryption) {
     return encryptData(details);
+  } else {
+    return details;
   }
 }
 

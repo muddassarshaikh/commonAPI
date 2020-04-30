@@ -48,7 +48,7 @@ class UserService {
         .toString();
       emailMessage = emailMessage
         .replace('$fullname', info.fullName)
-        .replace('$link', config.emailVerifiedLink + token);
+        .replace('$link', config.emailVerificationLink + token);
 
       functions.sendEmail(
         info.emailAddress,

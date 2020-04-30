@@ -5,7 +5,7 @@ const connection = new sql.ConnectionPool({
   user: config.databaseUser,
   password: config.databasePassword,
   server: config.databaseHost,
-  database: config.databaseDatabaseName,
+  database: config.databaseName,
   options: {
     encrypt: true,
   },
@@ -24,7 +24,7 @@ sql.connect(config, function (err) {
     'Connection established to Host - [' +
       config.databaseHost +
       '] DB - [' +
-      config.databaseDatabaseName +
+      config.databaseName +
       ']'
   );
 });

@@ -6,6 +6,7 @@
   "configurations": [
     {
       "type": "node",
+      "env": { "NODE_ENV": "DEV" },
       "request": "launch",
       "name": "Launch Program",
       "skipFiles": ["<node_internals>/**"],

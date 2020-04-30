@@ -8,7 +8,7 @@ const con = mysql.createPool({
   host: config.databaseHost,
   user: config.databaseUser,
   password: config.databasePassword,
-  database: config.databaseDatabaseName,
+  database: config.databaseName,
   port: config.databasePort,
 });
 

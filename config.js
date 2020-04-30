@@ -1,23 +1,26 @@
+require('dotenv').config();
+
 module.exports = {
-  port: 6786,
-  databaseHost: 'localhost',
-  databaseUser: 'root',
-  databasePassword: '',
-  databaseDatabaseName: 'commondb',
-  databasePort: 3306,
-  mongoDBConnectionString: 'mongodb://localhost:27017/commonDB',
-  emailVerifiedLink: 'http://localhost:4200/confirmEmail?token=',
-  resetPasswordLink: 'http://localhost:4200/resetPassword?token=',
-  tokenkey: '37LvPsm4vaBcd4CY',
-  env: 'development',
-  supportEmail: 'info@commonAPI.com',
-  SMTPemailAddress: 'developers.winjit@gmail.com',
-  SMTPPassword: 'Winjit@321',
-  database_initial: 'common',
-  database: 'mysql',
-  cryptokey: '7476021436',
-  sandboxPaypalClientId:
-    'AYBMaIEyfhER6Zj-INsgsnNHHlsPA7869f6e-i3W8s0yWGfBsjosHyT3wsorDflfK38CP2UEzMBAphFp',
-  sandboxPaypalSecret:
-    'EKxjhOBhor1hhEtcO6NOGQTGtEf6uqy_BfYqjmWG2Rn753LdXh6CuD3QyDtTZpfTNjQmiXuMycLPwiHD',
+  port: process.env[`${process.env.NODE_ENV}_PORT`],
+  databaseHost: process.env[`${process.env.NODE_ENV}_DB_HOST`],
+  databaseUser: process.env[`${process.env.NODE_ENV}_DB_USER`],
+  databasePassword: process.env[`${process.env.NODE_ENV}_DB_PASS`],
+  databaseName: process.env[`${process.env.NODE_ENV}_DB_NAME`],
+  databaseInitial: process.env[`${process.env.NODE_ENV}_DB_INITIAL`],
+  database: process.env[`${process.env.NODE_ENV}_DB`],
+  databasePort: process.env[`${process.env.NODE_ENV}_DB_PORT`],
+  mongoDBConnectionString:
+    process.env[`${process.env.NODE_ENV}_MONGO_DB_CONN_STRING`],
+  emailVerificationLink:
+    process.env[`${process.env.NODE_ENV}_EMAIL_VERIFICATION_LINK`],
+  resetPasswordLink: process.env[`${process.env.NODE_ENV}_RESET_PASS_LINK`],
+  tokenkey: process.env[`${process.env.NODE_ENV}_TOKEN_KEY`],
+  bodyEncryption: false,
+  supportEmail: process.env[`${process.env.NODE_ENV}_SUPPORT_EMAIL`],
+  SMTPemailAddress: process.env[`${process.env.NODE_ENV}_SMTP_EMAILADDRESS`],
+  SMTPPassword: process.env[`${process.env.NODE_ENV}_SMTP_PASS`],
+  cryptokey: process.env[`${process.env.NODE_ENV}_CRYPTO_KEY`],
+  paypalURL: process.env[`${process.env.NODE_ENV}_PAYPAL_URL`],
+  paypalClientId: process.env[`${process.env.NODE_ENV}_PAYPAL_CLIENTID`],
+  paypalSecret: process.env[`${process.env.NODE_ENV}_PAYPAL_SECRET`],
 };

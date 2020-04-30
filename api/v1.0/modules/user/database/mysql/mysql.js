@@ -1,7 +1,7 @@
 const con = require('../../../../../../common/database/mysql');
 const util = require('util');
 const query = util.promisify(con.query).bind(con);
-const { database_initial } = require('../../../../../../config');
+const { databaseInitial } = require('../../../../../../config');
 const { connection_failed } = require('../../../../../../common/statusCode');
 
 class UserDatabase {
@@ -12,7 +12,7 @@ class UserDatabase {
    */
   async checkIfuserExists(info) {
     try {
-      const sqlSelectQuery = `SELECT * FROM ${database_initial}_user WHERE emailAddress = ? OR mobileNumber = ?`;
+      const sqlSelectQuery = `SELECT * FROM ${databaseInitial}_user WHERE emailAddress = ? OR mobileNumber = ?`;
       const details = await query(sqlSelectQuery, [
         info.emailAddress,
         info.mobileNumber,
@@ -34,7 +34,7 @@ class UserDatabase {
    */
   async userRegistration(info) {
     try {
-      const sqlInsertQuery = `INSERT INTO ${database_initial}_user(fullName, emailAddress, userPassword, mobileNumber) VALUES (?, ?, ?, ?)`;
+      const sqlInsertQuery = `INSERT INTO ${databaseInitial}_user(fullName, emailAddress, userPassword, mobileNumber) VALUES (?, ?, ?, ?)`;
       const details = await query(sqlInsertQuery, [
         info.fullName,
         info.emailAddress,
@@ -58,7 +58,7 @@ class UserDatabase {
    */
   async verifyEmail(emailAddress) {
     try {
-      const sqlUpdateQuery = `UPDATE ${database_initial}_user SET isEmailVerified = 1 WHERE emailAddress = ?`;
+      const sqlUpdateQuery = `UPDATE ${databaseInitial}_user SET isEmailVerified = 1 WHERE emailAddress = ?`;
       const details = await query(sqlUpdateQuery, [emailAddress]);
       return details;
     } catch (error) {
@@ -79,7 +79,7 @@ class UserDatabase {
     try {
       const sqlSelectQuery = `
         SELECT id, fullName, emailAddress, userPassword, mobileNumber, isEmailVerified, isActive, isDeleted 
-        FROM ${database_initial}_user 
+        FROM ${databaseInitial}_user 
         WHERE emailAddress = ?`;
       const details = await query(sqlSelectQuery, [emailAddress]);
       return details;
@@ -99,7 +99,7 @@ class UserDatabase {
    */
   async getPassword(emailAddress) {
     try {
-      const sqlSelectQuery = `SELECT userPassword FROM ${database_initial}_user WHERE emailAddress = ?`;
+      const sqlSelectQuery = `SELECT userPassword FROM ${databaseInitial}_user WHERE emailAddress = ?`;
       const details = await query(sqlSelectQuery, [emailAddress]);
       return details;
     } catch (error) {
@@ -118,7 +118,7 @@ class UserDatabase {
    */
   async updateUserPassword(emailAddress, password) {
     try {
-      const sqlUpdateQuery = `UPDATE ${database_initial}_user SET userPassword = ? WHERE emailAddress = ?`;
+      const sqlUpdateQuery = `UPDATE ${databaseInitial}_user SET userPassword = ? WHERE emailAddress = ?`;
       const details = await query(sqlUpdateQuery, [password, emailAddress]);
       return details;
     } catch (error) {
@@ -137,7 +137,7 @@ class UserDatabase {
    */
   async updateUser(emailAddress, info) {
     try {
-      const sqlUpdateQuery = `UPDATE ${database_initial}_user SET fullName = ? WHERE emailAddress = ?`;
+      const sqlUpdateQuery = `UPDATE ${databaseInitial}_user SET fullName = ? WHERE emailAddress = ?`;
       const details = await query(sqlUpdateQuery, [
         info.fullName,
         emailAddress,
@@ -159,7 +159,7 @@ class UserDatabase {
    */
   async addProfilePic(emailAddress, path) {
     try {
-      const sqlUpdateQuery = `UPDATE ${database_initial}_user SET profileURL = ? WHERE emailAddress = ?`;
+      const sqlUpdateQuery = `UPDATE ${databaseInitial}_user SET profileURL = ? WHERE emailAddress = ?`;
       const details = await query(sqlUpdateQuery, [path, emailAddress]);
       return details;
     } catch (error) {
