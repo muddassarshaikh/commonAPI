@@ -12,6 +12,7 @@ const winston = require('./common/winston');
 const { errorHandlerMiddleware, errorHandler } = require('./common/error');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
+const cron = require('./api/v1.0/modules//cron/cron');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
