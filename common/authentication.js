@@ -1,6 +1,6 @@
 const functions = require('./functions');
 const statusCode = require('./statusCode');
-const msg = require('./message');
+const message = require('./message');
 
 const authenticationController = {
   validateToken: async (req, res, next) => {
@@ -16,14 +16,14 @@ const authenticationController = {
         } else {
           throw {
             statusCode: statusCode.unauthorized,
-            message: msg.sessionExpire,
+            message: message.sessionExpire,
             data: null,
           };
         }
       } else {
         throw {
           statusCode: statusCode.bad_request,
-          message: msg.tokenMissing,
+          message: message.tokenMissing,
           data: null,
         };
       }
@@ -39,7 +39,7 @@ const authenticationController = {
       } else {
         throw {
           statusCode: statusCode.unauthorized,
-          message: msg.notAuthorized,
+          message: message.unAuthorized,
           data: null,
         };
       }
@@ -57,7 +57,7 @@ const authenticationController = {
       } else {
         throw {
           statusCode: statusCode.bad_request,
-          message: msg.dataIssue,
+          message: message.badRequest,
           data: null,
         };
       }

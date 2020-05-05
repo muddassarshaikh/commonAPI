@@ -26,7 +26,7 @@ describe('User Module', () => {
       };
       const verifyEmail = await user.userService().verifyEmail(info);
       console.log('Error: ', verifyEmail.message);
-      if (verifyEmail.message === message.dataIssue) {
+      if (verifyEmail.message === message.badRequest) {
         expect(verifyEmail.statusCode).to.be.equal('01');
       } else {
         expect(verifyEmail.statusCode).to.be.equal('04');

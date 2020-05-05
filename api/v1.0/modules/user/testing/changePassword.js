@@ -28,7 +28,7 @@ describe('User Module', () => {
       const changePassword = await user.userService().changePassword(1, info);
       console.log('Error: ', changePassword.message);
       if (
-        changePassword.message === message.dataIssue ||
+        changePassword.message === message.badRequest ||
         changePassword.message === message.invalidDetails ||
         changePassword.message === message.invalidPassword
       ) {

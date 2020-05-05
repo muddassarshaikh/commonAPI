@@ -22,7 +22,7 @@ class UserService {
       ) {
         throw {
           statusCode: statusCode.bad_request,
-          message: message.dataIssue,
+          message: message.badRequest,
           data: null,
         };
       }
@@ -79,7 +79,7 @@ class UserService {
       if (!info.emailAddress) {
         throw {
           statusCode: statusCode.bad_request,
-          message: message.dataIssue,
+          message: message.badRequest,
           data: null,
         };
       }
@@ -195,7 +195,7 @@ class UserService {
       ) {
         throw {
           statusCode: statusCode.bad_request,
-          message: message.dataIssue,
+          message: message.badRequest,
           data: null,
         };
       }
