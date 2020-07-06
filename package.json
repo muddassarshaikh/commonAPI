@@ -2,10 +2,17 @@
   "name": "common-api",
   "version": "2.0.0",
   "private": true,
+  // For Linux
   "scripts": {
     "start": "NODE_ENV=DEV node ./bin/www",
     "start:testing": "NODE_ENV=TEST node ./bin/www",
     "start:production": "NODE_ENV=PROD node ./bin/www"
+  },
+  // For Windows
+  "scripts": {
+    "start": "SET NODE_ENV=DEV& node ./bin/www",
+    "start:testing": "SET NODE_ENV=TEST& node ./bin/www",
+    "start:production": "SET NODE_ENV=PROD& node ./bin/www"
   },
   "dependencies": {
     "aws-sdk": "^2.666.0",
